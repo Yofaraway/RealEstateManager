@@ -22,4 +22,7 @@ data class Estate(
     var dateAvailableSince: Date,
     var dateSold: Date,
     var agent: String
+
+
+
 )

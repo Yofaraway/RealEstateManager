@@ -9,14 +9,16 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 
+
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //set first fragment
-        setFragment(ListViewFragment.newInstance())
+        //set first fragment if the bundle is null
+        if (savedInstanceState == null) setFragment(ListViewFragment.newInstance())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -32,10 +34,12 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun setFragment(fragment: Fragment){
+    fun setFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, fragment)
             .addToBackStack(null).commit()
     }
+
+
 
 }

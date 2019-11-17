@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.openclassrooms.realestatemanager.R
-import kotlinx.android.synthetic.main.list_view_fragment.*
 
 class ListViewFragment : Fragment() {
 
@@ -26,8 +25,6 @@ class ListViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        textview.setText("Oui")
-        // TODO: Use the ViewModel
     }
 
 }

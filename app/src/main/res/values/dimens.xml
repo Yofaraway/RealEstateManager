@@ -7,4 +7,5 @@
     <dimen name="edit_text_size_regular">100dp</dimen>
     <dimen name="edit_text_size_long">300dp</dimen>
     <dimen name="picker_date_size">120dp</dimen>
+    <dimen name="default_text_size">16sp</dimen>
 </resources>

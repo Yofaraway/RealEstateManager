@@ -4,21 +4,19 @@
     // ADD ESTATE FRAGMENT
     <string name="add_estate_title">Add a new estate</string>
     <string name="add_estate_type">Type</string>
-    <string name="add_estate_price">Price :</string>
-    <string name="add_estate_price_devise">$</string>
-    <string name="add_estate_surface">Surface :</string>
-    <string name="add_estate_surface_unit">m²</string>
-    <string name="add_estate_rooms">Number of rooms :</string>
-    <string name="add_estate_bathrooms">Number of bathrooms :</string>
-    <string name="add_estate_bedrooms">Number of bedrooms :</string>
-    <string name="add_estate_description">Write a description :</string>
-    <string name="add_estate_address">Address :</string>
-    <string name="add_estate_date_for_sale">For sale on the market since :</string>
-    <string name="add_estate_status">What\'s the status of the estate?</string>
+    <string name="add_estate_price">Price</string>
+    <string name="add_estate_surface">Surface</string>
+    <string name="add_estate_rooms">Rooms</string>
+    <string name="add_estate_bathrooms">Bathrooms</string>
+    <string name="add_estate_bedrooms">Bedrooms</string>
+    <string name="add_estate_description">Write a description</string>
+    <string name="add_estate_address">Address</string>
+    <string name="add_estate_date_for_sale">Date of availability</string>
+    <string name="add_estate_status">Status of the estate :</string>
     <string name="add_estate_status_available">Available</string>
     <string name="add_estate_status_sold">Sold</string>
-    <string name="add_estate_date_sold">When was it sold?</string>
-    <string name="add_estate_agent">Real estate agent in charge :</string>
+    <string name="add_estate_date_sold">Date it was sold</string>
+    <string name="add_estate_agent">Agent\'s name</string>
     <string name="add_estate_photo">Add at least one photo</string>
     <string name="add_estate_confirm">Add the estate</string>
     <string name="add_estate_load_photo">Load photo</string>
@@ -38,6 +36,8 @@
     <string name="add_estate_no_agent">Please enter the name of the real estate agent in charge</string>
     <string name="add_estate_no_description">Please enter a description</string>
     <string name="add_estate_no_photo">Please add at least one photo</string>
+    
+    <string name="add_estate_missing_field">Missing required field</string>
 
 
     <string name="pick_image_intent_text">Choose an image</string>
