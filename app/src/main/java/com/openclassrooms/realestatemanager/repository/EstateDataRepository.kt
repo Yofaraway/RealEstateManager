@@ -1,10 +1,10 @@
-package com.openclassrooms.realestatemanager.repositories
+package com.openclassrooms.realestatemanager.repository
 
 import androidx.lifecycle.LiveData
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
-import com.openclassrooms.realestatemanager.models.Estate
+import com.openclassrooms.realestatemanager.model.Estate
 
-class EstateDataRepository(private val database: RealEstateDatabase) {
+class EstateDataRepository constructor(private val database: RealEstateDatabase) {
 
     fun getEstates(): LiveData<List<Estate>> {
         return this.database.estateDao().getEstates()

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.models
+package com.openclassrooms.realestatemanager.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -17,12 +17,12 @@ data class Estate(
     var pathPhotos: List<String>,
     var titlesPhotos: List<String>,
     var address: String,
-    var nearTo: String,
+    var nearTo: String?,
     var status: String,
     var dateAvailableSince: Date,
-    var dateSold: Date,
+    var dateSold: Date?,
     var agent: String
 
 
-
 )
+

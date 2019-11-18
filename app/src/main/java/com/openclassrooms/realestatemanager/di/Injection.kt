@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.di
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.RealEstateDatabase
-import com.openclassrooms.realestatemanager.repositories.EstateDataRepository
+import com.openclassrooms.realestatemanager.repository.EstateDataRepository
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
