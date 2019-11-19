@@ -10,6 +10,8 @@ import com.openclassrooms.realestatemanager.databinding.AddEstateFragmentBinding
 
 class AddEstateFragment : Fragment() {
 
+
+
     private val viewModel: AddEstateViewModel by lazy {
         ViewModelProviders.of(this).get(AddEstateViewModel::class.java)
     }
@@ -28,16 +30,11 @@ class AddEstateFragment : Fragment() {
         viewDataBinding = AddEstateFragmentBinding.bind(rootView).apply {
             this.viewmodel = viewModel
         }
-        viewDataBinding.executePendingBindings()
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-
-        return viewDataBinding.root
+          return viewDataBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        //viewModel.init()
-    }
+
 
     companion object {
         fun newInstance() = AddEstateFragment()

@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.addestate
 
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
 
 class AddEstateViewModel : ViewModel() {
 
@@ -17,20 +20,35 @@ class AddEstateViewModel : ViewModel() {
     val dateSold = MutableLiveData<String>()
     val agent = MutableLiveData<String>()
     val description = MutableLiveData<String>()
+    val hasBeenSold = MutableLiveData<Boolean>()
+
+    // validation
+   val showError = MutableLiveData<Boolean>(false)
 
 
-    fun test():Boolean = true
+    // Spinner listener
+    val onStatusSelected = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+        }
+
+        override fun onItemSelected(
+            parent: AdapterView<*>?,
+            view: View?,
+            position: Int,
+            id: Long
+        ) {
+            when (position) {
+                0 -> hasBeenSold.value = false
+                1 -> hasBeenSold.value = true
+            }
+        }
+    }
 
 
+    // Button listener
+    fun onAddBtnClick() {
+showError.value = true
 
-fun onAddBtnClick(){
-    if (type.value.toString() == "" || type.value == null) println("empty")
-}
-
-
-
-    fun init() {
-        //toDO
     }
 
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="status">
+        <item>@string/add_estate_status_available</item>
+        <item>@string/add_estate_status_sold</item>
+
+    </string-array>
+
+</resources>
