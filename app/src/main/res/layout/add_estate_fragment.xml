@@ -33,10 +33,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_type"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.type.empty || viewmodel.type == null}"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:errorText="@{@string/add_estate_missing_field}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:rule="@{viewmodel.type.empty || viewmodel.type == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -54,12 +54,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_surface"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.surface.empty || viewmodel.surface == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_type"
-                    app:layout_constraintWidth_percent="0.49">
+                    app:layout_constraintWidth_percent="0.49"
+                    app:rule="@{viewmodel.surface.empty || viewmodel.surface == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -77,12 +77,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_price"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.price.empty || viewmodel.price == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_type"
-                    app:layout_constraintWidth_percent="0.49">
+                    app:layout_constraintWidth_percent="0.49"
+                    app:rule="@{viewmodel.price.empty || viewmodel.price == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -100,12 +100,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_rooms"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.rooms.empty || viewmodel.rooms == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_surface"
-                    app:layout_constraintWidth_percent="0.32">
+                    app:layout_constraintWidth_percent="0.32"
+                    app:rule="@{viewmodel.rooms.empty || viewmodel.rooms == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -123,13 +123,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_bathrooms"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.bathrooms.empty || viewmodel.bathrooms == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintEnd_toStartOf="@id/add_estate_bedrooms"
                     app:layout_constraintStart_toEndOf="@id/add_estate_rooms"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_surface"
-                    app:layout_constraintWidth_percent="0.32">
+                    app:layout_constraintWidth_percent="0.32"
+                    app:rule="@{viewmodel.bathrooms.empty || viewmodel.bathrooms == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -146,12 +146,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_bedrooms"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.bedrooms.empty || viewmodel.bedrooms == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_surface"
-                    app:layout_constraintWidth_percent="0.32">
+                    app:layout_constraintWidth_percent="0.32"
+                    app:rule="@{viewmodel.bedrooms.empty || viewmodel.bedrooms == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -169,10 +169,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_address"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.address.empty || viewmodel.address == null}"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_rooms">
+                    app:errorText="@{@string/add_estate_missing_field}"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_rooms"
+                    app:rule="@{viewmodel.address.empty || viewmodel.address == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -210,12 +210,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
                     android:hint="@string/add_estate_date_for_sale"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.dateAvailable.empty || viewmodel.dateAvailable == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_status_tv"
-                    app:layout_constraintWidth_percent="0.49">
+                    app:layout_constraintWidth_percent="0.49"
+                    app:rule="@{viewmodel.dateAvailable.empty || viewmodel.dateAvailable == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -224,6 +225,7 @@
                         android:drawablePadding="@dimen/default_margin"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
+                        android:onClick="@{()->viewmodel.onDateAvailableClick()}"
                         android:text="@={viewmodel.dateAvailable}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -236,12 +238,12 @@
                     android:layout_marginTop="@dimen/default_margin"
                     android:hint="@string/add_estate_date_sold"
                     android:visibility="@{viewmodel.hasBeenSold ? View.VISIBLE : View.GONE, default=gone}"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.dateSold.empty || viewmodel.dateSold == null}"
+                    app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_status_tv"
-                    app:layout_constraintWidth_percent="0.49">
+                    app:layout_constraintWidth_percent="0.49"
+                    app:rule="@{viewmodel.dateSold.empty || viewmodel.dateSold == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -250,6 +252,7 @@
                         android:drawablePadding="@dimen/default_margin"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
+                        android:onClick="@{()->viewmodel.onDateSoldClick()}"
                         android:text="@={viewmodel.dateSold}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -261,10 +264,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_agent"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.agent.empty || viewmodel.agent == null}"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_date_available">
+                    app:errorText="@{@string/add_estate_missing_field}"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_date_available"
+                    app:rule="@{viewmodel.agent.empty || viewmodel.agent == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -281,10 +284,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_estate_description"
-                    app:errorText="@{@string/add_estate_missing_field}"
                     app:enableError="@{viewmodel.showError}"
-                    app:rule="@{viewmodel.description.empty || viewmodel.description == null}"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_agent">
+                    app:errorText="@{@string/add_estate_missing_field}"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_agent"
+                    app:rule="@{viewmodel.description.empty || viewmodel.description == null}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"

@@ -21,9 +21,11 @@ class AddEstateViewModel : ViewModel() {
     val agent = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val hasBeenSold = MutableLiveData<Boolean>()
+    val dateAvailableDatePicker = MutableLiveData<Boolean>()
+    val dateSoldDatePicker = MutableLiveData<Boolean>()
 
     // validation
-   val showError = MutableLiveData<Boolean>(false)
+    val showError = MutableLiveData<Boolean>(false)
 
 
     // Spinner listener
@@ -44,11 +46,21 @@ class AddEstateViewModel : ViewModel() {
         }
     }
 
+    fun onDateAvailableClick() {
+        dateAvailableDatePicker.value = true
+    }
+
+    fun onDateSoldClick(){
+        dateSoldDatePicker.value = true
+    }
+
 
     // Button listener
     fun onAddBtnClick() {
-showError.value = true
+        showError.value = true
 
     }
+
+
 
 }
