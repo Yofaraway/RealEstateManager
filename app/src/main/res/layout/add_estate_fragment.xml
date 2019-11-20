@@ -183,38 +183,63 @@
                         android:text="@={viewmodel.address}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/add_estate_status_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_estate_status"
-                    android:textSize="@dimen/default_text_size"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/add_estate_status_card"
+                    style="@style/Widget.MaterialComponents.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="@dimen/small_margin"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_address" />
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_address"
+                    app:strokeColor="#d4d4d4"
+                    app:strokeWidth="2dp">
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/add_estate_status_spn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:entries="@array/status"
-                    app:layout_constraintBottom_toTopOf="@id/add_estate_date_available"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:setOnItemSelectedListener="@{viewmodel.onStatusSelected}" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/add_estate_status_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/add_estate_status_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/add_estate_status_icon"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/add_estate_status"
+                            android:textSize="@dimen/default_text_size" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/add_estate_status_spn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerVertical="true"
+                            android:entries="@array/status"
+                            tools:setOnItemSelectedListener="@{viewmodel.onStatusSelected}" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_date_available"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:hint="@string/add_estate_date_for_sale"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
-
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_status_tv"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_status_card"
                     app:layout_constraintWidth_percent="0.49"
                     app:rule="@{viewmodel.dateAvailable.empty || viewmodel.dateAvailable == null}">
 
@@ -235,13 +260,13 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:hint="@string/add_estate_date_sold"
                     android:visibility="@{viewmodel.hasBeenSold ? View.VISIBLE : View.GONE, default=gone}"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_status_tv"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_status_card"
                     app:layout_constraintWidth_percent="0.49"
                     app:rule="@{viewmodel.dateSold.empty || viewmodel.dateSold == null}">
 
@@ -300,14 +325,82 @@
                         android:text="@={viewmodel.description}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <RelativeLayout
+                    android:id="@+id/add_estate_load_photo_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_description">
+
+                    <TextView
+                        android:visibility="@{(!viewmodel.atLeastOnePhoto &amp;&amp; viewmodel.showError) ? View.VISIBLE : View.GONE, default = gone}"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/add_estate_load_from_camera_btn"
+                        android:text="@string/add_estate_no_photo"
+                        android:textColor="@color/red" />
+
+
+                    <ImageButton
+                        android:id="@+id/add_estate_load_from_gallery_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/custom_selector"
+                        android:src="@drawable/ic_add_photo_alternate_24px" />
+
+                    <ImageButton
+                        android:id="@+id/add_estate_load_from_camera_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_toStartOf="@id/add_estate_load_from_gallery_btn"
+                        android:background="@drawable/custom_selector"
+                        android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+                </RelativeLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/add_estate_photos_card"
+                    style="@style/Widget.MaterialComponents.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:visibility="@{viewmodel.atLeastOnePhoto ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_load_photo_layout"
+                    app:strokeColor="#d4d4d4"
+                    app:strokeWidth="2dp">
+
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp">
+
+                        <LinearLayout
+                            android:id="@+id/add_estate_photos_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+
+                    </HorizontalScrollView>
+                </com.google.android.material.card.MaterialCardView>
+
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_the_estate_confirm_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:onClick="@{() -> viewmodel.onAddBtnClick()}"
                     android:text="@string/add_estate_confirm"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_description" />
+                    app:layout_constraintTop_toBottomOf="@id/add_estate_photos_card" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //set first fragment if the bundle is null
-        if (savedInstanceState == null) setFragment(ListViewFragment.newInstance())
+        if (savedInstanceState == null) setFragment(
+            ListViewFragment.newInstance()
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -29,7 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.add_estate_toolbar -> setFragment(AddEstateFragment.newInstance())
+            R.id.add_estate_toolbar -> setFragment(
+                AddEstateFragment.newInstance()
+            )
         }
         return true
     }
@@ -38,8 +42,8 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, fragment)
             .addToBackStack(null).commit()
-    }
 
+    }
 
 
 }

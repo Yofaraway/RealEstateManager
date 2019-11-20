@@ -18,29 +18,18 @@
     <string name="add_estate_date_sold">Date it was sold</string>
     <string name="add_estate_agent">Agent\'s name</string>
     <string name="add_estate_photo">Add at least one photo</string>
-    <string name="add_estate_confirm">Add the estate</string>
-    <string name="add_estate_load_photo">Load photo</string>
+    <string name="add_estate_confirm">Confirm</string>
+    <string name="add_estate_load_photo">ADD A PHOTO :</string>
     <string name="add_estate_no_title">(no title)</string>
     <string name="add_estate_max_photos">You can\'t pick more than 10 photos</string>
     <string name="add_estate_something_wrong">Something went wrong</string>
     <string name="add_estate_no_pick">You haven\'t picked any photo</string>
-    <string name="add_estate_no_type">Please enter the type</string>
-    <string name="add_estate_no_price">Please enter the price</string>
-    <string name="add_estate_no_surface">Please enter the surface</string>
-    <string name="add_estate_no_rooms">Please enter the number of rooms</string>
-    <string name="add_estate_no_bathrooms">Please enter the number of bathrooms</string>
-    <string name="add_estate_no_bedrooms">Please enter the number of bedrooms</string>
-    <string name="add_estate_no_address">Please enter the address</string>
-    <string name="add_estate_no_date_available">Please pick the date of the availability of this estate on the market</string>
-    <string name="add_estate_no_date_sold">Please pick the date of when this estate was sold</string>
-    <string name="add_estate_no_agent">Please enter the name of the real estate agent in charge</string>
-    <string name="add_estate_no_description">Please enter a description</string>
     <string name="add_estate_no_photo">Please add at least one photo</string>
-    
     <string name="add_estate_missing_field">Missing required field</string>
 
 
     <string name="pick_image_intent_text">Choose an image</string>
+
 
 
 </resources>

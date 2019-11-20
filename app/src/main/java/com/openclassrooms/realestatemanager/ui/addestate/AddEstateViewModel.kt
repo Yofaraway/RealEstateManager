@@ -23,9 +23,19 @@ class AddEstateViewModel : ViewModel() {
     val hasBeenSold = MutableLiveData<Boolean>()
     val dateAvailableDatePicker = MutableLiveData<Boolean>()
     val dateSoldDatePicker = MutableLiveData<Boolean>()
+    var pathToPhotos = MutableLiveData<MutableList<String?>>()
+    var titlesPhotos = MutableLiveData<MutableList<String?>>()
+    val atLeastOnePhoto = MutableLiveData<Boolean>(false)
 
     // validation
     val showError = MutableLiveData<Boolean>(false)
+
+    fun init() {
+        if (pathToPhotos.value == null) {
+            pathToPhotos.value = mutableListOf()
+            titlesPhotos.value = mutableListOf()
+        }
+    }
 
 
     // Spinner listener
@@ -40,7 +50,9 @@ class AddEstateViewModel : ViewModel() {
             id: Long
         ) {
             when (position) {
+                // STATUS = AVAILABLE
                 0 -> hasBeenSold.value = false
+                // STATUS = SOLD
                 1 -> hasBeenSold.value = true
             }
         }
@@ -50,7 +62,7 @@ class AddEstateViewModel : ViewModel() {
         dateAvailableDatePicker.value = true
     }
 
-    fun onDateSoldClick(){
+    fun onDateSoldClick() {
         dateSoldDatePicker.value = true
     }
 
@@ -60,7 +72,6 @@ class AddEstateViewModel : ViewModel() {
         showError.value = true
 
     }
-
 
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -40,6 +41,7 @@ class ListViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         configureViewModel()
+
     }
 
     private fun configureViewModel() {
@@ -48,6 +50,10 @@ class ListViewFragment : Fragment() {
             ViewModelProviders.of(this, this.viewModelFactory).get(EstateViewModel::class.java)
         viewModel.getEstates()
             .observe(viewLifecycleOwner, Observer<List<Estate>> { this.onListReceived(it) })
+    }
+
+    private fun setTitle(){
+        (activity as AppCompatActivity).supportActionBar?.title = context!!.resources.getString(R.string.app_name)
     }
 
     private fun onListReceived(estates: List<Estate>) {

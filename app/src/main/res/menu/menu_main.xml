@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title=""
-        android:icon="@drawable/ic_add_black_24dp"
+        android:icon="@drawable/ic_add_black"
         android:id="@+id/add_estate_toolbar"
         app:showAsAction="always" />
 </menu>

@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager.binding
 import androidx.databinding.BindingAdapter
 
 
-object Bindings {
+object BindingAdapters {
 
 
     @BindingAdapter(value = ["errorText", "rule", "enableError"], requireAll = true)
