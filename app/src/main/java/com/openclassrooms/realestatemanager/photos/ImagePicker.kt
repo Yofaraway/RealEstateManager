@@ -7,9 +7,7 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 
-class ImagePicker {
 
-    companion object {
 
         fun getCameraIntent(
             context: Context,
@@ -30,5 +28,4 @@ class ImagePicker {
             galleryIntent.type = "image/*"
             return galleryIntent
         }
-    }
-}
+

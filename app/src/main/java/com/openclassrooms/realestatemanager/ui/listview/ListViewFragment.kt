@@ -11,17 +11,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.di.Injection
-import com.openclassrooms.realestatemanager.di.ViewModelFactory
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.ui.EstateViewModel
+import com.openclassrooms.realestatemanager.ui.EstatesViewModel
+import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 
 class ListViewFragment : Fragment() {
-
-    private lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: EstateViewModel
-
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAdapter
 
@@ -29,7 +24,7 @@ class ListViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        setTitle()
         val rootView = inflater.inflate(R.layout.list_view_fragment, container, false)
         recyclerView = rootView.findViewById(R.id.list_view_rv)
         recyclerView.setHasFixedSize(true)
@@ -45,20 +40,28 @@ class ListViewFragment : Fragment() {
     }
 
     private fun configureViewModel() {
-        viewModelFactory = Injection.provideViewModelFactory(context!!)
-        viewModel =
-            ViewModelProviders.of(this, this.viewModelFactory).get(EstateViewModel::class.java)
-        viewModel.getEstates()
+        val estatesViewModel: EstatesViewModel =
+            ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
+        estatesViewModel.getEstates()
             .observe(viewLifecycleOwner, Observer<List<Estate>> { this.onListReceived(it) })
+
+
+
     }
 
-    private fun setTitle(){
-        (activity as AppCompatActivity).supportActionBar?.title = context!!.resources.getString(R.string.app_name)
+    private fun setTitle() {
+        (activity as AppCompatActivity).supportActionBar?.title =
+            context!!.resources.getString(R.string.app_name)
     }
 
     private fun onListReceived(estates: List<Estate>) {
-        adapter = ListAdapter(estates)
+        println(estates.size)
+        adapter = ListAdapter(context!!, estates, { id -> onClick(id!!) })
         recyclerView.adapter = adapter
+    }
+
+    private fun onClick(id: Long) {
+        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id))
     }
 
     companion object {

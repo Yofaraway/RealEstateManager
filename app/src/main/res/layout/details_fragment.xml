@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.openclassrooms.realestatemanager.ui.details.DetailsViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/details_photo_iv"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/details_photo_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/details_photo_iv"
+                android:background="@color/transparentWhite"
+                android:gravity="center"
+                android:textSize="20sp"
+                tools:text="Chambre 5" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/details_card_1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/details_photo_iv"
+                android:layout_margin="@dimen/default_margin">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/details_description"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="@tools:sample/lorem/random" />
+                    </LinearLayout>
+                </ScrollView>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_card_1"
+                android:layout_margin="@dimen/default_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp">
+
+
+                    <ImageView
+                        android:id="@+id/details_rooms_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/details_rooms_number_tv"
+                        android:src="@drawable/ic_weekend_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/details_rooms_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_toEndOf="@id/details_rooms_icon"
+                        android:text="@string/details_rooms"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/details_rooms_number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/details_rooms_tv"
+                        android:layout_marginStart="100dp"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:text="7" />
+
+                    <ImageView
+                        android:id="@+id/details_bathrooms_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/details_bathrooms_number_tv"
+                        android:src="@drawable/ic_bathtub_24px" />
+
+                    <TextView
+                        android:id="@+id/details_bathrooms_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/details_rooms_number_tv"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@id/details_rooms_icon"
+                        android:text="@string/details_bathrooms"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/details_bathrooms_number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/details_bathrooms_tv"
+                        android:layout_marginStart="100dp"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:text="4" />
+
+                    <ImageView
+                        android:id="@+id/details_bedrooms_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/details_bedrooms_number_tv"
+                        android:src="@drawable/ic_hotel_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/details_bedrooms_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/details_bathrooms_number_tv"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_toEndOf="@id/details_rooms_icon"
+                        android:text="@string/details_bedrooms"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/details_bedrooms_number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/details_bedrooms_tv"
+                        android:layout_marginStart="100dp"
+                        android:layout_marginBottom="@dimen/default_margin"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:text="4" />
+
+
+                </RelativeLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</layout>

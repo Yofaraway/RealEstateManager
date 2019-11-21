@@ -21,7 +21,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddEstateFragmentBinding
 import com.openclassrooms.realestatemanager.photos.ImageHelper
-import com.openclassrooms.realestatemanager.photos.ImagePicker
+import com.openclassrooms.realestatemanager.photos.getCameraIntent
+import com.openclassrooms.realestatemanager.photos.getGalleryIntent
+import com.openclassrooms.realestatemanager.ui.EstatesViewModel
+import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import kotlinx.android.synthetic.main.add_estate_fragment.*
 import java.io.File
 import java.util.*
@@ -29,25 +33,21 @@ import java.util.*
 
 class AddEstateFragment : Fragment() {
 
-    private val REQUEST_IMAGE_CAPTURE = 12
-    private val REQUEST_GALLERY = 13
-
     // VIEWMODEL & DATA BINDING
     private lateinit var viewDataBinding: AddEstateFragmentBinding
     private val viewModel: AddEstateViewModel by lazy {
         ViewModelProviders.of(this).get(AddEstateViewModel::class.java)
     }
-
+    private val estatesViewModel: EstatesViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
+    }
     // LOAD PHOTOS
     private lateinit var currentPhotoPath: String
-    private var index = 0
     private var holdersList: MutableList<ConstraintLayout?> = mutableListOf()
-    // Buttons
     private val cameraBtn: ImageButton by lazy { add_estate_load_from_camera_btn }
     private val galleryBtn: ImageButton by lazy { add_estate_load_from_gallery_btn }
-    // Layout
     private val photosLayout: LinearLayout by lazy { add_estate_photos_layout }
-
+    private var index = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,16 +69,34 @@ class AddEstateFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setTitle()
-        onCameraBtnClick()
-        onGalleryBtnClick()
+        setOnCameraBtnClick()
+        setOnGalleryBtnClick()
         viewModel.init()
+        observeDatePickers()
+        observeNewEstate()
+    }
 
+    private fun observeDatePickers() {
+        // When one of the date pickers is clicked, its boolean in the viewmodel
+        // is set to true (by data binding) so we can observe it from there and
+        // open the DatePickerDialog
         viewModel.dateAvailableDatePicker.observe(
             this,
             Observer { t -> if (t) displayDatePickerPopUp(false) })
         viewModel.dateSoldDatePicker.observe(
             this,
             Observer { t -> if (t) displayDatePickerPopUp(true) })
+    }
+
+    private fun observeNewEstate() {
+        viewModel.addNewEstate.observe(
+            this,
+            Observer { t ->
+                if (t) {
+                    estatesViewModel.createEstate(viewModel.newEstate)
+                    (activity as MainActivity).setFragment(ListViewFragment.newInstance())
+                }
+            })
     }
 
     private fun setTitle() {
@@ -88,18 +106,18 @@ class AddEstateFragment : Fragment() {
 
     // BUTTONS
 
-    private fun onCameraBtnClick() {
+    private fun setOnCameraBtnClick() {
         cameraBtn.setOnClickListener {
             val newPhoto: File = ImageHelper.createFile(context!!)
             currentPhotoPath = newPhoto.absolutePath
-            val camera: Intent? = ImagePicker.getCameraIntent(context!!, newPhoto)
+            val camera: Intent? = getCameraIntent(context!!, newPhoto)
             startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
         }
     }
 
-    private fun onGalleryBtnClick() {
+    private fun setOnGalleryBtnClick() {
         galleryBtn.setOnClickListener {
-            startActivityForResult(ImagePicker.getGalleryIntent(), REQUEST_GALLERY)
+            startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
         }
     }
 
@@ -111,33 +129,39 @@ class AddEstateFragment : Fragment() {
             when (requestCode) {
                 // RESULT FROM CAMERA INTENT
                 REQUEST_IMAGE_CAPTURE -> {
-                    addNewPhotoToViewModel()
-                    addNewPhotoToView()
+                    addNewPhotoToViewModel(currentPhotoPath)
+                    val bitmap: Bitmap = BitmapFactory.decodeFile(currentPhotoPath)
+                    addNewPhotoToView(ImageHelper.getImageViewFromBitmap(context!!, bitmap))
                     index++
                 }
 
                 // RESULT FROM GALLERY INTENT
                 REQUEST_GALLERY -> {
-                    println("oui")
+                    addNewPhotoToViewModel(data!!.dataString!!)
+                    addNewPhotoToView(
+                        ImageHelper.getImageViewFromContentURI(
+                            context!!,
+                            data.data!!
+                        )
+                    )
+                    index++
                 }
             }
         }
     }
 
-    private fun addNewPhotoToViewModel() {
+    private fun addNewPhotoToViewModel(path: String) {
         // The path to the file of the photo
-        viewModel.pathToPhotos.value?.add(currentPhotoPath)
+        viewModel.pathToPhotos.value?.add(path)
         // The title of the photo : "(no title)" per default
         viewModel.titlesPhotos.value?.add(context!!.resources.getString(R.string.add_estate_no_title))
         if (viewModel.atLeastOnePhoto.value == false) viewModel.atLeastOnePhoto.value = true
     }
 
-    private fun addNewPhotoToView() {
+    private fun addNewPhotoToView(imageView: ImageView?) {
         // Holder of ImageView + EditText + Button
         val photoHolder: ConstraintLayout? = ImageHelper.getLayout(context!!, index)
-        // ImageView
-        val bitmap: Bitmap = BitmapFactory.decodeFile(currentPhotoPath)
-        photoHolder!!.addView(ImageHelper.getImageView(context!!, bitmap))
+        photoHolder!!.addView(imageView)
         // EditText
         val editText: EditText? = ImageHelper.getEditText(context!!, index)
         //editText!!.addTextChangedListener{}
@@ -151,6 +175,7 @@ class AddEstateFragment : Fragment() {
         photosLayout.addView(photoHolder)
     }
 
+
     private fun deletePhoto(tag: Int) {
         // remove from view
         holdersList[tag]?.visibility = View.GONE
@@ -162,11 +187,10 @@ class AddEstateFragment : Fragment() {
         viewModel.titlesPhotos.value?.removeAt(tag)
         viewModel.titlesPhotos.value?.add(null)
 
-        if (viewModel.pathToPhotos.value!!.any { it == null })
+        // check if all values are null
+        if (!viewModel.pathToPhotos.value!!.any { it != null })
             viewModel.atLeastOnePhoto.value = false
     }
-
-
 
     private fun displayDatePickerPopUp(dateSold: Boolean) {
         val cldr = Calendar.getInstance()
@@ -191,6 +215,9 @@ class AddEstateFragment : Fragment() {
     }
 
     companion object {
+        const val REQUEST_IMAGE_CAPTURE = 12
+        const val REQUEST_GALLERY = 13
+
         fun newInstance() = AddEstateFragment()
     }
 

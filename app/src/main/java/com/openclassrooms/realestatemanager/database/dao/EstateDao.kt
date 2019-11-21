@@ -12,8 +12,8 @@ interface EstateDao {
     @Query("SELECT * FROM estates")
     fun getEstates(): LiveData<List<Estate>>
 
-    @Query("SELECT * FROM estates WHERE agent = :agent")
-    fun findEstatesByAgentName(agent: String): LiveData<Estate>
+    @Query("SELECT * FROM estates WHERE id = :id")
+    fun getEstateWithId(id: Long): LiveData<List<Estate>>
 
     @Insert
     fun insertEstate(estate: Estate): Long

@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.photos
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Environment
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
@@ -48,13 +49,26 @@ class ImageHelper {
             }
         }
 
-        fun getImageView(context: Context, selectedImage: Bitmap): ImageView? {
+        fun getImageViewFromBitmap(context: Context, selectedImage: Bitmap): ImageView? {
             val image = ImageView(context)
             val lp = ConstraintLayout.LayoutParams(300, 400)
             lp.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
             lp.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             return image.apply {
                 setImageBitmap(selectedImage)
+                layoutParams = lp
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                setPadding(5, 1, 5, 1)
+            }
+        }
+
+        fun getImageViewFromContentURI(context: Context, uri: Uri): ImageView? {
+            val image = ImageView(context)
+            val lp = ConstraintLayout.LayoutParams(300, 400)
+            lp.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            lp.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            return image.apply {
+                setImageURI(uri)
                 layoutParams = lp
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 setPadding(5, 1, 5, 1)

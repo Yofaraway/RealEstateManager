@@ -4,10 +4,11 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.model.Estate
+import com.openclassrooms.realestatemanager.utils.stringToDate
 
 
 class AddEstateViewModel : ViewModel() {
-
     // init Inputs (2 ways data-binding)
     val type = MutableLiveData<String>()
     val surface = MutableLiveData<String>()
@@ -21,14 +22,15 @@ class AddEstateViewModel : ViewModel() {
     val agent = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val hasBeenSold = MutableLiveData<Boolean>()
-    val dateAvailableDatePicker = MutableLiveData<Boolean>()
-    val dateSoldDatePicker = MutableLiveData<Boolean>()
     var pathToPhotos = MutableLiveData<MutableList<String?>>()
     var titlesPhotos = MutableLiveData<MutableList<String?>>()
     val atLeastOnePhoto = MutableLiveData<Boolean>(false)
-
     // validation
     val showError = MutableLiveData<Boolean>(false)
+    val dateAvailableDatePicker = MutableLiveData<Boolean>()
+    val dateSoldDatePicker = MutableLiveData<Boolean>()
+    lateinit var newEstate: Estate
+    val addNewEstate = MutableLiveData<Boolean>(false)
 
     fun init() {
         if (pathToPhotos.value == null) {
@@ -37,12 +39,9 @@ class AddEstateViewModel : ViewModel() {
         }
     }
 
-
     // Spinner listener
     val onStatusSelected = object : AdapterView.OnItemSelectedListener {
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-        }
-
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
         override fun onItemSelected(
             parent: AdapterView<*>?,
             view: View?,
@@ -58,6 +57,7 @@ class AddEstateViewModel : ViewModel() {
         }
     }
 
+    // Date listeners (observers in the fragment)
     fun onDateAvailableClick() {
         dateAvailableDatePicker.value = true
     }
@@ -66,11 +66,70 @@ class AddEstateViewModel : ViewModel() {
         dateSoldDatePicker.value = true
     }
 
-
-    // Button listener
+    // on button click (listener with data binding)
     fun onAddBtnClick() {
-        showError.value = true
+        if (!checkEmptyEditTexts(getInputs()) && atLeastOnePhoto.value!!) createNewEstate()
+        else showError.value = true
+    }
 
+    private fun getInputs(): MutableSet<String?> {
+        val inputs = mutableSetOf(
+            type.value,
+            price.value,
+            surface.value,
+            rooms.value,
+            bathrooms.value,
+            bedrooms.value,
+            description.value,
+            address.value,
+            dateAvailable.value,
+            agent.value
+        )
+        if (hasBeenSold.value!!) inputs.add(dateSold.value)
+        return inputs
+    }
+
+    private fun checkEmptyEditTexts(inputs: MutableSet<String?>): Boolean {
+        return (inputs.any { it == null || it == "" })
+    }
+
+    private fun createNewEstate() {
+        val pathList = getListWithoutNull(pathToPhotos.value!!)
+        val titlesList = getListWithoutNull(titlesPhotos.value!!)
+        val dateA = stringToDate(dateAvailable.value!!)
+        val dateS =
+            when (hasBeenSold.value!!) {
+                true -> stringToDate(dateSold.value!!)
+                false -> null
+            }
+
+        newEstate = Estate(
+            null,
+            type.value!!,
+            price.value!!.toInt(),
+            surface.value!!.toDouble(),
+            rooms.value!!.toInt(),
+            bathrooms.value!!.toInt(),
+            bedrooms.value!!.toInt(),
+            description.value!!,
+            pathList,
+            titlesList,
+            address.value!!,
+            "",
+            hasBeenSold.value!!,
+            dateA,
+            dateS,
+            agent.value!!
+        )
+        addNewEstate.value = true
+    }
+
+    private fun getListWithoutNull(mutableList: MutableList<String?>): MutableList<String> {
+        val list: MutableList<String> = ArrayList()
+        for (entry in mutableList) {
+            if (entry != null) list.add(entry)
+        }
+        return list
     }
 
 

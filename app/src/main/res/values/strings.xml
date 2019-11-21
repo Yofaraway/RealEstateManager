@@ -28,7 +28,11 @@
     <string name="add_estate_missing_field">Missing required field</string>
 
 
-    <string name="pick_image_intent_text">Choose an image</string>
+    // DETAILS ESTATE FRAGMENT
+    <string name="details_description">Description</string>
+    <string name="details_rooms">Number of rooms</string>
+    <string name="details_bathrooms">Number of bathrooms</string>
+    <string name="details_bedrooms">Number of bedrooms</string>
 
 
 
