@@ -107,7 +107,7 @@ class AddEstateViewModel : ViewModel() {
             null,
             type.value!!,
             price.value!!.toInt(),
-            surface.value!!.toDouble(),
+            surface.value!!.toInt(),
             rooms.value!!.toInt(),
             bathrooms.value!!.toInt(),
             bedrooms.value!!.toInt(),

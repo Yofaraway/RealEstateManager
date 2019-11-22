@@ -9,7 +9,7 @@ data class Estate(
     @PrimaryKey(autoGenerate = true) var id: Long?,
     var type: String,
     var priceDollars: Int,
-    var surface: Double,
+    var surface: Int,
     var rooms: Int,
     var bathrooms: Int,
     var bedrooms: Int,

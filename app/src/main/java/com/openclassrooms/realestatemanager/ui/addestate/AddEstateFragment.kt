@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddEstateFragmentBinding
-import com.openclassrooms.realestatemanager.photos.ImageHelper
-import com.openclassrooms.realestatemanager.photos.getCameraIntent
-import com.openclassrooms.realestatemanager.photos.getGalleryIntent
+import com.openclassrooms.realestatemanager.photos.*
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
@@ -74,6 +74,7 @@ class AddEstateFragment : Fragment() {
         viewModel.init()
         observeDatePickers()
         observeNewEstate()
+
     }
 
     private fun observeDatePickers() {
@@ -108,7 +109,7 @@ class AddEstateFragment : Fragment() {
 
     private fun setOnCameraBtnClick() {
         cameraBtn.setOnClickListener {
-            val newPhoto: File = ImageHelper.createFile(context!!)
+            val newPhoto: File = createFile(context!!)
             currentPhotoPath = newPhoto.absolutePath
             val camera: Intent? = getCameraIntent(context!!, newPhoto)
             startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
@@ -129,17 +130,17 @@ class AddEstateFragment : Fragment() {
             when (requestCode) {
                 // RESULT FROM CAMERA INTENT
                 REQUEST_IMAGE_CAPTURE -> {
-                    addNewPhotoToViewModel(currentPhotoPath)
+                    addNewPhotoToModel(currentPhotoPath)
                     val bitmap: Bitmap = BitmapFactory.decodeFile(currentPhotoPath)
-                    addNewPhotoToView(ImageHelper.getImageViewFromBitmap(context!!, bitmap))
+                    addNewPhotoToView(getImageViewFromBitmap(context!!, bitmap))
                     index++
                 }
 
                 // RESULT FROM GALLERY INTENT
                 REQUEST_GALLERY -> {
-                    addNewPhotoToViewModel(data!!.dataString!!)
+                    addNewPhotoToModel(data?.dataString!!)
                     addNewPhotoToView(
-                        ImageHelper.getImageViewFromContentURI(
+                        getImageViewFromContentURI(
                             context!!,
                             data.data!!
                         )
@@ -150,7 +151,7 @@ class AddEstateFragment : Fragment() {
         }
     }
 
-    private fun addNewPhotoToViewModel(path: String) {
+    private fun addNewPhotoToModel(path: String) {
         // The path to the file of the photo
         viewModel.pathToPhotos.value?.add(path)
         // The title of the photo : "(no title)" per default
@@ -160,15 +161,15 @@ class AddEstateFragment : Fragment() {
 
     private fun addNewPhotoToView(imageView: ImageView?) {
         // Holder of ImageView + EditText + Button
-        val photoHolder: ConstraintLayout? = ImageHelper.getLayout(context!!, index)
+        val photoHolder: ConstraintLayout? = getLayout(context!!, index)
         photoHolder!!.addView(imageView)
         // EditText
-        val editText: EditText? = ImageHelper.getEditText(context!!, index)
-        //editText!!.addTextChangedListener{}
+        val editText: EditText? = getEditText(context!!, index)
+        editText!!.addTextChangedListener(onTitlePhotoChangeListener(editText.tag.toString().toInt()))
         photoHolder.addView(editText)
         // Delete button
-        val deletePhotoBtn: ImageView? = ImageHelper.getDeleteButton(context!!, index)
-        deletePhotoBtn!!.setOnClickListener { deletePhoto(deletePhotoBtn.tag.toString().toInt()) }
+        val deletePhotoBtn: ImageView? = getDeleteButton(context!!, index)
+        deletePhotoBtn!!.setOnClickListener { onDeletePhotoBtnClick(deletePhotoBtn.tag.toString().toInt()) }
         photoHolder.addView(deletePhotoBtn)
         holdersList.add(photoHolder)
         // Layout of all photos
@@ -176,20 +177,29 @@ class AddEstateFragment : Fragment() {
     }
 
 
-    private fun deletePhoto(tag: Int) {
+    private fun onDeletePhotoBtnClick(tag: Int) {
         // remove from view
-        holdersList[tag]?.visibility = View.GONE
-        holdersList.removeAt(tag)
-        holdersList.add(null)
+        holdersList[tag]!!.visibility = View.GONE
+        holdersList[tag] = null
         // remove from viewmodel (we replace the removed value with null so our index still works)
-        viewModel.pathToPhotos.value?.removeAt(tag)
-        viewModel.pathToPhotos.value?.add(null)
-        viewModel.titlesPhotos.value?.removeAt(tag)
-        viewModel.titlesPhotos.value?.add(null)
-
+        viewModel.pathToPhotos.value!![tag] = null
+        viewModel.titlesPhotos.value!![tag] = null
         // check if all values are null
         if (!viewModel.pathToPhotos.value!!.any { it != null })
             viewModel.atLeastOnePhoto.value = false
+    }
+
+    private fun onTitlePhotoChangeListener(tag: Int): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() == "") viewModel.titlesPhotos.value!![tag] =
+                    context!!.resources.getString(R.string.add_estate_no_title)
+                else viewModel.titlesPhotos.value!![tag] = s.toString()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
     }
 
     private fun displayDatePickerPopUp(dateSold: Boolean) {

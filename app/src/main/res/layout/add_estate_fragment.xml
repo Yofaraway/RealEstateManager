@@ -44,6 +44,7 @@
                         android:drawableStart="@drawable/ic_home_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
                         android:inputType="text"
+                        android:maxLength="40"
                         android:text="@={viewmodel.type}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +68,7 @@
                         android:drawableStart="@drawable/ic_border_style_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
                         android:inputType="number"
+                        android:maxLength="4"
                         android:text="@={viewmodel.surface}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -89,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_attach_money_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
+                        android:maxLength="9"
                         android:inputType="number"
                         android:text="@={viewmodel.price}" />
 
@@ -113,6 +116,7 @@
                         android:drawableStart="@drawable/ic_weekend_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:text="@={viewmodel.rooms}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -137,6 +141,7 @@
                         android:drawableStart="@drawable/ic_bathtub_24px"
                         android:drawablePadding="@dimen/default_margin"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:text="@={viewmodel.bathrooms}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,6 +163,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_hotel_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
+                        android:maxLength="2"
                         android:inputType="number"
                         android:text="@={viewmodel.bedrooms}" />
 
@@ -179,6 +185,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_place_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
+                        android:maxLength="100"
                         android:inputType="text"
                         android:text="@={viewmodel.address}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -300,6 +307,7 @@
                         android:drawableStart="@drawable/ic_person_black_24dp"
                         android:drawablePadding="@dimen/default_margin"
                         android:inputType="text"
+                        android:maxLength="40"
                         android:text="@={viewmodel.agent}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -334,13 +342,13 @@
                     app:layout_constraintTop_toBottomOf="@id/add_estate_description">
 
                     <TextView
-                        android:visibility="@{(!viewmodel.atLeastOnePhoto &amp;&amp; viewmodel.showError) ? View.VISIBLE : View.GONE, default = gone}"
-                        android:fontFamily="sans-serif-light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/add_estate_load_from_camera_btn"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/add_estate_no_photo"
-                        android:textColor="@color/red" />
+                        android:textColor="@color/red"
+                        android:visibility="@{(!viewmodel.atLeastOnePhoto &amp;&amp; viewmodel.showError) ? View.VISIBLE : View.GONE, default = gone}" />
 
 
                     <ImageButton

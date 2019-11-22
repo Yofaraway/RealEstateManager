@@ -5,175 +5,222 @@
 
     <data>
 
-        <import type="android.view.View" />
 
         <variable
             name="viewmodel"
             type="com.openclassrooms.realestatemanager.ui.details.DetailsViewModel" />
     </data>
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/details_images_slider_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/details_images_slider_vp"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp" />
+
+
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_images_slider_vp">
 
-            <ImageView
-                android:id="@+id/details_photo_iv"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/details_photo_title_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/details_photo_iv"
-                android:background="@color/transparentWhite"
-                android:gravity="center"
-                android:textSize="20sp"
-                tools:text="Chambre 5" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/details_card_1"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@id/details_photo_iv"
-                android:layout_margin="@dimen/default_margin">
-
-                <ScrollView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/details_card_1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin">
 
-                    <LinearLayout
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/details_description"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="10"
+                                android:text="@{viewmodel.estate.description}"
+                                tools:text="@tools:sample/lorem/random" />
+                        </LinearLayout>
+                    </ScrollView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/details_card_1"
+                    android:layout_margin="@dimen/default_margin">
+
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+
+                        <ImageView
+                            android:id="@+id/details_rooms_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/details_rooms_data_tv"
+                            android:src="@drawable/ic_weekend_black_24dp" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/details_rooms_tv"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/details_description"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_toEndOf="@id/details_rooms_icon"
+                            android:text="@string/details_rooms"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/details_rooms_data_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/details_rooms_tv"
+                            android:layout_marginStart="100dp"
+                            android:text="@{Integer.toString(viewmodel.estate.rooms)}"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="25sp"
+                            android:textStyle="bold"
+                            tools:text="7" />
+
+                        <ImageView
+                            android:id="@+id/details_bathrooms_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/details_bathrooms_data_tv"
+                            android:src="@drawable/ic_bathtub_24px" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/details_bathrooms_tv"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="@tools:sample/lorem/random" />
-                    </LinearLayout>
-                </ScrollView>
-            </com.google.android.material.card.MaterialCardView>
+                            android:layout_below="@id/details_rooms_data_tv"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="10dp"
+                            android:layout_toEndOf="@id/details_rooms_icon"
+                            android:text="@string/details_bathrooms"
+                            android:textStyle="bold" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/details_card_1"
-                android:layout_margin="@dimen/default_margin">
+                        <TextView
+                            android:id="@+id/details_bathrooms_data_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/details_bathrooms_tv"
+                            android:layout_marginStart="100dp"
+                            android:text="@{Integer.toString(viewmodel.estate.bathrooms)}"
+                            android:textColor="@color/black"
+                            android:textSize="25sp"
+                            android:textStyle="bold"
+                            tools:text="4" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp">
+                        <ImageView
+                            android:id="@+id/details_bedrooms_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/details_bedrooms_data_tv"
+                            android:src="@drawable/ic_hotel_black_24dp" />
 
+                        <TextView
+                            android:id="@+id/details_bedrooms_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/details_bathrooms_data_tv"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginTop="@dimen/default_margin"
+                            android:layout_toEndOf="@id/details_rooms_icon"
+                            android:text="@string/details_bedrooms"
+                            android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/details_rooms_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/details_rooms_number_tv"
-                        android:src="@drawable/ic_weekend_black_24dp" />
+                        <TextView
+                            android:id="@+id/details_bedrooms_data_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/details_bedrooms_tv"
+                            android:layout_marginStart="100dp"
+                            android:layout_marginBottom="@dimen/default_margin"
+                            android:text="@{Integer.toString(viewmodel.estate.bedrooms)}"
+                            android:textColor="@color/black"
+                            android:textSize="25sp"
+                            android:textStyle="bold"
+                            tools:text="4" />
 
-                    <TextView
-                        android:id="@+id/details_rooms_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/default_margin"
-                        android:layout_toEndOf="@id/details_rooms_icon"
-                        android:text="@string/details_rooms"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/details_surface_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@id/details_surface_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:layout_marginEnd="95dp"
+                            android:text="@string/details_surface"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/details_rooms_number_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/details_rooms_tv"
-                        android:layout_marginStart="100dp"
-                        android:textColor="@color/black"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        tools:text="7" />
+                        <ImageView
+                            android:id="@+id/details_surface_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/details_bathrooms_tv"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginEnd="-10dp"
+                            android:layout_toStartOf="@id/details_surface_tv"
+                            android:src="@drawable/ic_border_style_black_24dp" />
 
-                    <ImageView
-                        android:id="@+id/details_bathrooms_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/details_bathrooms_number_tv"
-                        android:src="@drawable/ic_bathtub_24px" />
+                        <TextView
+                            android:id="@+id/details_surface_data_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/details_bathrooms_tv"
+                            android:layout_alignEnd="@id/details_surface_tv"
+                            android:layout_marginTop="-17dp"
+                            android:layout_marginEnd="-24dp"
+                            android:text="@{Integer.toString(viewmodel.estate.surface)}"
+                            android:textColor="@color/black"
+                            android:textSize="40sp"
+                            android:textStyle="bold"
+                            tools:text="999" />
 
-                    <TextView
-                        android:id="@+id/details_bathrooms_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/details_rooms_number_tv"
-                        android:layout_marginStart="@dimen/default_margin"
-                        android:layout_marginTop="10dp"
-                        android:layout_toEndOf="@id/details_rooms_icon"
-                        android:text="@string/details_bathrooms"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/details_bathrooms_number_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/details_bathrooms_tv"
-                        android:layout_marginStart="100dp"
-                        android:textColor="@color/black"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        tools:text="4" />
-
-                    <ImageView
-                        android:id="@+id/details_bedrooms_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/details_bedrooms_number_tv"
-                        android:src="@drawable/ic_hotel_black_24dp" />
-
-                    <TextView
-                        android:id="@+id/details_bedrooms_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/details_bathrooms_number_tv"
-                        android:layout_marginStart="@dimen/default_margin"
-                        android:layout_marginTop="@dimen/default_margin"
-                        android:layout_toEndOf="@id/details_rooms_icon"
-                        android:text="@string/details_bedrooms"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/details_bedrooms_number_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/details_bedrooms_tv"
-                        android:layout_marginStart="100dp"
-                        android:layout_marginBottom="@dimen/default_margin"
-                        android:textColor="@color/black"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        tools:text="4" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/details_surface_data_tv"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/default_margin"
+                            android:text="@string/details_unit_surface"
+                            android:textColor="@color/black"
+                            android:textSize="40sp"
+                            android:textStyle="bold" />
 
 
-                </RelativeLayout>
+                    </RelativeLayout>
 
 
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
-        </RelativeLayout>
-    </ScrollView>
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 </layout>

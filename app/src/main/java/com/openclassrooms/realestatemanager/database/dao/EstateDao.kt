@@ -13,7 +13,7 @@ interface EstateDao {
     fun getEstates(): LiveData<List<Estate>>
 
     @Query("SELECT * FROM estates WHERE id = :id")
-    fun getEstateWithId(id: Long): LiveData<List<Estate>>
+    fun getEstateWithId(id: Long): LiveData<Estate>
 
     @Insert
     fun insertEstate(estate: Estate): Long

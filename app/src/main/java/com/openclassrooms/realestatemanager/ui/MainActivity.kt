@@ -20,9 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         configureViewModel()
         //set first fragment if the bundle is null
-        if (savedInstanceState == null) setFragment(
-            ListViewFragment.newInstance()
-        )
+        setFirstFragment()
 
     }
 
@@ -41,12 +39,19 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun configureViewModel(){
+    private fun configureViewModel() {
         val mViewModelFactory = provideViewModelFactory(this)
-        val estatesViewModel:EstatesViewModel = ViewModelProviders.of(this, mViewModelFactory).get(
+        val estatesViewModel: EstatesViewModel = ViewModelProviders.of(this, mViewModelFactory).get(
             EstatesViewModel::class.java
         )
         estatesViewModel.init()
+    }
+
+    //addToBackStack not included in first fragment
+    fun setFirstFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frame, ListViewFragment.newInstance())
+            .commit()
     }
 
     fun setFragment(fragment: Fragment) {

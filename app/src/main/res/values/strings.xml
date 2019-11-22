@@ -33,6 +33,9 @@
     <string name="details_rooms">Number of rooms</string>
     <string name="details_bathrooms">Number of bathrooms</string>
     <string name="details_bedrooms">Number of bedrooms</string>
+    <string name="details_surface">Surface</string>
+    <string name="details_agent">Agent in charge</string>
+    <string name="details_unit_surface">&#032;m²</string>
 
 
 

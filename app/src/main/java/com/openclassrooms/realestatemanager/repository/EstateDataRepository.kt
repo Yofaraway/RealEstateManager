@@ -10,7 +10,7 @@ class EstateDataRepository constructor(private val database: RealEstateDatabase)
         return this.database.estateDao().getEstates()
     }
 
-    fun getEstateWithId(id: Long): LiveData<List<Estate>>{
+    fun getEstateWithId(id: Long): LiveData<Estate>{
         return this.database.estateDao().getEstateWithId(id)
     }
 

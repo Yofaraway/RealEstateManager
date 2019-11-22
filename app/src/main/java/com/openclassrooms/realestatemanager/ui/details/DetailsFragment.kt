@@ -5,23 +5,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager.widget.ViewPager
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.DetailsFragmentBinding
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
+import kotlinx.android.synthetic.main.details_fragment.*
 
 class DetailsFragment : Fragment() {
 
+    // DATA BINDING & VIEW MODELS
+    private lateinit var viewDataBinding: DetailsFragmentBinding
+    private lateinit var estatesViewModel: EstatesViewModel
+    private val detailsViewModel: DetailsViewModel by lazy {
+        ViewModelProviders.of(this).get(DetailsViewModel::class.java)
+    }
+
+    // PHOTOS SLIDER
+    val viewPager: ViewPager by lazy { details_images_slider_vp }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.details_fragment, container, false)
-        return rootView
+
+        // DATA BINDING
+        viewDataBinding = DetailsFragmentBinding.bind(rootView).apply {
+            this.viewmodel = detailsViewModel
+        }
+        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+
+
+
+        return viewDataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        estatesViewModel = ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
         getEstate()
 
 
@@ -30,11 +54,19 @@ class DetailsFragment : Fragment() {
     private fun getEstate() {
         val args = arguments
         val id = args!!.getLong(KEY_ESTATE_FOR_DETAILS)
-        val estatesViewModel: EstatesViewModel =
-            ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
 
-
-
+        estatesViewModel.getEstateWithId(id)
+            .observe(this, Observer { t ->
+                if (t != null) {
+                    detailsViewModel.init(t)
+                    viewPager.adapter =
+                        PhotosSliderAdapter(
+                            context!!,
+                            detailsViewModel.estate.value!!.pathPhotos,
+                            detailsViewModel.estate.value!!.titlesPhotos
+                        )
+                }
+            })
     }
 
 

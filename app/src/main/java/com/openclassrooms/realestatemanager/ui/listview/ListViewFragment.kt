@@ -55,7 +55,6 @@ class ListViewFragment : Fragment() {
     }
 
     private fun onListReceived(estates: List<Estate>) {
-        println(estates.size)
         adapter = ListAdapter(context!!, estates, { id -> onClick(id!!) })
         recyclerView.adapter = adapter
     }

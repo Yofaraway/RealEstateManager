@@ -23,7 +23,7 @@ class EstatesViewModel (
         return estateDataSource.getEstates()
     }
 
-    fun getEstateWithId(id: Long): LiveData<List<Estate>> {
+    fun getEstateWithId(id: Long): LiveData<Estate> {
         return estateDataSource.getEstateWithId(id)
     }
 
@@ -31,10 +31,6 @@ class EstatesViewModel (
     fun createEstate(estate: Estate) {
         executor.execute { estateDataSource.createTask(estate) }
 
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 
 }

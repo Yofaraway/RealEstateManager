@@ -24,7 +24,7 @@ import java.io.File
 
 
         fun getGalleryIntent(): Intent? {
-            val galleryIntent = Intent(Intent.ACTION_GET_CONTENT)
+            val galleryIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             galleryIntent.type = "image/*"
             return galleryIntent
         }
