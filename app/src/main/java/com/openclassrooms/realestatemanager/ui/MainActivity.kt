@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.di.Injection.provideViewModelFactory
-import com.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
+import com.openclassrooms.realestatemanager.ui.filter.FilterFragment2
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 
 
 class MainActivity : AppCompatActivity() {
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +34,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.add_estate_toolbar -> setFragment(
-                AddEstateFragment.newInstance()
-            )
+            R.id.menu_toolbar_filter -> setFragment(FilterFragment2.newInstance())
         }
-        return true
+        return false
     }
 
     private fun configureViewModel() {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //addToBackStack not included in first fragment
-    fun setFirstFragment() {
+    private fun setFirstFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, ListViewFragment.newInstance())
             .commit()

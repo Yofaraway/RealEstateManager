@@ -5,7 +5,11 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorBackgroundFloating">@color/secondaryColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+
+
     </style>
 
 </resources>

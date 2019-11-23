@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!-- from material color tool -->
+    <color name="colorPrimary">#424242</color>
+    <color name="primaryLightColor">#6d6d6d</color>
+    <color name="colorPrimaryDark">#1b1b1b</color>
+    <color name="secondaryColor">#1565c0</color>
+    <color name="secondaryLightColor">#5e92f3</color>
+    <color name="secondaryDarkColor">#003c8f</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
+
+
+    <!-- custom -->
     <color name="lightBlack">#3a3535</color>
     <color name="lightGray">#D3D3D3</color>
     <color name="white">#ffffff</color>
@@ -10,4 +19,16 @@
     <color name="lowTransparentWhite">#80FFFFFF</color>
     <color name="black">#000</color>
     <color name="red">#B00020</color>
+
+
+    <!-- 50 shades of -->
+    <color name="grey_3">#f7f7f7</color>
+    <color name="grey_5">#f2f2f2</color>
+    <color name="grey_10">#e6e6e6</color>
+    <color name="grey_20">#cccccc</color>
+    <color name="grey_40">#999999</color>
+    <color name="grey_60">#666666</color>
+    <color name="grey_80">#37474F</color>
+    <color name="grey_90">#263238</color>
+
 </resources>

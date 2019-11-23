@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.openclassrooms.realestatemanager.ui.filter.FilterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_margin">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- PRICE   -->
+                <CheckBox
+                    android:id="@+id/filter_price_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/filter_price_slider"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/filer_price_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_attach_money_black_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <!--  SURFACE  -->
+                <CheckBox
+                    android:id="@+id/filter_surface_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_surface"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_price_check" />
+
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/filter_surface_slider"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/filter_price_slider"
+                    app:layout_constraintTop_toBottomOf="@id/filter_price_slider" />
+
+                <TextView
+                    android:id="@+id/filter_surface_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_surface_unit"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_price_check" />
+
+                <!--  DATE AVAILABLE  -->
+
+                <CheckBox
+                    android:id="@+id/filter_available_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_available"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_surface_check" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp"
+                    app:layout_constraintTop_toTopOf="@id/filter_available_check"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_available_check"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                <CheckBox
+                    android:id="@+id/filter_available_from_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/filter_date_from"
+                    android:visibility="@{viewmodel.isAvailableChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/filter_available_check"
+                    app:layout_constraintTop_toBottomOf="@id/filter_available_check" />
+
+                <EditText
+                    android:id="@+id/filter_available_from_et"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:gravity="center"
+                    android:visibility="@{viewmodel.isAvailableChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_available_from_check"
+                    app:layout_constraintStart_toStartOf="@id/filter_price_slider"
+                    app:layout_constraintTop_toTopOf="@id/filter_available_from_check" />
+
+                <CheckBox
+                    android:id="@+id/filter_available_to_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_date_to"
+                    android:visibility="@{viewmodel.isAvailableChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/filter_available_from_check"
+                    app:layout_constraintTop_toBottomOf="@id/filter_available_from_check" />
+
+                <EditText
+                    android:id="@+id/filter_available_to_et"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:gravity="center"
+                    android:visibility="@{viewmodel.isAvailableChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_available_to_check"
+                    app:layout_constraintStart_toStartOf="@id/filter_price_slider"
+                    app:layout_constraintTop_toTopOf="@id/filter_available_to_check" />
+
+                <!--   DATE SOLD         -->
+
+                <CheckBox
+                    android:id="@+id/filter_sold_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_sold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_available_to_check" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp"
+                    app:layout_constraintTop_toTopOf="@id/filter_sold_check"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_sold_check"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/filter_sold_after_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/filter_date_after"
+                    android:visibility="@{viewmodel.isSoldChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/filter_available_check"
+                    app:layout_constraintTop_toBottomOf="@id/filter_sold_check" />
+
+                <EditText
+                    android:id="@+id/filter_sold_after_et"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:gravity="center"
+                    android:visibility="@{viewmodel.isSoldChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_sold_after_check"
+                    app:layout_constraintStart_toStartOf="@id/filter_price_slider"
+                    app:layout_constraintTop_toTopOf="@id/filter_sold_after_check" />
+
+                <CheckBox
+                    android:id="@+id/filter_sold_before_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_date_before"
+                    android:visibility="@{viewmodel.isSoldChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/filter_sold_after_check"
+                    app:layout_constraintTop_toBottomOf="@id/filter_sold_after_check" />
+
+                <EditText
+                    android:id="@+id/filter_sold_before_et"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:visibility="@{viewmodel.isSoldChecked() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_sold_before_check"
+                    app:layout_constraintStart_toStartOf="@id/filter_price_slider"
+                    app:layout_constraintTop_toTopOf="@id/filter_sold_before_check" />
+
+                <!--     PHOTO       -->
+
+                <CheckBox
+                    android:id="@+id/filter_photo_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_photo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_sold_before_check" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/filter_photo_slider"
+                    app:floatingLabel="true"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:stepSize="1"
+                    android:valueFrom="0"
+                    android:valueTo="10"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_photo_check"
+                    app:layout_constraintStart_toStartOf="@id/filter_price_slider" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_photo_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_photo_slider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/filter_photo_slider" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

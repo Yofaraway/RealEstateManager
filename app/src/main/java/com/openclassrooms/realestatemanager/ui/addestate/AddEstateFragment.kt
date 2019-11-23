@@ -8,14 +8,11 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -68,14 +65,39 @@ class AddEstateFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setTitle()
+        setHasOptionsMenu(true)
         setOnCameraBtnClick()
         setOnGalleryBtnClick()
         viewModel.init()
         observeDatePickers()
         observeNewEstate()
-
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.menu_add, menu)
+        // change title
+        (activity as MainActivity).supportActionBar?.title =
+            context!!.resources.getString(R.string.add_estate_title)
+        // set back button
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_toolbar_reset -> {
+                return true
+            }
+            android.R.id.home -> {fragmentManager?.popBackStack()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+        return false
+    }
+
+
 
     private fun observeDatePickers() {
         // When one of the date pickers is clicked, its boolean in the viewmodel
@@ -100,10 +122,6 @@ class AddEstateFragment : Fragment() {
             })
     }
 
-    private fun setTitle() {
-        (activity as AppCompatActivity).supportActionBar?.title =
-            context!!.resources.getString(R.string.add_estate_title)
-    }
 
     // BUTTONS
 

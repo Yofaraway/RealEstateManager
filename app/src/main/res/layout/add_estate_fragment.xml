@@ -211,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/default_margin"
-                            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+                            app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
                         <TextView
                             android:id="@+id/add_estate_status_tv"
@@ -241,7 +241,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginTop="2dp"
                     android:hint="@string/add_estate_date_for_sale"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
@@ -267,7 +267,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginTop="2dp"
                     android:hint="@string/add_estate_date_sold"
                     android:visibility="@{viewmodel.hasBeenSold ? View.VISIBLE : View.GONE, default=gone}"
                     app:enableError="@{viewmodel.showError}"
@@ -359,7 +359,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/default_margin"
                         android:background="@drawable/custom_selector"
-                        android:src="@drawable/ic_add_photo_alternate_24px" />
+                        app:srcCompat="@drawable/ic_add_photo_alternate_24px" />
 
                     <ImageButton
                         android:id="@+id/add_estate_load_from_camera_btn"
@@ -369,7 +369,7 @@
                         android:layout_marginEnd="20dp"
                         android:layout_toStartOf="@id/add_estate_load_from_gallery_btn"
                         android:background="@drawable/custom_selector"
-                        android:src="@drawable/ic_add_a_photo_black_24dp" />
+                        app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
                 </RelativeLayout>
 

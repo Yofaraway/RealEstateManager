@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
+    // LIST VIEW FRAGMENT
+
+    <string name="list_no_item">No estates here</string>
+    <string name="list_add_one">Add one by clicking round button below</string>
+
+
     // ADD ESTATE FRAGMENT
     <string name="add_estate_title">Add a new estate</string>
     <string name="add_estate_type">Type</string>
@@ -35,7 +41,39 @@
     <string name="details_bedrooms">Number of bedrooms</string>
     <string name="details_surface">Surface</string>
     <string name="details_agent">Agent in charge</string>
-    <string name="details_unit_surface">&#032;m²</string>
+    <string name="details_unit_surface">m²</string>
+
+
+    // FILTER ESTATES FRAGMENT
+    <string name="filter_title">Filter estates by</string>
+    <string name="filter_price">Price range</string>
+    <string name="filter_price_min">$0</string>
+    <string name="filter_surface">Surface range</string>
+    <string name="filter_surface_min">0 m²</string>
+    <string name="filter_surface_unit">m²</string>
+    <string name="filter_available">Availability</string>
+    <string name="filter_sold">Sold</string>
+    <string name="filter_date_after">After</string>
+    <string name="filter_date_before">Before</string>
+    <string name="filter_date_from">From</string>
+    <string name="filter_date_to">To</string>
+    <string name="filter_photo">Photo(s)</string>
+    <string name="filter_near">Near</string>
+
+
+    // POI NEARBY
+    <string name="nearby_center">City center</string>
+    <string name="nearby_restaurants">Restaurants and bars</string>
+    <string name="nearby_station">Metro/Train station</string>
+    <string name="nearby_supermarket">Supermarket</string>
+    <string name="nearby_school">School</string>
+    <string name="nearby_cinema">Cinema</string>
+    <string name="nearby_pool">Swimming pool</string>
+    <string name="nearby_hospital">Hospital</string>
+    <string name="nearby_other">Other</string>
+
+
+
 
 
 

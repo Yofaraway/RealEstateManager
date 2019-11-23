@@ -7,6 +7,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.openclassrooms.realestatemanager"
         minSdkVersion 19
         targetSdkVersion 29
@@ -48,7 +49,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     kapt "android.arch.lifecycle:extensions:1.1.1"
     //MATERIAL
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'com.crystal:crystalrangeseekbar:1.1.3' // range seekbar
+    implementation 'com.google.android:flexbox:2.0.0' // google flexbox
     //GSON
     implementation 'com.google.code.gson:gson:2.8.6'
     //CIRCLE INDICATOR
