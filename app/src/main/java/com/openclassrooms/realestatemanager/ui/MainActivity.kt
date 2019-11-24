@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.di.Injection.provideViewModelFactory
-import com.openclassrooms.realestatemanager.ui.filter.FilterFragment2
+import com.openclassrooms.realestatemanager.ui.filter.FilterFragment
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 
 
 class MainActivity : AppCompatActivity() {
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_filter -> setFragment(FilterFragment2.newInstance())
+            R.id.menu_toolbar_filter -> setFragment(FilterFragment.newInstance())
         }
         return false
     }

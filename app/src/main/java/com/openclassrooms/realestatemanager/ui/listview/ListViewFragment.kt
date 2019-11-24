@@ -18,13 +18,10 @@ import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
-import com.openclassrooms.realestatemanager.ui.filter.FilterFragment2
+import com.openclassrooms.realestatemanager.ui.filter.FilterFragment
 import kotlinx.android.synthetic.main.list_view_fragment.*
 
 class ListViewFragment : Fragment() {
-
-    // Ui
-    private val layoutWhenEmpty: RelativeLayout? = layout_empty
 
     // List
     private lateinit var recyclerView: RecyclerView
@@ -46,6 +43,7 @@ class ListViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).supportActionBar?.show()
         configureViewModel()
         addBtnListener()
     }
@@ -59,13 +57,14 @@ class ListViewFragment : Fragment() {
 
 
     private fun configureViewModel() {
+        val layoutWhenEmpty: RelativeLayout = layout_empty
         val estatesViewModel: EstatesViewModel =
             ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
         estatesViewModel.getEstates()
             .observe(viewLifecycleOwner, Observer<List<Estate>> {
                 this.onListReceived(it)
-                if (it.isNotEmpty()) layoutWhenEmpty?.visibility = View.GONE
-                else layoutWhenEmpty?.visibility = View.VISIBLE
+                if (it.isNotEmpty()) layoutWhenEmpty.visibility = View.GONE
+                else layoutWhenEmpty.visibility = View.VISIBLE
             })
 
     }
@@ -73,7 +72,7 @@ class ListViewFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_filter -> (activity as MainActivity).setFragment(FilterFragment2.newInstance())
+            R.id.menu_toolbar_filter -> (activity as MainActivity).setFragment(FilterFragment.newInstance())
         }
         super.onOptionsItemSelected(item)
         return true

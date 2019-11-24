@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.details
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -36,43 +38,18 @@ class DetailsFragment : Fragment() {
         }
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
 
-
+        (activity as MainActivity).supportActionBar?.hide()
 
         return viewDataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setHasOptionsMenu(true)
         estatesViewModel = ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
         getEstate()
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.menu_edit, menu)
-        // change title
-        (activity as MainActivity).supportActionBar?.title =
-            context!!.resources.getString(R.string.app_name)
-        // set back button
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_toolbar_edit -> {
-                return true
-            }
-            android.R.id.home -> {
-                fragmentManager?.popBackStack()
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-        return false
-    }
 
     private fun getEstate() {
         val args = arguments

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- from material color tool -->
-    <color name="colorPrimary">#424242</color>
-    <color name="primaryLightColor">#6d6d6d</color>
-    <color name="colorPrimaryDark">#1b1b1b</color>
-    <color name="secondaryColor">#1565c0</color>
-    <color name="secondaryLightColor">#5e92f3</color>
-    <color name="secondaryDarkColor">#003c8f</color>
+    <color name="primaryColor">#212121</color>
+    <color name="primaryLightColor">#484848</color>
+    <color name="primaryDarkColor">#000000</color>
+    <color name="secondaryColor">#dd2c00</color>
+    <color name="secondaryLightColor">#ff6434</color>
+    <color name="secondaryDarkColor">#a30000</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
 
 
     <!-- custom -->
     <color name="lightBlack">#3a3535</color>
-    <color name="lightGray">#D3D3D3</color>
     <color name="white">#ffffff</color>
     <color name="veryTransparentWhite">#59FFFFFF</color>
     <color name="lowTransparentWhite">#80FFFFFF</color>
     <color name="black">#000</color>
+    <color name="veryTransparentBlack">#59000000</color>
     <color name="red">#B00020</color>
 
 

@@ -5,7 +5,6 @@
 
     <data>
 
-
         <variable
             name="viewmodel"
             type="com.openclassrooms.realestatemanager.ui.details.DetailsViewModel" />
@@ -14,7 +13,8 @@
     <RelativeLayout
         android:id="@+id/details_images_slider_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/grey_5">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/details_images_slider_vp"
@@ -22,62 +22,41 @@
             android:layout_height="200dp" />
 
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/details_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/details_images_slider_vp"
-            android:layout_marginTop="@dimen/default_margin">
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:clipToPadding="false"
+            android:scrollbars="vertical">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/details_card_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="@dimen/default_margin">
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/details_description"
-                                android:textColor="@color/black"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@{viewmodel.estate.description}"
-                                tools:text="@tools:sample/lorem/random" />
-                        </LinearLayout>
-                    </ScrollView>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_card_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/details_card_1"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:layout_marginBottom="@dimen/default_margin">
+                    android:layout_marginLeft="@dimen/spacing_middle"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginRight="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:paddingLeft="@dimen/spacing_large"
+                        android:paddingTop="@dimen/spacing_middle"
+                        android:paddingRight="@dimen/spacing_large"
+                        android:paddingBottom="@dimen/spacing_middle">
 
 
                         <ImageView
@@ -173,29 +152,21 @@
                             android:id="@+id/details_surface_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_above="@id/details_surface_icon"
+                            android:layout_below="@id/details_rooms_data_tv"
                             android:layout_alignParentEnd="true"
                             android:layout_marginStart="@dimen/default_margin"
-                            android:layout_marginEnd="95dp"
+                            android:layout_marginEnd="90dp"
                             android:text="@string/details_surface"
                             android:textStyle="bold" />
 
-                        <ImageView
-                            android:id="@+id/details_surface_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@id/details_bathrooms_tv"
-                            android:layout_marginTop="7dp"
-                            android:layout_toStartOf="@id/details_surface_tv"
-                            app:srcCompat="@drawable/ic_border_style_black_24dp" />
 
                         <LinearLayout
                             android:id="@+id/details_surface_data_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignStart="@id/details_surface_tv"
                             android:layout_alignBottom="@id/details_bathrooms_data_tv"
-                            android:layout_marginStart="20dp"
-                            android:layout_toEndOf="@id/details_surface_icon">
+                            android:layout_marginStart="@dimen/default_margin">
 
                             <TextView
                                 android:id="@+id/details_surface_data_tv"
@@ -217,15 +188,54 @@
                                 android:textStyle="bold" />
 
                         </LinearLayout>
-
-
                     </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_card_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/details_card_2"
+                    android:layout_marginLeft="@dimen/spacing_middle"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:paddingLeft="@dimen/spacing_xlarge"
+                    android:paddingTop="@dimen/spacing_mlarge"
+                    android:paddingRight="@dimen/spacing_xlarge"
+                    android:paddingBottom="@dimen/spacing_mlarge"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
 
 
-                </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/spacing_large"
+                        android:paddingTop="@dimen/spacing_middle"
+                        android:paddingRight="@dimen/spacing_large"
+                        android:paddingBottom="@dimen/spacing_middle">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/details_description"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/default_margin"
+                            android:text="@{viewmodel.estate.description}"
+                            tools:text="@tools:sample/lorem/random" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
 </layout>

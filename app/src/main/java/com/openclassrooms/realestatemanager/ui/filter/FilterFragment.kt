@@ -1,26 +1,17 @@
 package com.openclassrooms.realestatemanager.ui.filter
 
-import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import android.widget.EditText
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.databinding.FilterFragmentBinding
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
-import java.util.*
+import kotlinx.android.synthetic.main.filter_fragment.*
+
 
 class FilterFragment : Fragment() {
-
-
-    // DATA BINDING & VIEW MODELS
-    private lateinit var viewDataBinding: FilterFragmentBinding
-    private val filterViewModel: FilterViewModel by lazy {
-        ViewModelProviders.of(this).get(FilterViewModel::class.java)
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,69 +19,37 @@ class FilterFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.filter_fragment, container, false)
 
-        // DATA BINDING
-        viewDataBinding = FilterFragmentBinding.bind(rootView).apply {
-            this.viewmodel = filterViewModel
-        }
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-
-        return viewDataBinding.root
+        return rootView
 
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onActivityCreated(savedInstanceState)
-        initViewComponents()
+        setNearButtons()
     }
 
-
-    private fun initViewComponents() {
-        datesCheckboxListeners()
-        datePickedListener()
-    }
-
-    private fun datesCheckboxListeners() {
-        // Available
-        viewDataBinding.filterAvailableCheck.setOnCheckedChangeListener { _, isChecked ->
-            filterViewModel.isAvailableChecked.value = isChecked
-        }
-        // Sold
-        viewDataBinding.filterSoldCheck.setOnCheckedChangeListener { _, isChecked ->
-            filterViewModel.isSoldChecked.value = isChecked
-        }
-    }
-
-    private fun datePickedListener() {
-        val editText = mutableSetOf(
-            viewDataBinding.filterAvailableFromEt,
-            viewDataBinding.filterAvailableToEt,
-            viewDataBinding.filterSoldAfterEt,
-            viewDataBinding.filterSoldBeforeEt
+    private fun setNearButtons() {
+        val centerBTn: Button? = filter_near_center
+        val buttons = mutableSetOf(
+            centerBTn
         )
-        for (editTextClicked in editText) {
-            editTextClicked.setOnClickListener { displayDatePickerPopUp(editTextClicked) }
+        for (button in buttons) {
+            button?.setOnClickListener{btToggleClick(button)}
         }
     }
 
+    private fun btToggleClick(b: Button) {
+        if (b.isSelected) {
+            b.setTextColor(Color.parseColor("#ff6434"))
+        } else {
+            b.setTextColor(Color.WHITE)
 
-    private fun displayDatePickerPopUp(editText: EditText) {
-        val cldr = Calendar.getInstance()
-        val d = cldr.get(Calendar.DAY_OF_MONTH)
-        val m = cldr.get(Calendar.MONTH)
-        val y = cldr.get(Calendar.YEAR)
+        }
+        b.isSelected = !b.isSelected
 
-        // date picker dialog
-        DatePickerDialog(
-            context!!,
-            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                val datePicked = ("$dayOfMonth/$monthOfYear/$year")
-                editText.setText(datePicked)
-
-            }, y, m, d
-        ).show()
     }
-
 
     // TOOLBAR
 
@@ -116,7 +75,6 @@ class FilterFragment : Fragment() {
         }
         return false
     }
-
 
     companion object {
         fun newInstance() = FilterFragment()

@@ -4,7 +4,7 @@
     // LIST VIEW FRAGMENT
 
     <string name="list_no_item">No estates here</string>
-    <string name="list_add_one">Add one by clicking round button below</string>
+    <string name="list_add_one">Add one by clicking the round button below</string>
 
 
     // ADD ESTATE FRAGMENT
@@ -18,11 +18,11 @@
     <string name="add_estate_description">Write a description</string>
     <string name="add_estate_address">Address</string>
     <string name="add_estate_date_for_sale">Date of availability</string>
-    <string name="add_estate_status">Status of the estate :</string>
+    <string name="add_estate_status">Status</string>
     <string name="add_estate_status_available">Available</string>
     <string name="add_estate_status_sold">Sold</string>
     <string name="add_estate_date_sold">Date it was sold</string>
-    <string name="add_estate_agent">Agent\'s name</string>
+    <string name="add_estate_agent">Agent</string>
     <string name="add_estate_photo">Add at least one photo</string>
     <string name="add_estate_confirm">Confirm</string>
     <string name="add_estate_load_photo">ADD A PHOTO :</string>
@@ -45,7 +45,7 @@
 
 
     // FILTER ESTATES FRAGMENT
-    <string name="filter_title">Filter estates by</string>
+    <string name="filter_title">Filter by</string>
     <string name="filter_price">Price range</string>
     <string name="filter_price_min">$0</string>
     <string name="filter_surface">Surface range</string>

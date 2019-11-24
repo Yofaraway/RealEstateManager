@@ -23,7 +23,7 @@ import com.openclassrooms.realestatemanager.photos.*
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
-import kotlinx.android.synthetic.main.add_estate_fragment.*
+import kotlinx.android.synthetic.main.add_estate_fragment_td.*
 import java.io.File
 import java.util.*
 
@@ -86,7 +86,7 @@ class AddEstateFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_reset -> {
+            R.id.menu_toolbar_refresh -> {
                 return true
             }
             android.R.id.home -> {fragmentManager?.popBackStack()

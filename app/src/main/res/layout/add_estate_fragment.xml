@@ -12,310 +12,284 @@
             type="com.openclassrooms.realestatemanager.ui.addestate.AddEstateViewModel" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/default_margin"
-        tools:context=".ui.addestate.AddEstateFragment_todelete">
+        android:orientation="vertical">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/grey_5"
+            android:clipToPadding="false"
+            android:padding="@dimen/spacing_mlarge"
+            android:scrollbars="none"
+            android:scrollingCache="true">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_surface"
+                        android:layout_width="177dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_estate_surface"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.surface.empty || viewmodel.surface == null}"
+                        app:startIconDrawable="@drawable/ic_border_style_black_24dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:text="@={viewmodel.surface}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_price"
+                        android:layout_width="177dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_estate_price"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.price.empty || viewmodel.price == null}"
+                        app:startIconDrawable="@drawable/ic_attach_money_black_24dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:text="@={viewmodel.price}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_type"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:hint="@string/add_estate_type"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:rule="@{viewmodel.type.empty || viewmodel.type == null}">
+                    app:rule="@{viewmodel.type.empty || viewmodel.type == null}"
+                    app:startIconDrawable="@drawable/ic_home_black_24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_home_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
                         android:inputType="text"
                         android:maxLength="40"
                         android:text="@={viewmodel.type}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_surface"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/add_estate_surface"
-                    app:enableError="@{viewmodel.showError}"
-                    app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_type"
-                    app:layout_constraintWidth_percent="0.49"
-                    app:rule="@{viewmodel.surface.empty || viewmodel.surface == null}">
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_rooms"
+                        android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_border_style_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:inputType="number"
-                        android:maxLength="4"
-                        android:text="@={viewmodel.surface}" />
+                        android:hint="@string/add_estate_rooms"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.rooms.empty || viewmodel.rooms == null}"
+                        app:startIconDrawable="@drawable/ic_weekend_black_24dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:text="@={viewmodel.rooms}" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_price"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_estate_price"
-                    app:enableError="@{viewmodel.showError}"
-                    app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_type"
-                    app:layout_constraintWidth_percent="0.49"
-                    app:rule="@{viewmodel.price.empty || viewmodel.price == null}">
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_bathrooms"
+                        android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_attach_money_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:maxLength="9"
-                        android:inputType="number"
-                        android:text="@={viewmodel.price}" />
+                        android:hint="@string/add_estate_bathrooms"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.bathrooms.empty || viewmodel.bathrooms == null}"
+                        app:startIconDrawable="@drawable/ic_bathtub_24px">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:text="@={viewmodel.bathrooms}" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_rooms"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_estate_rooms"
-                    app:enableError="@{viewmodel.showError}"
-                    app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_surface"
-                    app:layout_constraintWidth_percent="0.32"
-                    app:rule="@{viewmodel.rooms.empty || viewmodel.rooms == null}">
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_bedrooms"
+                        android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_weekend_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:text="@={viewmodel.rooms}" />
+                        android:hint="@string/add_estate_bedrooms"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.bedrooms.empty || viewmodel.bedrooms == null}"
+                        app:startIconDrawable="@drawable/ic_hotel_black_24dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:text="@={viewmodel.bedrooms}" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_bathrooms"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_estate_bathrooms"
-                    app:enableError="@{viewmodel.showError}"
-                    app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintEnd_toStartOf="@id/add_estate_bedrooms"
-                    app:layout_constraintStart_toEndOf="@id/add_estate_rooms"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_surface"
-                    app:layout_constraintWidth_percent="0.32"
-                    app:rule="@{viewmodel.bathrooms.empty || viewmodel.bathrooms == null}">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_bathtub_24px"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:text="@={viewmodel.bathrooms}" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_bedrooms"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_estate_bedrooms"
-                    app:enableError="@{viewmodel.showError}"
-                    app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_surface"
-                    app:layout_constraintWidth_percent="0.32"
-                    app:rule="@{viewmodel.bedrooms.empty || viewmodel.bedrooms == null}">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_hotel_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:maxLength="2"
-                        android:inputType="number"
-                        android:text="@={viewmodel.bedrooms}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_address"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:hint="@string/add_estate_address"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_rooms"
-                    app:rule="@{viewmodel.address.empty || viewmodel.address == null}">
+                    app:rule="@{viewmodel.address.empty || viewmodel.address == null}"
+                    app:startIconDrawable="@drawable/ic_place_black_24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_place_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:maxLength="100"
                         android:inputType="text"
+                        android:maxLength="100"
                         android:text="@={viewmodel.address}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/add_estate_status_card"
-                    style="@style/Widget.MaterialComponents.CardView"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/add_estate_status"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="@dimen/small_margin"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_address"
-                    app:strokeColor="#d4d4d4"
-                    app:strokeWidth="2dp">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/add_estate_status_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/default_margin"
-                            app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
-
-                        <TextView
-                            android:id="@+id/add_estate_status_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@id/add_estate_status_icon"
-                            android:fontFamily="sans-serif"
-                            android:text="@string/add_estate_status"
-                            android:textSize="@dimen/default_text_size" />
-
-                        <androidx.appcompat.widget.AppCompatSpinner
-                            android:id="@+id/add_estate_status_spn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerVertical="true"
-                            android:entries="@array/status"
-                            tools:setOnItemSelectedListener="@{viewmodel.onStatusSelected}" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_date_available"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:hint="@string/add_estate_date_for_sale"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:hint="@string/add_estate_status"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_status_card"
-                    app:layout_constraintWidth_percent="0.49"
-                    app:rule="@{viewmodel.dateAvailable.empty || viewmodel.dateAvailable == null}">
+                    app:rule="@{viewmodel.address.empty || viewmodel.address == null}"
+                    app:startIconDrawable="@drawable/ic_keyboard_arrow_right_black_24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_date_range_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none"
-                        android:onClick="@{()->viewmodel.onDateAvailableClick()}"
-                        android:text="@={viewmodel.dateAvailable}" />
-
+                        android:inputType="text"
+                        android:maxLength="100"
+                        android:text="@={viewmodel.address}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_estate_date_sold"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:hint="@string/add_estate_date_sold"
-                    android:visibility="@{viewmodel.hasBeenSold ? View.VISIBLE : View.GONE, default=gone}"
-                    app:enableError="@{viewmodel.showError}"
-                    app:errorText="@{@string/add_estate_missing_field}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_status_card"
-                    app:layout_constraintWidth_percent="0.49"
-                    app:rule="@{viewmodel.dateSold.empty || viewmodel.dateSold == null}">
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_date_available"
+                        android:layout_width="177dp"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_date_range_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none"
-                        android:onClick="@{()->viewmodel.onDateSoldClick()}"
-                        android:text="@={viewmodel.dateSold}" />
+                        android:hint="@string/add_estate_date_for_sale"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.dateAvailable.empty || viewmodel.dateAvailable == null}"
+                        app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:onClick="@{()->viewmodel.onDateAvailableClick()}"
+                            android:text="@={viewmodel.dateAvailable}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/add_estate_date_sold"
+                        android:layout_width="177dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_estate_date_sold"
+                        android:visibility="@{viewmodel.hasBeenSold ? View.VISIBLE : View.GONE}"
+                        app:enableError="@{viewmodel.showError}"
+                        app:errorText="@{@string/add_estate_missing_field}"
+                        app:rule="@{viewmodel.dateSold.empty || viewmodel.dateSold == null}"
+                        app:startIconDrawable="@drawable/ic_date_range_black_24dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:onClick="@{()->viewmodel.onDateSoldClick()}"
+                            android:text="@={viewmodel.dateSold}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_agent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:hint="@string/add_estate_agent"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
                     app:layout_constraintTop_toBottomOf="@id/add_estate_date_available"
-                    app:rule="@{viewmodel.agent.empty || viewmodel.agent == null}">
+                    app:rule="@{viewmodel.agent.empty || viewmodel.agent == null}"
+                    app:startIconDrawable="@drawable/ic_person_black_24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_person_black_24dp"
-                        android:drawablePadding="@dimen/default_margin"
                         android:inputType="text"
-                        android:maxLength="40"
+                        android:maxLength="50"
                         android:text="@={viewmodel.agent}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_description"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:hint="@string/add_estate_description"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
@@ -325,7 +299,6 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/default_margin"
                         android:gravity="top"
                         android:inputType="textMultiLine"
                         android:maxLines="10"
@@ -333,55 +306,42 @@
                         android:text="@={viewmodel.description}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <RelativeLayout
-                    android:id="@+id/add_estate_load_photo_layout"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_margin="@dimen/default_margin"
-                    android:layout_marginTop="@dimen/small_margin"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_description">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/add_estate_load_from_camera_btn"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/add_estate_no_photo"
-                        android:textColor="@color/red"
-                        android:visibility="@{(!viewmodel.atLeastOnePhoto &amp;&amp; viewmodel.showError) ? View.VISIBLE : View.GONE, default = gone}" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
 
                     <ImageButton
                         android:id="@+id/add_estate_load_from_gallery_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/default_margin"
                         android:background="@drawable/custom_selector"
                         app:srcCompat="@drawable/ic_add_photo_alternate_24px" />
 
                     <ImageButton
                         android:id="@+id/add_estate_load_from_camera_btn"
                         android:layout_width="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="20dp"
-                        android:layout_toStartOf="@id/add_estate_load_from_gallery_btn"
                         android:background="@drawable/custom_selector"
                         app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/add_estate_photos_card"
                     style="@style/Widget.MaterialComponents.CardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:visibility="@{viewmodel.atLeastOnePhoto ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_load_photo_layout"
                     app:strokeColor="#d4d4d4"
                     app:strokeWidth="2dp">
 
@@ -399,18 +359,16 @@
                     </HorizontalScrollView>
                 </com.google.android.material.card.MaterialCardView>
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_the_estate_confirm_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:onClick="@{() -> viewmodel.onAddBtnClick()}"
                     android:text="@string/add_estate_confirm"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_estate_photos_card" />
+                    />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </layout>
