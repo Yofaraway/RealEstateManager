@@ -46,32 +46,32 @@
                 app:right_thumb_color_pressed="@color/secondaryDarkColor" />
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium">
 
                 <TextView
                     android:id="@+id/filter_price_min"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/filter_price_min"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60" />
+                    android:textColor="@color/grey_60"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/filter_price_max"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="$500"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60" />
-            </LinearLayout>
+                    android:textColor="@color/grey_60"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--     SURFACE RANGE       -->
 
@@ -99,32 +99,83 @@
                 app:right_thumb_color_pressed="@color/secondaryDarkColor" />
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium">
 
                 <TextView
                     android:id="@+id/filter_surface_min"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/filter_surface_min"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60" />
+                    android:textColor="@color/grey_60"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/filter_surface_max"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="1000 m²"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60" />
-            </LinearLayout>
+                    android:textColor="@color/grey_60"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--PHOTOS-->
+            <CheckBox
+                android:id="@+id/filter_photo_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_photo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/grey_90" />
+
+
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                android:id="@+id/filter_photo_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bar_color="@color/grey_20"
+                app:bar_highlight_color="@color/secondaryColor"
+                app:data_type="_integer"
+                app:left_thumb_color="@color/secondaryColor"
+                app:left_thumb_color_pressed="@color/secondaryDarkColor"
+                app:max_value="10"
+                app:min_value="0"
+                app:right_thumb_color="@color/secondaryColor"
+                app:right_thumb_color_pressed="@color/secondaryDarkColor"
+                app:steps="1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium">
+
+                <TextView
+                    android:id="@+id/filter_photo_min"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_photo_min"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/grey_60"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/filter_photo_max"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_photo_max"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/grey_60"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--     AVAILABLE       -->
 
@@ -136,8 +187,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/grey_90" />
 
-            <RelativeLayout
-                android:id="@+id/filter_available_layout"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -145,41 +196,66 @@
                     android:id="@+id/filter_available_from_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:text="@string/filter_date_from" />
+                    android:layout_marginStart="@dimen/spacing_mxlarge"
+                    android:text="@string/filter_date_from"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/filter_available_from_et"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/filter_available_from_check"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/border_edittext"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:inputType="none" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filter_available_to_et"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="135dp"
+                    android:layout_height="35dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <CheckBox
                     android:id="@+id/filter_available_to_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/filter_available_from_check"
-                    android:layout_marginStart="25dp"
-                    android:text="@string/filter_date_to" />
+                    android:layout_marginStart="@dimen/spacing_mxlarge"
+                    android:text="@string/filter_date_to"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/filter_available_to_et"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/filter_available_to_check"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:background="@drawable/border_edittext"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:inputType="none" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filter_available_from_et"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="135dp"
+                    android:layout_height="35dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-            </RelativeLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <!--     SOLD      -->
 
@@ -191,7 +267,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/grey_90" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/filter_sold_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -201,40 +277,65 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="@string/filter_date_after" />
+                    android:text="@string/filter_date_after"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/filter_sold_after_et"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/filter_sold_after_check"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/border_edittext"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:inputType="none" />
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="135dp"
+                    android:layout_height="35dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <CheckBox
                     android:id="@+id/filter_sold_before_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/filter_sold_after_check"
                     android:layout_marginStart="25dp"
-                    android:text="@string/filter_date_before" />
+                    android:text="@string/filter_date_before"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/filter_sold_before_et"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/filter_sold_before_check"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/default_margin"
-                    android:background="@drawable/border_edittext"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:inputType="none" />
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="135dp"
+                    android:layout_height="35dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-            </RelativeLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--     Near     -->
 
@@ -255,91 +356,142 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_center"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_center"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_restaurants"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
                     android:text="@string/nearby_restaurants"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_train"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_station"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_supermarket"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_supermarket"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_school"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_school"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor"/>
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_cinema"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_cinema"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_pool"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_pool"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/filter_near_hospital"
-                    android:layout_width="90dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
                     android:text="@string/nearby_hospital"
                     android:textAllCaps="false"
-                    android:textColor="@color/secondaryLightColor" />
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/filter_near_library"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
+                    android:text="@string/nearby_library"
+                    android:textAllCaps="false"
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/filter_near_park"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
+                    android:text="@string/nearby_park"
+                    android:textAllCaps="false"
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/filter_near_nightlife"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="@drawable/near_btn_selector"
+                    android:padding="2dp"
+                    android:text="@string/nearby_nightlife"
+                    android:textAllCaps="false"
+                    android:textColor="@color/grey_60"
+                    android:textSize="12sp" />
 
             </com.google.android.flexbox.FlexboxLayout>
 

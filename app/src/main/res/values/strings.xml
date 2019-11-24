@@ -36,9 +36,9 @@
 
     // DETAILS ESTATE FRAGMENT
     <string name="details_description">Description</string>
-    <string name="details_rooms">Number of rooms</string>
-    <string name="details_bathrooms">Number of bathrooms</string>
-    <string name="details_bedrooms">Number of bedrooms</string>
+    <string name="details_rooms">Rooms</string>
+    <string name="details_bathrooms">Bathrooms</string>
+    <string name="details_bedrooms">Bedrooms</string>
     <string name="details_surface">Surface</string>
     <string name="details_agent">Agent in charge</string>
     <string name="details_unit_surface">m²</string>
@@ -59,18 +59,21 @@
     <string name="filter_date_to">To</string>
     <string name="filter_photo">Photo(s)</string>
     <string name="filter_near">Near</string>
-
+    <string name="filter_photo_min">0</string>
+    <string name="filter_photo_max">10</string>
 
     // POI NEARBY
     <string name="nearby_center">City center</string>
     <string name="nearby_restaurants">Restaurants and bars</string>
-    <string name="nearby_station">Metro/Train station</string>
+    <string name="nearby_station">Metro/train station</string>
     <string name="nearby_supermarket">Supermarket</string>
     <string name="nearby_school">School</string>
     <string name="nearby_cinema">Cinema</string>
     <string name="nearby_pool">Swimming pool</string>
     <string name="nearby_hospital">Hospital</string>
-    <string name="nearby_other">Other</string>
+    <string name="nearby_library">Library</string>
+    <string name="nearby_park">Park</string>
+    <string name="nearby_nightlife">Nightlife street</string>
 
 
 

@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.addestate
 
-import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
@@ -17,11 +15,12 @@ class AddEstateViewModel : ViewModel() {
     val bathrooms = MutableLiveData<String>()
     val bedrooms = MutableLiveData<String>()
     val address = MutableLiveData<String>()
+    val status = MutableLiveData<String>()
     val dateAvailable = MutableLiveData<String>()
     val dateSold = MutableLiveData<String>()
     val agent = MutableLiveData<String>()
     val description = MutableLiveData<String>()
-    val hasBeenSold = MutableLiveData<Boolean>()
+    val hasBeenSold = MutableLiveData<Boolean>(false)
     var pathToPhotos = MutableLiveData<MutableList<String?>>()
     var titlesPhotos = MutableLiveData<MutableList<String?>>()
     val atLeastOnePhoto = MutableLiveData<Boolean>(false)
@@ -32,30 +31,39 @@ class AddEstateViewModel : ViewModel() {
     lateinit var newEstate: Estate
     val addNewEstate = MutableLiveData<Boolean>(false)
 
-    fun init() {
+    private var statusDefaultForReset: String = ""
+
+    fun init(statusDefault: String) {
         if (pathToPhotos.value == null) {
             pathToPhotos.value = mutableListOf()
             titlesPhotos.value = mutableListOf()
+            statusDefaultForReset = statusDefault
+            status.value = statusDefault
         }
     }
 
-    // Spinner listener
-    val onStatusSelected = object : AdapterView.OnItemSelectedListener {
-        override fun onNothingSelected(parent: AdapterView<*>?) {}
-        override fun onItemSelected(
-            parent: AdapterView<*>?,
-            view: View?,
-            position: Int,
-            id: Long
-        ) {
-            when (position) {
-                // STATUS = AVAILABLE
-                0 -> hasBeenSold.value = false
-                // STATUS = SOLD
-                1 -> hasBeenSold.value = true
-            }
-        }
+    fun reset() {
+        type.value = ""
+        surface.value = ""
+        price.value = ""
+        rooms.value = ""
+        bathrooms.value = ""
+        bedrooms.value = ""
+        surface.value = ""
+        address.value = ""
+        status.value = statusDefaultForReset
+        dateAvailable.value = ""
+        dateSold.value = ""
+        hasBeenSold.value = false
+        agent.value = ""
+        description.value = ""
+        pathToPhotos.value = mutableListOf()
+        titlesPhotos.value = mutableListOf()
+        atLeastOnePhoto.value = false
+        showError.value = false
+
     }
+
 
     // Date listeners (observers in the fragment)
     fun onDateAvailableClick() {

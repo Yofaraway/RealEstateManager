@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.addestate
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
@@ -23,7 +24,7 @@ import com.openclassrooms.realestatemanager.photos.*
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
-import kotlinx.android.synthetic.main.add_estate_fragment_td.*
+import kotlinx.android.synthetic.main.add_estate_fragment.*
 import java.io.File
 import java.util.*
 
@@ -38,6 +39,7 @@ class AddEstateFragment : Fragment() {
     private val estatesViewModel: EstatesViewModel by lazy {
         ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
     }
+
     // LOAD PHOTOS
     private lateinit var currentPhotoPath: String
     private var holdersList: MutableList<ConstraintLayout?> = mutableListOf()
@@ -45,6 +47,8 @@ class AddEstateFragment : Fragment() {
     private val galleryBtn: ImageButton by lazy { add_estate_load_from_gallery_btn }
     private val photosLayout: LinearLayout by lazy { add_estate_photos_layout }
     private var index = 0
+
+    var itemStatus: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,9 +72,10 @@ class AddEstateFragment : Fragment() {
         setHasOptionsMenu(true)
         setOnCameraBtnClick()
         setOnGalleryBtnClick()
-        viewModel.init()
-        observeDatePickers()
+        viewModel.init(context!!.resources.getString(R.string.add_estate_status_available))
+        datePickersListener()
         observeNewEstate()
+        viewDataBinding.addEstateStatus.setOnClickListener { showStatusChoiceDialog() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -87,9 +92,11 @@ class AddEstateFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_toolbar_refresh -> {
+                viewModel.reset()
                 return true
             }
-            android.R.id.home -> {fragmentManager?.popBackStack()
+            android.R.id.home -> {
+                fragmentManager?.popBackStack()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -98,8 +105,7 @@ class AddEstateFragment : Fragment() {
     }
 
 
-
-    private fun observeDatePickers() {
+    private fun datePickersListener() {
         // When one of the date pickers is clicked, its boolean in the viewmodel
         // is set to true (by data binding) so we can observe it from there and
         // open the DatePickerDialog
@@ -218,6 +224,21 @@ class AddEstateFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
+    }
+
+    private fun showStatusChoiceDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+        val choices = context!!.resources.getStringArray(R.array.add_estate_status_choices)
+        builder.setCancelable(true)
+        builder.setSingleChoiceItems(
+            choices, itemStatus
+        ) { dialog, which ->
+            dialog.dismiss()
+            viewModel.status.value = choices[which]
+            viewModel.hasBeenSold.value = (which == 1)
+            itemStatus = which
+        }
+        builder.create().show()
     }
 
     private fun displayDatePickerPopUp(dateSold: Boolean) {

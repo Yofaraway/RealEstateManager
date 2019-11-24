@@ -42,7 +42,7 @@ class FilterFragment : Fragment() {
 
     private fun btToggleClick(b: Button) {
         if (b.isSelected) {
-            b.setTextColor(Color.parseColor("#ff6434"))
+            b.setTextColor(Color.parseColor("#666666"))
         } else {
             b.setTextColor(Color.WHITE)
 

@@ -14,7 +14,8 @@
         android:id="@+id/details_images_slider_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey_5">
+        android:background="@color/grey_5"
+        tools:layout_marginTop="-200dp">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/details_images_slider_vp"
@@ -80,7 +81,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/details_rooms_tv"
-                            android:layout_marginStart="100dp"
+                            android:layout_alignStart="@id/details_rooms_tv"
+                            android:layout_marginStart="@dimen/spacing_large"
                             android:text="@{Integer.toString(viewmodel.estate.rooms)}"
                             android:textColor="@color/black"
                             android:textSize="25sp"
@@ -110,7 +112,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/details_bathrooms_tv"
-                            android:layout_marginStart="100dp"
+                            android:layout_alignStart="@id/details_bathrooms_tv"
+                            android:layout_marginStart="@dimen/spacing_large"
                             android:text="@{Integer.toString(viewmodel.estate.bathrooms)}"
                             android:textColor="@color/black"
                             android:textSize="25sp"
@@ -140,7 +143,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/details_bedrooms_tv"
-                            android:layout_marginStart="100dp"
+                            android:layout_alignStart="@id/details_bedrooms_tv"
+                            android:layout_marginStart="@dimen/spacing_large"
                             android:layout_marginBottom="@dimen/default_margin"
                             android:text="@{Integer.toString(viewmodel.estate.bedrooms)}"
                             android:textColor="@color/black"
@@ -164,6 +168,7 @@
                             android:id="@+id/details_surface_data_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
                             android:layout_alignStart="@id/details_surface_tv"
                             android:layout_alignBottom="@id/details_bathrooms_data_tv"
                             android:layout_marginStart="@dimen/default_margin">
