@@ -1,501 +1,499 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.openclassrooms.realestatemanager.ui.filter.FilterViewModel" />
+    </data>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:scrollbars="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!--   PRICE RANGE     -->
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/spacing_xlarge"
-            android:paddingTop="@dimen/spacing_mlarge"
-            android:paddingRight="@dimen/spacing_xlarge"
-            android:paddingBottom="@dimen/spacing_mlarge">
+            android:clipToPadding="false"
+            android:scrollbars="vertical">
 
-
-            <CheckBox
-                android:id="@+id/filter_price_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_price"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/grey_90" />
-
-
-            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-                android:id="@+id/filter_price_seekbar"
+            <!--   PRICE RANGE     -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:bar_color="@color/grey_20"
-                app:bar_highlight_color="@color/secondaryColor"
-                app:data_type="_long"
-                app:left_thumb_color="@color/secondaryColor"
-                app:left_thumb_color_pressed="@color/secondaryDarkColor"
-                app:max_value="500"
-                app:min_value="0"
-                app:right_thumb_color="@color/secondaryColor"
-                app:right_thumb_color_pressed="@color/secondaryDarkColor" />
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/spacing_xlarge"
+                android:paddingTop="@dimen/spacing_mlarge"
+                android:paddingRight="@dimen/spacing_xlarge"
+                android:paddingBottom="@dimen/spacing_mlarge">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium">
-
-                <TextView
-                    android:id="@+id/filter_price_min"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_price_min"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <TextView
-                    android:id="@+id/filter_price_max"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="$500"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--     SURFACE RANGE       -->
-
-            <CheckBox
-                android:id="@+id/filter_surface_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_surface"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/grey_90" />
-
-
-            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-                android:id="@+id/filter_surface_seekbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:bar_color="@color/grey_20"
-                app:bar_highlight_color="@color/secondaryColor"
-                app:data_type="_long"
-                app:left_thumb_color="@color/secondaryColor"
-                app:left_thumb_color_pressed="@color/secondaryDarkColor"
-                app:max_value="500"
-                app:min_value="0"
-                app:right_thumb_color="@color/secondaryColor"
-                app:right_thumb_color_pressed="@color/secondaryDarkColor" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium">
-
-                <TextView
-                    android:id="@+id/filter_surface_min"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_surface_min"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <TextView
-                    android:id="@+id/filter_surface_max"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="1000 m²"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--PHOTOS-->
-            <CheckBox
-                android:id="@+id/filter_photo_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_photo"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/grey_90" />
-
-
-            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-                android:id="@+id/filter_photo_seekbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:bar_color="@color/grey_20"
-                app:bar_highlight_color="@color/secondaryColor"
-                app:data_type="_integer"
-                app:left_thumb_color="@color/secondaryColor"
-                app:left_thumb_color_pressed="@color/secondaryDarkColor"
-                app:max_value="10"
-                app:min_value="0"
-                app:right_thumb_color="@color/secondaryColor"
-                app:right_thumb_color_pressed="@color/secondaryDarkColor"
-                app:steps="1" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium">
-
-                <TextView
-                    android:id="@+id/filter_photo_min"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_photo_min"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/filter_photo_max"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_photo_max"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--     AVAILABLE       -->
-
-            <CheckBox
-                android:id="@+id/filter_available_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_available"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/grey_90" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <CheckBox
-                    android:id="@+id/filter_available_from_check"
+                    android:id="@+id/filter_price_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_mxlarge"
-                    android:text="@string/filter_date_from"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:checked="@={viewmodel.isPriceChecked()}"
+                    android:text="@string/filter_price"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/filter_available_to_et"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="135dp"
-                    android:layout_height="35dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    android:id="@+id/filter_price_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bar_color="@color/grey_20"
+                    app:bar_highlight_color="@color/secondaryColor"
+                    app:data_type="_long"
+                    app:gap="1"
+                    app:left_thumb_color="@color/secondaryColor"
+                    app:left_thumb_color_pressed="@color/secondaryDarkColor"
+                    app:min_value="0"
+                    app:right_thumb_color="@color/secondaryColor"
+                    app:right_thumb_color_pressed="@color/secondaryDarkColor" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium">
+
+                    <TextView
+                        android:id="@+id/filter_price_min"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_60"
+                        app:formatPrice="@{viewmodel.priceMin}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </com.google.android.material.textfield.TextInputLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/filter_price_max"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_60"
+                        app:formatPrice="@{viewmodel.priceMax}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <!--     SURFACE RANGE       -->
 
                 <CheckBox
-                    android:id="@+id/filter_available_to_check"
+                    android:id="@+id/filter_surface_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_mxlarge"
-                    android:text="@string/filter_date_to"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:checked="@={viewmodel.isSurfaceChecked()}"
+                    android:text="@string/filter_surface"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/filter_available_from_et"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="135dp"
-                    android:layout_height="35dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    android:id="@+id/filter_surface_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bar_color="@color/grey_20"
+                    app:bar_highlight_color="@color/secondaryColor"
+                    app:data_type="_long"
+                    app:left_thumb_color="@color/secondaryColor"
+                    app:left_thumb_color_pressed="@color/secondaryDarkColor"
+                    app:max_value="500"
+                    app:min_value="0"
+                    app:right_thumb_color="@color/secondaryColor"
+                    app:right_thumb_color_pressed="@color/secondaryDarkColor" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium">
+
+                    <TextView
+                        android:id="@+id/filter_surface_min"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none" />
+                        android:text="@string/filter_surface_min"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_60"
+                        app:formatSurface="@{viewmodel.surfaceMin}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </com.google.android.material.textfield.TextInputLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/filter_surface_max"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_60"
+                        app:formatSurface="@{viewmodel.surfaceMax}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--PHOTOS-->
+                <CheckBox
+                    android:id="@+id/filter_photo_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:checked="@={viewmodel.isPhotoChecked()}"
+                    android:text="@string/filter_photo"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
 
-            <!--     SOLD      -->
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    android:id="@+id/filter_photo_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bar_color="@color/grey_20"
+                    app:bar_highlight_color="@color/secondaryColor"
+                    app:data_type="_integer"
+                    app:left_thumb_color="@color/secondaryColor"
+                    app:left_thumb_color_pressed="@color/secondaryDarkColor"
+                    app:right_thumb_color="@color/secondaryColor"
+                    app:right_thumb_color_pressed="@color/secondaryDarkColor"
+                    app:steps="1" />
 
-            <CheckBox
-                android:id="@+id/filter_sold_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_sold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/grey_90" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/filter_sold_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/filter_photo_min"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{Integer.toString(viewmodel.photoMin)}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/filter_photo_max"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{Integer.toString(viewmodel.photoMax)}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_60"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--     AVAILABLE       -->
 
                 <CheckBox
-                    android:id="@+id/filter_sold_after_check"
+                    android:id="@+id/filter_available_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:text="@string/filter_date_after"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:checked="@={viewmodel.isAvailableChecked()}"
+                    android:text="@string/filter_available"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/filter_sold_after_et"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="135dp"
-                    android:layout_height="35dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/filter_available_from_check"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none" />
+                        android:layout_marginStart="@dimen/spacing_mxlarge"
+                        android:checked="@={viewmodel.isAvailableChecked()}"
+                        android:text="@string/filter_date_from"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:formatDate="@{viewmodel.fromAvailable}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/filter_available_to_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <!--     SOLD      -->
 
                 <CheckBox
-                    android:id="@+id/filter_sold_before_check"
+                    android:id="@+id/filter_sold_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:text="@string/filter_date_before"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:checked="@={viewmodel.isSoldChecked()}"
+                    app:checkChild1="@{viewmodel.isSoldAfterChecked()}"
+                    app:checkChild2="@{viewmodel.isSoldBeforeChecked()}"
+                    android:text="@string/filter_sold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/filter_sold_before_et"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="135dp"
-                    android:layout_height="35dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:startIconDrawable="@drawable/ic_date_range_black_24dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/filter_sold_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <CheckBox
+                        android:id="@+id/filter_sold_after_check"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none" />
+                        android:layout_marginStart="25dp"
+                        android:checked="@={viewmodel.isSoldAfterChecked()}"
+                        android:text="@string/filter_date_after"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/filter_sold_after_et"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:formatDate="@{viewmodel.afterSold}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none" />
 
-            <!--     Near     -->
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/filter_near_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_near"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/grey_90" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                app:flexWrap="wrap"
-                app:justifyContent="flex_start">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_center"
-                    android:layout_width="85dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="@dimen/spacing_middle">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_restaurants"
-                    android:layout_width="85dp"
+                    <CheckBox
+                        android:id="@+id/filter_sold_before_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:checked="@={viewmodel.isSoldBeforeChecked()}"
+                        android:text="@string/filter_date_before"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/filter_sold_before_et"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:formatDate="@{viewmodel.beforeSold}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconDrawable="@drawable/ic_date_range_black_24dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--     Near     -->
+
+                <CheckBox
+                    android:id="@+id/filter_near_check"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:text="@string/nearby_restaurants"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/filter_near"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_train"
-                    android:layout_width="85dp"
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_station"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_supermarket"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_supermarket"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_center"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_school"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_school"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_restaurants"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:text="@string/nearby_restaurants"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_cinema"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_cinema"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_train"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_station"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_pool"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_pool"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_supermarket"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_supermarket"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_hospital"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_hospital"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_school"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_school"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_library"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_library"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_cinema"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_cinema"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_park"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_park"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_pool"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_pool"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/filter_near_nightlife"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:background="@drawable/near_btn_selector"
-                    android:padding="2dp"
-                    android:text="@string/nearby_nightlife"
-                    android:textAllCaps="false"
-                    android:textColor="@color/grey_60"
-                    android:textSize="12sp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_hospital"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_hospital"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
 
-            </com.google.android.flexbox.FlexboxLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_library"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_library"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_park"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_park"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_near_nightlife"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:background="@drawable/near_btn_selector"
+                        android:padding="2dp"
+                        android:text="@string/nearby_nightlife"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_60"
+                        android:textSize="12sp" />
+
+                </com.google.android.flexbox.FlexboxLayout>
 
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

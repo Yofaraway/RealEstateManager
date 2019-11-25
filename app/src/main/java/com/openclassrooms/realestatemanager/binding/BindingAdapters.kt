@@ -1,20 +1,84 @@
 package com.openclassrooms.realestatemanager.binding
 
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import com.google.android.material.textfield.TextInputLayout
+import com.openclassrooms.realestatemanager.utils.dateToString
+import com.openclassrooms.realestatemanager.utils.formatPrice
+import com.openclassrooms.realestatemanager.utils.formatSurface
+import java.util.*
 
 
 object BindingAdapters {
 
-
+    // TO SHOW ERROR MESSAGE AFTER CLICK WHEN TEXT IS MISSING IN AN EDIT TEXT
     @BindingAdapter(value = ["errorText", "rule", "enableError"], requireAll = true)
     @JvmStatic
-    fun enableErrorMessage(textInputLayout: com.google.android.material.textfield.TextInputLayout, errorMsg: String, empty: Boolean, init: Boolean){
+    fun enableErrorMessage(
+        textInputLayout: TextInputLayout,
+        errorMsg: String,
+        empty: Boolean,
+        init: Boolean
+    ) {
         textInputLayout.error = null
         if (empty) textInputLayout.error = errorMsg
         textInputLayout.isErrorEnabled = init
     }
 
 
+    // FORMAT PRICE FOR TEXTVIEW (from "1000" to "$1,000")
+    @BindingAdapter(value = ["formatPrice"])
+    @JvmStatic
+    fun getFormattedPrice(tv: TextView, price: Int) {
+        tv.text = formatPrice(price)
+    }
+
+    // FORMAT SURFACE FOR TEXTVIEW (from "1000" to "1,000 m²")
+    @BindingAdapter(value = ["formatSurface"])
+    @JvmStatic
+    fun getFormattedSurface(tv: TextView, surface: Int) {
+        tv.text = formatSurface(surface)
+    }
+
+
+    // FORMAT DATE FOR EDITVIEW
+    @BindingAdapter(value = ["formatDate"])
+    @JvmStatic
+    fun getFormattedDate(textInput: TextInputLayout, date: Date?) {
+        if (date != null) {
+            val cal = Calendar.getInstance()
+            cal.time = date
+            textInput.editText!!.setText(dateToString(cal))
+            dateToString(cal)
+        } else {
+            textInput.editText!!.setText("")
+        }
+    }
+
+    // CHECK AND UNCHECK BEHAVIOUR OF CHECKBOXES : SOLD (PARENT) / AFTER (CHILD1) / BEFORE (CHILD2)
+    @BindingAdapter(value = ["checkChild1", "checkChild2"], requireAll = true)
+    @JvmStatic
+    fun checkAndUncheckParent(
+        checkParent: CheckBox,
+        checkChild1: MutableLiveData<Boolean>,
+        checkChild2: MutableLiveData<Boolean>
+    ) {
+        // Parent is checked if one his child is checked
+        checkParent.isChecked = (checkChild1.value!! || checkChild2.value!!)
+
+        checkParent.setOnCheckedChangeListener { _, isChecked ->
+            // If parent is unchecked, both child are unchecked
+            if (!isChecked) {
+                checkChild1.value = false
+                checkChild2.value = false
+            }
+            // If parent is checked, child1 is checked
+            else if (!checkChild2.value!! && !checkChild1.value!!) checkChild1.value = true
+
+        }
+    }
 
 
 }

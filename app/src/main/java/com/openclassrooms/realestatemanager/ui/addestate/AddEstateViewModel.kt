@@ -125,7 +125,7 @@ class AddEstateViewModel : ViewModel() {
             address.value!!,
             "",
             hasBeenSold.value!!,
-            dateA,
+            dateA!!,
             dateS,
             agent.value!!
         )

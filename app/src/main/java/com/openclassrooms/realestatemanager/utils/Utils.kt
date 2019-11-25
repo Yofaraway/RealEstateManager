@@ -4,12 +4,24 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun stringToDate(str: String):Date {
+
+fun stringToDate(str: String): Date? {
     val formatter = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
     return formatter.parse(str)
 }
 
-fun formatPrice(price: Int): String? {
+fun dateToString(cal: Calendar): String? {
+    val date:Date = cal.time
+    val formatter = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
+    return formatter.format(date)
+}
+
+fun formatPrice(int: Int): String? {
     val formatter = DecimalFormat("#,###")
-    return "$" + formatter.format(price)
+    return "$" + formatter.format(int)
+}
+
+fun formatSurface(int: Int): String? {
+    val formatter = DecimalFormat("#,###")
+    return formatter.format(int) + " m²"
 }
