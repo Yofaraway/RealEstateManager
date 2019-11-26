@@ -17,6 +17,8 @@
     <string name="add_estate_bedrooms">Bedrooms</string>
     <string name="add_estate_description">Write a description</string>
     <string name="add_estate_address">Address</string>
+    <string name="add_estate_address_city">City</string>
+    <string name="add_estate_address_zipcode">Zip code</string>
     <string name="add_estate_date_for_sale">Date of availability</string>
     <string name="add_estate_status">Status</string>
     <string name="add_estate_status_available">Available</string>
@@ -64,6 +66,9 @@
     <string name="filter_dollar">$%s</string>
     <string name="filter_no_filter">You haven\'t selected any filter </string>
 
+    // MAP FRAGMENT
+    <string name="map_permission_needed">The map needs your location to work</string>
+
     // POI NEARBY
     <string name="nearby_center">City center</string>
     <string name="nearby_restaurants">Restaurants and bars</string>
@@ -88,9 +93,6 @@
     <string name="img_bg">background</string>
     <string name="img_photo">image button photo</string>
     <string name="img_gallery">image button gallery</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

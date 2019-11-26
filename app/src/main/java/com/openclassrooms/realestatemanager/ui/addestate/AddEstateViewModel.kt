@@ -16,6 +16,8 @@ class AddEstateViewModel : ViewModel() {
     val bathrooms = MutableLiveData<String>()
     val bedrooms = MutableLiveData<String>()
     val address = MutableLiveData<String>()
+    val addressCity = MutableLiveData<String>()
+    val addressZipcode = MutableLiveData<String>()
     val status = MutableLiveData<String>()
     val dateAvailable = MutableLiveData<Date>()
     val dateSold = MutableLiveData<Date>()
@@ -52,6 +54,8 @@ class AddEstateViewModel : ViewModel() {
         bedrooms.value = ""
         surface.value = ""
         address.value = ""
+        addressCity.value = ""
+        addressZipcode.value = ""
         status.value = statusDefaultForReset
         dateAvailable.value = null
         dateSold.value = null
@@ -85,7 +89,7 @@ class AddEstateViewModel : ViewModel() {
     }
 
     private fun getStringInputs(): MutableSet<String?> {
-        return mutableSetOf<String?>(
+        return mutableSetOf(
             type.value,
             price.value,
             surface.value,
@@ -94,6 +98,8 @@ class AddEstateViewModel : ViewModel() {
             bedrooms.value,
             description.value,
             address.value,
+            addressCity.value,
+            addressZipcode.value,
             agent.value
         )
 
@@ -118,6 +124,7 @@ class AddEstateViewModel : ViewModel() {
     private fun createNewEstate() {
         val pathList = getListWithoutNull(pathToPhotos.value!!)
         val titlesList = getListWithoutNull(titlesPhotos.value!!)
+        val addressComplete = "${address.value} ${addressCity.value} ${addressZipcode.value}"
 
         newEstate = Estate(
             null,
@@ -130,7 +137,8 @@ class AddEstateViewModel : ViewModel() {
             description.value!!,
             pathList,
             titlesList,
-            address.value!!,
+            addressComplete,
+            mutableListOf(),
             "",
             hasBeenSold.value!!,
             dateAvailable.value!!,

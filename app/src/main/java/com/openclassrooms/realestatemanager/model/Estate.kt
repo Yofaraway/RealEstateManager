@@ -17,6 +17,7 @@ data class Estate(
     var pathPhotos: List<String>,
     var titlesPhotos: List<String>,
     var address: String,
+    var latLng: List<String?>,
     var nearTo: String?,
     var hasBeenSold: Boolean,
     var dateAvailableSince: Date,

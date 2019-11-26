@@ -24,6 +24,7 @@ import com.openclassrooms.realestatemanager.photos.*
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
+import com.openclassrooms.realestatemanager.utils.stringAddressToLocation
 import kotlinx.android.synthetic.main.add_estate_fragment.*
 import java.io.File
 import java.util.*
@@ -47,8 +48,8 @@ class AddEstateFragment : Fragment() {
     private val galleryBtn: ImageButton by lazy { add_estate_load_from_gallery_btn }
     private val photosLayout: LinearLayout by lazy { add_estate_photos_layout }
     private var index = 0
-
-    var itemStatus: Int = 0
+    // STATUS ITEM PER DEFAULT
+    private var itemStatus: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +79,7 @@ class AddEstateFragment : Fragment() {
         datePickersListener()
         observeNewEstate()
         viewDataBinding.addEstateStatus.setOnClickListener { showStatusChoiceDialog() }
+        // Location will be used to save the address as LatLng in the database when the estate is created
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -127,6 +129,8 @@ class AddEstateFragment : Fragment() {
             this,
             Observer { t ->
                 if (t) {
+                    // To convert the address to a List<Double> with latitude and longitude
+                    viewModel.newEstate.latLng = stringAddressToLocation(context!!, viewModel.newEstate.address)
                     estatesViewModel.createEstate(viewModel.newEstate)
                     (activity as MainActivity).setFragment(ListViewFragment.newInstance(), false)
                 }
@@ -263,6 +267,8 @@ class AddEstateFragment : Fragment() {
             }, cldr.get(Calendar.YEAR), cldr.get(Calendar.MONTH), cldr.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
+
+
 
     companion object {
         const val REQUEST_IMAGE_CAPTURE = 12

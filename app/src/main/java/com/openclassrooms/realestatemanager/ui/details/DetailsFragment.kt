@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import kotlinx.android.synthetic.main.details_fragment.*
 
+
 class DetailsFragment : Fragment() {
 
     // DATA BINDING & VIEW MODELS
@@ -49,6 +50,7 @@ class DetailsFragment : Fragment() {
         getEstate()
 
     }
+
 
 
     private fun getEstate() {
