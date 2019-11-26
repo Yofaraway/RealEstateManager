@@ -12,10 +12,9 @@
     </data>
 
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -236,7 +235,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
-                            android:inputType="none" />
+                            android:inputType="none"
+                            app:emptyIfUnchecked="@{viewmodel.isAvailableChecked()}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -251,11 +251,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:checked="@={viewmodel.isSoldChecked()}"
-                    app:checkChild1="@{viewmodel.isSoldAfterChecked()}"
-                    app:checkChild2="@{viewmodel.isSoldBeforeChecked()}"
                     android:text="@string/filter_sold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textColor="@color/grey_90" />
+                    android:textColor="@color/grey_90"
+                    app:checkChild1="@{viewmodel.isSoldAfterChecked()}"
+                    app:checkChild2="@{viewmodel.isSoldBeforeChecked()}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/filter_sold_layout"
@@ -274,7 +274,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/filter_sold_after_et"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
@@ -285,10 +284,12 @@
                         app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/filter_sold_after_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
-                            android:inputType="none" />
+                            android:inputType="none"
+                            app:emptyIfUnchecked="@{viewmodel.isSoldAfterChecked()}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -312,7 +313,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/filter_sold_before_et"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
@@ -323,10 +323,12 @@
                         app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/filter_sold_before_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
-                            android:inputType="none" />
+                            android:inputType="none"
+                            app:emptyIfUnchecked="@{viewmodel.isSoldBeforeChecked()}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -340,6 +342,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/filter_near"
+                    android:checked="@={viewmodel.isNearChecked()}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/grey_90" />
 
@@ -495,5 +498,20 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/filter_search_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:tint="@color/white"
+            android:layout_margin="@dimen/spacing_smlarge"
+            android:focusable="true"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:rippleColor="@android:color/white"
+            app:srcCompat="@drawable/ic_search_black_24dp" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

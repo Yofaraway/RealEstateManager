@@ -28,9 +28,8 @@ class FilterViewModel : ViewModel() {
     var beforeSold = MutableLiveData<Date>()
     var isSoldAfterChecked = MutableLiveData<Boolean>()
     var isSoldBeforeChecked = MutableLiveData<Boolean>()
-
-
-
+    // NEAR VALUES
+    var nearPlaces = MutableLiveData<MutableList<String>>()
 
 
     fun init() {
@@ -40,6 +39,11 @@ class FilterViewModel : ViewModel() {
         }
         isSoldAfterChecked.value = false
         isSoldBeforeChecked.value = false
+        nearPlaces.value = mutableListOf()
+    }
+
+    fun atLeastOneChecked(): Boolean{
+        return getCheckboxes().any {it.value == true}
     }
 
     private fun getCheckboxes(): MutableSet<MutableLiveData<Boolean>> {
@@ -51,8 +55,5 @@ class FilterViewModel : ViewModel() {
             isSoldChecked,
             isNearChecked
         )
-
     }
-
-
 }

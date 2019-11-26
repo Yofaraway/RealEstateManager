@@ -4,6 +4,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.utils.dateToString
 import com.openclassrooms.realestatemanager.utils.formatPrice
@@ -43,7 +44,7 @@ object BindingAdapters {
     }
 
 
-    // FORMAT DATE FOR EDITVIEW
+    // FORMAT DATE FOR EDITTEXT
     @BindingAdapter(value = ["formatDate"])
     @JvmStatic
     fun getFormattedDate(textInput: TextInputLayout, date: Date?) {
@@ -78,6 +79,13 @@ object BindingAdapters {
             else if (!checkChild2.value!! && !checkChild1.value!!) checkChild1.value = true
 
         }
+    }
+
+    // FORMAT DATE FOR EDITVIEW
+    @BindingAdapter(value = ["emptyIfUnchecked"])
+    @JvmStatic
+    fun checkedIfNotEmpty(editText: TextInputEditText, checked: MutableLiveData<Boolean>) {
+     checked.value = (editText.text.toString() != "")
     }
 
 

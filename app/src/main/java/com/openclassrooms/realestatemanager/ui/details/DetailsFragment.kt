@@ -31,7 +31,7 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.details_fragment, container, false)
-
+        (activity as MainActivity).hideBottomNavigation(true)
         // DATA BINDING
         viewDataBinding = DetailsFragmentBinding.bind(rootView).apply {
             this.viewmodel = detailsViewModel

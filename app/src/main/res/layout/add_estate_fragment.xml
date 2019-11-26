@@ -85,6 +85,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_type"
                     android:layout_width="match_parent"
+                    android:layout_gravity="top"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
                     app:enableError="@{viewmodel.showError}"
@@ -98,7 +99,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLength="40"
-                        android:text="@={viewmodel.type}" />
+                        android:text="@={viewmodel.type}"
+                        tools:text="OOOOOH" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,11 +227,12 @@
                         android:layout_height="wrap_content"
                         app:enableError="@{viewmodel.showError}"
                         app:errorText="@{@string/add_estate_missing_field}"
+                        app:formatDate="@{viewmodel.dateAvailable}"
                         app:helperText="@string/add_estate_date_for_sale"
                         app:layout_constraintEnd_toStartOf="@id/add_estate_date_sold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:rule="@{viewmodel.dateAvailable.empty || viewmodel.dateAvailable == null}"
+                        app:rule="@{viewmodel.dateAvailable == null}"
                         app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -237,8 +240,7 @@
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
                             android:inputType="none"
-                            android:onClick="@{()->viewmodel.onDateAvailableClick()}"
-                            android:text="@={viewmodel.dateAvailable}" />
+                            android:onClick="@{()->viewmodel.onDateAvailableClick()}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -251,11 +253,12 @@
                         android:visibility="@{viewmodel.hasBeenSold ? View.VISIBLE : View.GONE}"
                         app:enableError="@{viewmodel.showError}"
                         app:errorText="@{@string/add_estate_missing_field}"
+                        app:formatDate="@{viewmodel.dateSold}"
                         app:helperText="@string/add_estate_date_sold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/add_estate_date_available"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:rule="@{viewmodel.dateSold.empty || viewmodel.dateSold == null}"
+                        app:rule="@{viewmodel.dateSold == null}"
                         app:startIconDrawable="@drawable/ic_date_range_black_24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -263,8 +266,7 @@
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
                             android:inputType="none"
-                            android:onClick="@{()->viewmodel.onDateSoldClick()}"
-                            android:text="@={viewmodel.dateSold}" />
+                            android:onClick="@{()->viewmodel.onDateSoldClick()}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -329,6 +331,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_selector"
+                        android:contentDescription="@string/img_photo"
                         app:srcCompat="@drawable/ic_add_photo_alternate_24px" />
 
                     <ImageButton
@@ -337,6 +340,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_large"
                         android:background="@drawable/custom_selector"
+                        android:contentDescription="@string/img_gallery"
                         app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
                 </LinearLayout>

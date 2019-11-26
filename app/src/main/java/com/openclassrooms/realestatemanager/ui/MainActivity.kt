@@ -4,6 +4,7 @@ package com.openclassrooms.realestatemanager.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -11,6 +12,8 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.di.Injection.provideViewModelFactory
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
+import com.openclassrooms.realestatemanager.ui.map.MapFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,10 +22,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setBottomNavigation()
         configureViewModel()
-        //set first fragment if the bundle is null
-        setFirstFragment()
+        if (savedInstanceState == null) setFirstFragment()
 
+    }
+
+    private fun setBottomNavigation() {
+        bottom_navigation.setOnNavigationItemSelectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.bottom_tab_list -> {
+                    setFirstFragment()
+                    true
+                }
+                R.id.bottom_tab_map -> {
+                    setFragment(MapFragment.newInstance(), false)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -33,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_filter -> setFragment(FilterFragment.newInstance())
+            R.id.menu_toolbar_filter -> setFragment(FilterFragment.newInstance(), true)
         }
         return false
     }
@@ -48,17 +67,19 @@ class MainActivity : AppCompatActivity() {
 
     //addToBackStack not included in first fragment
     private fun setFirstFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frame, ListViewFragment.newInstance())
-            .commit()
+        setFragment(ListViewFragment.newInstance(), false)
     }
 
-    fun setFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+    fun setFragment(fragment: Fragment, addBackStack: Boolean) {
+        val transaction = supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, fragment)
-            .addToBackStack(null).commit()
-
+        if (addBackStack) transaction.addToBackStack(null)
+        transaction.commit()
     }
 
+    fun hideBottomNavigation(boolean: Boolean){
+        if (boolean) bottom_navigation.visibility = View.GONE
+        else bottom_navigation.visibility = View.VISIBLE
+    }
 
 }

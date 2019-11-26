@@ -3,7 +3,8 @@ package com.openclassrooms.realestatemanager.ui.addestate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.utils.stringToDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddEstateViewModel : ViewModel() {
@@ -16,8 +17,8 @@ class AddEstateViewModel : ViewModel() {
     val bedrooms = MutableLiveData<String>()
     val address = MutableLiveData<String>()
     val status = MutableLiveData<String>()
-    val dateAvailable = MutableLiveData<String>()
-    val dateSold = MutableLiveData<String>()
+    val dateAvailable = MutableLiveData<Date>()
+    val dateSold = MutableLiveData<Date>()
     val agent = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val hasBeenSold = MutableLiveData<Boolean>(false)
@@ -52,8 +53,8 @@ class AddEstateViewModel : ViewModel() {
         surface.value = ""
         address.value = ""
         status.value = statusDefaultForReset
-        dateAvailable.value = ""
-        dateSold.value = ""
+        dateAvailable.value = null
+        dateSold.value = null
         hasBeenSold.value = false
         agent.value = ""
         description.value = ""
@@ -76,12 +77,15 @@ class AddEstateViewModel : ViewModel() {
 
     // on button click (listener with data binding)
     fun onAddBtnClick() {
-        if (!checkEmptyEditTexts(getInputs()) && atLeastOnePhoto.value!!) createNewEstate()
+        if (!checkEmptyEditTexts(getStringInputs())
+            && !checkEmptyDates(getDateInputs())
+            && atLeastOnePhoto.value!!
+        ) createNewEstate()
         else showError.value = true
     }
 
-    private fun getInputs(): MutableSet<String?> {
-        val inputs = mutableSetOf(
+    private fun getStringInputs(): MutableSet<String?> {
+        return mutableSetOf<String?>(
             type.value,
             price.value,
             surface.value,
@@ -90,8 +94,14 @@ class AddEstateViewModel : ViewModel() {
             bedrooms.value,
             description.value,
             address.value,
-            dateAvailable.value,
             agent.value
+        )
+
+    }
+
+    private fun getDateInputs(): MutableSet<Date?> {
+        val inputs = mutableSetOf(
+            dateAvailable.value
         )
         if (hasBeenSold.value!!) inputs.add(dateSold.value)
         return inputs
@@ -101,15 +111,13 @@ class AddEstateViewModel : ViewModel() {
         return (inputs.any { it == null || it == "" })
     }
 
+    private fun checkEmptyDates(inputs: MutableSet<Date?>): Boolean {
+        return (inputs.any { it == null })
+    }
+
     private fun createNewEstate() {
         val pathList = getListWithoutNull(pathToPhotos.value!!)
         val titlesList = getListWithoutNull(titlesPhotos.value!!)
-        val dateA = stringToDate(dateAvailable.value!!)
-        val dateS =
-            when (hasBeenSold.value!!) {
-                true -> stringToDate(dateSold.value!!)
-                false -> null
-            }
 
         newEstate = Estate(
             null,
@@ -125,8 +133,8 @@ class AddEstateViewModel : ViewModel() {
             address.value!!,
             "",
             hasBeenSold.value!!,
-            dateA!!,
-            dateS,
+            dateAvailable.value!!,
+            dateSold.value,
             agent.value!!
         )
         addNewEstate.value = true

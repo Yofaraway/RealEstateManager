@@ -7,6 +7,7 @@
     tools:context=".ui.listview.ListViewFragment">
 
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_view_rv"
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:contentDescription="@string/img_bg"
             android:id="@+id/bg_image"
             android:layout_width="match_parent"
             android:layout_height="380dp"
@@ -56,6 +58,8 @@
 
     </RelativeLayout>
 
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/list_add_estate_fab"
         android:layout_width="wrap_content"
@@ -69,5 +73,6 @@
         app:rippleColor="@android:color/white"
         app:srcCompat="@drawable/ic_add_black" />
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

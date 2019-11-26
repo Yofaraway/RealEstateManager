@@ -59,6 +59,8 @@ class AddEstateFragment : Fragment() {
             container,
             false
         )
+        (activity as MainActivity).hideBottomNavigation(true)
+
         // DATA BINDING
         viewDataBinding = AddEstateFragmentBinding.bind(rootView).apply {
             this.viewmodel = viewModel
@@ -82,11 +84,14 @@ class AddEstateFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
         inflater.inflate(R.menu.menu_add, menu)
-        // change title
-        (activity as MainActivity).supportActionBar?.title =
-            context!!.resources.getString(R.string.add_estate_title)
-        // set back button
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val actionBar = (activity as MainActivity).supportActionBar
+        actionBar?.apply {
+            // back button
+            setDisplayHomeAsUpEnabled(true)
+            // title
+            title =
+                context!!.resources.getString(R.string.add_estate_title)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -123,7 +128,7 @@ class AddEstateFragment : Fragment() {
             Observer { t ->
                 if (t) {
                     estatesViewModel.createEstate(viewModel.newEstate)
-                    (activity as MainActivity).setFragment(ListViewFragment.newInstance())
+                    (activity as MainActivity).setFragment(ListViewFragment.newInstance(), false)
                 }
             })
     }
@@ -243,23 +248,19 @@ class AddEstateFragment : Fragment() {
 
     private fun displayDatePickerPopUp(dateSold: Boolean) {
         val cldr = Calendar.getInstance()
-        val d = cldr.get(Calendar.DAY_OF_MONTH)
-        val m = cldr.get(Calendar.MONTH)
-        val y = cldr.get(Calendar.YEAR)
-
-        // date picker dialog
         DatePickerDialog(
             context!!,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                val datePicked = ("$dayOfMonth/$monthOfYear/$year")
+                val datePicked = Calendar.getInstance()
+                datePicked.set(year, monthOfYear, dayOfMonth)
                 if (!dateSold) {
-                    viewModel.dateAvailable.value = datePicked
+                    viewModel.dateAvailable.value = datePicked.time
                     viewModel.dateAvailableDatePicker.value = false
                 } else {
-                    viewModel.dateSold.value = datePicked
+                    viewModel.dateSold.value = datePicked.time
                     viewModel.dateSoldDatePicker.value = false
                 }
-            }, y, m, d
+            }, cldr.get(Calendar.YEAR), cldr.get(Calendar.MONTH), cldr.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
 

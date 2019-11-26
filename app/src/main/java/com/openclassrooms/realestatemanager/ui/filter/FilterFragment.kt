@@ -5,14 +5,15 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FilterFragmentBinding
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
-import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.utils.MAX_PHOTOS
 import com.openclassrooms.realestatemanager.utils.MIN_PHOTOS
 import kotlinx.android.synthetic.main.filter_fragment.*
@@ -35,6 +36,7 @@ class FilterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.filter_fragment, container, false)
+        (activity as MainActivity).hideBottomNavigation(true)
         // DATA BINDING
         viewDataBinding = FilterFragmentBinding.bind(rootView).apply {
             this.viewmodel = filterViewModel
@@ -46,19 +48,19 @@ class FilterFragment : Fragment() {
     // TOOLBAR
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // Change title
-        (activity as MainActivity).supportActionBar?.title =
-            context!!.resources.getString(R.string.filter_title)
-        // Set back button
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        menu.clear()
+        val actionBar = (activity as MainActivity).supportActionBar
+        actionBar?.apply {
+            // back button
+            setDisplayHomeAsUpEnabled(true)
+            // title
+            title =
+                context!!.resources.getString(R.string.filter_title)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_filter -> {
-                (activity as MainActivity).setFragment(ListViewFragment.newInstance())
-                return true
-            }
             android.R.id.home -> {
                 fragmentManager?.popBackStack()
                 return true
@@ -72,13 +74,15 @@ class FilterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onActivityCreated(savedInstanceState)
-        setNearButtons()
         filterViewModel.init()
+        // Checkboxes listeners
         onPriceChangedListener()
         onSurfaceChangedListener()
         onPhotoChangedListener()
         onAvailabilityChangedListener()
         onSoldChangedListener()
+        onNearChangedListener()
+        onSearchButtonClicked()
     }
 
     private fun onPriceChangedListener() {
@@ -126,7 +130,8 @@ class FilterFragment : Fragment() {
     private fun onAvailabilityChangedListener() {
         val checkboxes = mutableSetOf(
             viewDataBinding.filterAvailableCheck,
-            viewDataBinding.filterAvailableFromCheck
+            viewDataBinding.filterAvailableFromCheck,
+            viewDataBinding.filterAvailableToEt
         )
         // On both checkboxes clicked :
         for (box in checkboxes) {
@@ -159,41 +164,30 @@ class FilterFragment : Fragment() {
                 filterViewModel.beforeSold.value = null
             }
         }
-        // On After or his date field clicked : checked = After date picker / unchecked = remove After date
+        // On After (or his date field) clicked : checked = After date picker / unchecked = remove After date
         viewDataBinding.filterSoldAfterCheck.setOnClickListener {
             if (filterViewModel.isSoldAfterChecked.value!!) displayDatePickerPopUp(
                 filterViewModel.afterSold
             )
             else filterViewModel.afterSold.value = null
         }
-
-        // On Before or his date field clicked : checked = Before date picker / unchecked = remove Before date
+        viewDataBinding.filterSoldAfterEt.setOnClickListener {
+            displayDatePickerPopUp(
+                filterViewModel.afterSold
+            )
+        }
+        // On Before (or his date field clicked) : checked = Before date picker / unchecked = remove Before date
         viewDataBinding.filterSoldBeforeCheck.setOnClickListener {
             if (filterViewModel.isSoldBeforeChecked.value!!) displayDatePickerPopUp(
                 filterViewModel.beforeSold
             )
             else filterViewModel.beforeSold.value = null
         }
-    }
-
-
-    private fun setNearButtons() {
-        val centerBTn: Button? = filter_near_center
-        val buttons = mutableSetOf(
-            centerBTn
-        )
-        for (button in buttons) {
-            button?.setOnClickListener { btToggleClick(button) }
+        viewDataBinding.filterSoldBeforeEt.setOnClickListener {
+            displayDatePickerPopUp(
+                filterViewModel.beforeSold
+            )
         }
-    }
-
-    private fun btToggleClick(b: Button) {
-        if (b.isSelected) {
-            b.setTextColor(Color.parseColor("#666666"))
-        } else {
-            b.setTextColor(Color.WHITE)
-        }
-        b.isSelected = !b.isSelected
     }
 
     private fun displayDatePickerPopUp(
@@ -213,6 +207,58 @@ class FilterFragment : Fragment() {
         ).show()
     }
 
+    private fun onNearChangedListener() {
+        val nearPlaces = mutableSetOf(
+            filter_near_center,
+            filter_near_cinema,
+            filter_near_hospital,
+            filter_near_library,
+            filter_near_nightlife,
+            filter_near_park,
+            filter_near_pool,
+            filter_near_restaurants,
+            filter_near_school,
+            filter_near_supermarket,
+            filter_near_train
+        )
+        for (button in nearPlaces) {
+            button?.setOnClickListener { onNearButtonClicked(button) }
+        }
+        viewDataBinding.filterNearCheck.setOnClickListener {
+            if (!filterViewModel.isNearChecked.value!!) {
+                for (button in nearPlaces) {
+                    button.setTextColor(ContextCompat.getColor(context!!, R.color.grey_60))
+                    button?.isSelected = false
+                    filterViewModel.nearPlaces.value = mutableListOf()
+                }
+            }
+        }
+    }
+
+    private fun onNearButtonClicked(b: Button) {
+        // When unchecked
+        if (b.isSelected) {
+            b.setTextColor(ContextCompat.getColor(context!!, R.color.grey_60))
+            filterViewModel.nearPlaces.value?.remove(b.text.toString())
+            // When checked
+        } else {
+            b.setTextColor(Color.WHITE)
+            filterViewModel.nearPlaces.value?.add(b.text.toString())
+        }
+        b.isSelected = !b.isSelected
+        filterViewModel.isNearChecked.value = !filterViewModel.nearPlaces.value.isNullOrEmpty()
+    }
+
+
+    private fun onSearchButtonClicked() {
+        viewDataBinding.filterSearchFab.setOnClickListener {
+            if (filterViewModel.atLeastOneChecked()) println("ok") //ToDo : search logic
+            // If nothing checked
+            else Snackbar.make(view!!, R.string.filter_no_filter, Snackbar.LENGTH_SHORT)
+                .setAnchorView(viewDataBinding.filterSearchFab)
+                .show()
+        }
+    }
 
     companion object {
         fun newInstance() = FilterFragment()

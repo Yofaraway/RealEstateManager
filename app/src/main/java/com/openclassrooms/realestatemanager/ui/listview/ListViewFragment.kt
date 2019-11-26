@@ -28,16 +28,21 @@ class ListViewFragment : Fragment() {
     private lateinit var adapter: ListAdapter
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).hideBottomNavigation(false)
         setToolBar()
         val rootView = inflater.inflate(R.layout.list_view_fragment, container, false)
         recyclerView = rootView.findViewById(R.id.list_view_rv)
         recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
+        adapter = ListAdapter(context!!, mutableListOf()) { id -> onEstateClick(id!!) }
+        recyclerView.adapter = adapter
+
         return rootView
     }
 
@@ -51,7 +56,7 @@ class ListViewFragment : Fragment() {
     private fun addBtnListener() {
         val addEstateFab: FloatingActionButton = list_add_estate_fab
         addEstateFab.setOnClickListener {
-            (activity as MainActivity).setFragment(AddEstateFragment.newInstance())
+            (activity as MainActivity).setFragment(AddEstateFragment.newInstance(), true)
         }
     }
 
@@ -72,7 +77,10 @@ class ListViewFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_filter -> (activity as MainActivity).setFragment(FilterFragment.newInstance())
+            R.id.menu_toolbar_filter -> (activity as MainActivity).setFragment(
+                FilterFragment.newInstance(),
+                true
+            )
         }
         super.onOptionsItemSelected(item)
         return true
@@ -88,18 +96,22 @@ class ListViewFragment : Fragment() {
     }
 
     private fun onListReceived(estates: List<Estate>) {
-        adapter = ListAdapter(context!!, estates, { id -> onEstateClick(id!!) })
+        adapter = ListAdapter(context!!, estates) { id -> onEstateClick(id!!) }
         recyclerView.adapter = adapter
     }
 
 
     private fun onEstateClick(id: Long) {
-        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id))
+        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id), true)
     }
+
+
+
 
     companion object {
         fun newInstance() = ListViewFragment()
     }
+
 
 
 }
