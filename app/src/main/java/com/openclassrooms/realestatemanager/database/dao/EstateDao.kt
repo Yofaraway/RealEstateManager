@@ -20,4 +20,5 @@ interface EstateDao {
 
     @Update
     fun updateEstate(estate: Estate): Int
+
 }

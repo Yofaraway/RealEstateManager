@@ -28,7 +28,7 @@ class AddEstateViewModel : ViewModel() {
     val hasBeenSold = MutableLiveData<Boolean>(false)
     val status = MutableLiveData<String>()
     private var statusDefaultForReset: String = ""
-    var nearPlaces = MutableLiveData<List<String>>()
+    var nearPlaces = MutableLiveData<List<String?>>(listOf())
     // PHOTOS
     var pathToPhotos = MutableLiveData<MutableList<String?>>()
     var titlesPhotos = MutableLiveData<MutableList<String?>>()
@@ -47,7 +47,6 @@ class AddEstateViewModel : ViewModel() {
         titlesPhotos.value = mutableListOf()
         statusDefaultForReset = statusDefault
         status.value = statusDefault
-        nearPlaces.value = listOf()
     }
 
     fun reset() {
@@ -144,7 +143,7 @@ class AddEstateViewModel : ViewModel() {
             titlesList,
             addressComplete,
             mutableListOf(),
-            nearPlaces.value,
+            nearPlaces.value!!,
             hasBeenSold.value!!,
             dateAvailable.value!!,
             dateSold.value,

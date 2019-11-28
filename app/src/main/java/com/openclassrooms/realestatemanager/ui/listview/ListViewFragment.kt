@@ -28,7 +28,6 @@ class ListViewFragment : Fragment() {
     private lateinit var adapter: ListAdapter
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +48,7 @@ class ListViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).supportActionBar?.show()
+
         configureViewModel()
         addBtnListener()
     }
@@ -65,13 +65,23 @@ class ListViewFragment : Fragment() {
         val layoutWhenEmpty: RelativeLayout = layout_empty
         val estatesViewModel: EstatesViewModel =
             ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
-        estatesViewModel.getEstates()
-            .observe(viewLifecycleOwner, Observer<List<Estate>> {
-                this.onListReceived(it)
-                if (it.isNotEmpty()) layoutWhenEmpty.visibility = View.GONE
-                else layoutWhenEmpty.visibility = View.VISIBLE
-            })
 
+        val args = arguments
+        val isFilterOn = args?.getBoolean(KEY_FILTER)
+
+        if (isFilterOn == null) estatesViewModel.getEstates()
+            .observe(viewLifecycleOwner, Observer {
+                if (!it.isNullOrEmpty()) {
+                    layoutWhenEmpty.visibility = View.GONE
+                    this.onListReceived(it)
+                } else layoutWhenEmpty.visibility = View.VISIBLE
+            })
+        else estatesViewModel.estatesFiltered.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty()) {
+                layoutWhenEmpty.visibility = View.GONE
+                this.onListReceived(it)
+            } else layoutWhenEmpty.visibility = View.VISIBLE
+        })
     }
 
 
@@ -106,12 +116,18 @@ class ListViewFragment : Fragment() {
     }
 
 
-
-
     companion object {
         fun newInstance() = ListViewFragment()
+
+        fun filteredInstance(): ListViewFragment {
+            val fragment = ListViewFragment()
+            val args = Bundle()
+            args.putBoolean(KEY_FILTER, true)
+            fragment.arguments = args
+            return fragment
+        }
+
+        const val KEY_FILTER = "KEY_FILTER"
+
     }
-
-
-
 }

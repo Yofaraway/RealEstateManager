@@ -12,8 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FilterFragmentBinding
+import com.openclassrooms.realestatemanager.model.Estate
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.utils.MAX_PHOTOS
 import com.openclassrooms.realestatemanager.utils.MIN_PHOTOS
 import kotlinx.android.synthetic.main.filter_fragment.*
@@ -30,6 +32,8 @@ class FilterFragment : Fragment() {
     private val estatesViewModel: EstatesViewModel by lazy {
         ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
     }
+
+    private lateinit var estates: List<Estate>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +79,7 @@ class FilterFragment : Fragment() {
         setHasOptionsMenu(true)
         super.onActivityCreated(savedInstanceState)
         filterViewModel.init()
+        getEstates()
         // Checkboxes listeners
         onPriceChangedListener()
         onSurfaceChangedListener()
@@ -82,35 +87,47 @@ class FilterFragment : Fragment() {
         onAvailabilityChangedListener()
         onSoldChangedListener()
         onNearChangedListener()
+
         onSearchButtonClicked()
     }
 
+
     private fun onPriceChangedListener() {
-        // ToDo : get most expensive estate in data
-        val max = 100000
-        viewDataBinding.filterPriceSeekbar.setMaxValue(max.toFloat())
-        viewDataBinding.filterPriceSeekbar.setOnRangeSeekbarChangeListener { minValue, maxValue ->
-            // Check the price box at the first change
-            if (!filterViewModel.isPriceChecked.value!! && minValue.toInt() != 0 || maxValue.toInt() != max)
-                filterViewModel.isPriceChecked.value = true
-            // Updates values
-            filterViewModel.priceMin.value = minValue.toInt()
-            filterViewModel.priceMax.value = maxValue.toInt()
-        }
+        // Get highest price in db
+        estatesViewModel.getEstates()
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
+                var maxPrice = list.maxBy { it.priceDollars }?.priceDollars
+                if (maxPrice == null) maxPrice = 100000
+
+                viewDataBinding.filterPriceSeekbar.setMaxValue(maxPrice.toFloat())
+                viewDataBinding.filterPriceSeekbar.setOnRangeSeekbarChangeListener { minValue, maxValue ->
+                    // Check the price box at the first change
+                    if (!filterViewModel.isPriceChecked.value!! && minValue.toInt() != 0 || maxValue.toInt() != maxPrice)
+                        filterViewModel.isPriceChecked.value = true
+                    // Updates values
+                    filterViewModel.priceMin.value = minValue.toInt()
+                    filterViewModel.priceMax.value = maxValue.toInt()
+                }
+            })
     }
 
     private fun onSurfaceChangedListener() {
-        // ToDo : get most biggest estate in data
-        val max = 3000
-        viewDataBinding.filterSurfaceSeekbar.setMaxValue(max.toFloat())
-        viewDataBinding.filterSurfaceSeekbar.setOnRangeSeekbarChangeListener { minValue, maxValue ->
-            // Check the surface box at the first change
-            if (!filterViewModel.isSurfaceChecked.value!! && minValue.toInt() != 0 || maxValue.toInt() != max)
-                filterViewModel.isSurfaceChecked.value = true
-            // Updates values
-            filterViewModel.surfaceMin.value = minValue.toInt()
-            filterViewModel.surfaceMax.value = maxValue.toInt()
-        }
+        // Get highest surface in db
+        estatesViewModel.getEstates()
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
+                var maxSurface = list.maxBy { it.surface }?.surface
+                if (maxSurface == null) maxSurface = 1000
+
+                viewDataBinding.filterSurfaceSeekbar.setMaxValue(maxSurface.toFloat())
+                viewDataBinding.filterSurfaceSeekbar.setOnRangeSeekbarChangeListener { minValue, maxValue ->
+                    // Check the surface box at the first change
+                    if (!filterViewModel.isSurfaceChecked.value!! && minValue.toInt() != 0 || maxValue.toInt() != maxSurface)
+                        filterViewModel.isSurfaceChecked.value = true
+                    // Updates values
+                    filterViewModel.surfaceMin.value = minValue.toInt()
+                    filterViewModel.surfaceMax.value = maxValue.toInt()
+                }
+            })
     }
 
     private fun onPhotoChangedListener() {
@@ -252,13 +269,30 @@ class FilterFragment : Fragment() {
 
     private fun onSearchButtonClicked() {
         viewDataBinding.filterSearchFab.setOnClickListener {
-            if (filterViewModel.atLeastOneChecked()) println("ok") //ToDo : search logic
+            // Get list filtered and set it in the main viewModel
+            if (filterViewModel.atLeastOneChecked()) {
+                estatesViewModel.estatesFiltered.value =
+                    filterViewModel.getListFiltered(estates)
+                (activity as MainActivity).setFragment(
+                    ListViewFragment.filteredInstance(),
+                    false
+                )
+
+            }
             // If nothing checked
             else Snackbar.make(view!!, R.string.filter_no_filter, Snackbar.LENGTH_SHORT)
                 .setAnchorView(viewDataBinding.filterSearchFab)
                 .show()
         }
     }
+
+    private fun getEstates() {
+        estatesViewModel.getEstates().observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer { t -> if (!t.isNullOrEmpty()) estates = t })
+    }
+
+
 
     companion object {
         fun newInstance() = FilterFragment()
