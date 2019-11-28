@@ -8,7 +8,8 @@ import kotlin.collections.ArrayList
 
 
 class AddEstateViewModel : ViewModel() {
-    // init Inputs (2 ways data-binding)
+    // INPUTS (2 ways data-binding)
+    // EDIT TEXT
     val type = MutableLiveData<String>()
     val surface = MutableLiveData<String>()
     val price = MutableLiveData<String>()
@@ -17,32 +18,36 @@ class AddEstateViewModel : ViewModel() {
     val bedrooms = MutableLiveData<String>()
     val address = MutableLiveData<String>()
     val addressCity = MutableLiveData<String>()
-    val addressZipcode = MutableLiveData<String>()
-    val status = MutableLiveData<String>()
-    val dateAvailable = MutableLiveData<Date>()
-    val dateSold = MutableLiveData<Date>()
+    val addressZipCode = MutableLiveData<String>()
     val agent = MutableLiveData<String>()
     val description = MutableLiveData<String>()
+    // DATE PICKER
+    val dateAvailable = MutableLiveData<Date>()
+    val dateSold = MutableLiveData<Date>()
+    // ALERT DIALOG
     val hasBeenSold = MutableLiveData<Boolean>(false)
+    val status = MutableLiveData<String>()
+    private var statusDefaultForReset: String = ""
+    var nearPlaces = MutableLiveData<List<String>>()
+    // PHOTOS
     var pathToPhotos = MutableLiveData<MutableList<String?>>()
     var titlesPhotos = MutableLiveData<MutableList<String?>>()
     val atLeastOnePhoto = MutableLiveData<Boolean>(false)
-    // validation
+
+    // CHECK INPUTS
     val showError = MutableLiveData<Boolean>(false)
     val dateAvailableDatePicker = MutableLiveData<Boolean>()
     val dateSoldDatePicker = MutableLiveData<Boolean>()
     lateinit var newEstate: Estate
     val addNewEstate = MutableLiveData<Boolean>(false)
 
-    private var statusDefaultForReset: String = ""
 
     fun init(statusDefault: String) {
-        if (pathToPhotos.value == null) {
-            pathToPhotos.value = mutableListOf()
-            titlesPhotos.value = mutableListOf()
-            statusDefaultForReset = statusDefault
-            status.value = statusDefault
-        }
+        pathToPhotos.value = mutableListOf()
+        titlesPhotos.value = mutableListOf()
+        statusDefaultForReset = statusDefault
+        status.value = statusDefault
+        nearPlaces.value = listOf()
     }
 
     fun reset() {
@@ -55,18 +60,18 @@ class AddEstateViewModel : ViewModel() {
         surface.value = ""
         address.value = ""
         addressCity.value = ""
-        addressZipcode.value = ""
+        addressZipCode.value = ""
         status.value = statusDefaultForReset
         dateAvailable.value = null
         dateSold.value = null
         hasBeenSold.value = false
         agent.value = ""
         description.value = ""
+        nearPlaces.value = listOf()
         pathToPhotos.value = mutableListOf()
         titlesPhotos.value = mutableListOf()
         atLeastOnePhoto.value = false
         showError.value = false
-
     }
 
 
@@ -99,7 +104,7 @@ class AddEstateViewModel : ViewModel() {
             description.value,
             address.value,
             addressCity.value,
-            addressZipcode.value,
+            addressZipCode.value,
             agent.value
         )
 
@@ -124,7 +129,7 @@ class AddEstateViewModel : ViewModel() {
     private fun createNewEstate() {
         val pathList = getListWithoutNull(pathToPhotos.value!!)
         val titlesList = getListWithoutNull(titlesPhotos.value!!)
-        val addressComplete = "${address.value} ${addressCity.value} ${addressZipcode.value}"
+        val addressComplete = "${address.value} -${addressCity.value} -${addressZipCode.value}"
 
         newEstate = Estate(
             null,
@@ -139,7 +144,7 @@ class AddEstateViewModel : ViewModel() {
             titlesList,
             addressComplete,
             mutableListOf(),
-            "",
+            nearPlaces.value,
             hasBeenSold.value!!,
             dateAvailable.value!!,
             dateSold.value,

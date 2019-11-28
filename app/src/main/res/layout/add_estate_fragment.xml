@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -84,8 +85,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_estate_type"
                     android:layout_width="match_parent"
-                    android:layout_gravity="top"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
                     android:layout_marginTop="@dimen/spacing_large"
                     app:enableError="@{viewmodel.showError}"
                     app:errorText="@{@string/add_estate_missing_field}"
@@ -96,7 +97,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="textCapSentences"
                         android:maxLength="40"
                         android:text="@={viewmodel.type}" />
 
@@ -191,7 +192,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="textCapSentences"
                         android:maxLength="100"
                         android:text="@={viewmodel.address}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -204,21 +205,21 @@
                         android:id="@+id/add_estate_address_city"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/add_estate_address_zipcode"
                         android:layout_marginTop="@dimen/spacing_large"
                         app:enableError="@{viewmodel.showError}"
                         app:errorText="@{@string/add_estate_missing_field}"
                         app:helperText="@string/add_estate_address_city"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/add_estate_address_zipcode"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:rule="@{viewmodel.addressCity.empty || viewmodel.addressCity == null}"
                         app:startIconDrawable="@drawable/ic_place_black_24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:maxLength="100"
                             android:text="@={viewmodel.addressCity}" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -226,18 +227,18 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/add_estate_address_zipcode"
-                        android:layout_marginStart="@dimen/spacing_large"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@id/add_estate_address_city"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="@dimen/spacing_large"
                         android:layout_marginTop="@dimen/spacing_large"
                         app:enableError="@{viewmodel.showError}"
                         app:errorText="@{@string/add_estate_missing_field}"
                         app:helperText="@string/add_estate_address_zipcode"
-                        app:rule="@{viewmodel.addressZipcode.empty || viewmodel.addressZipcode == null}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/add_estate_address_city"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rule="@{viewmodel.addressZipCode.empty || viewmodel.addressZipCode == null}"
                         app:startIconDrawable="@drawable/ic_place_black_24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -245,15 +246,67 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="6"
-                            android:text="@={viewmodel.addressZipcode}" />
+                            android:text="@={viewmodel.addressZipCode}" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
 
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/add_estate_near"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:minHeight="60dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/grey_88">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/add_estate_near_chips_box"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_small"
+                            app:flexWrap="wrap"
+                            app:justifyContent="flex_start"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/add_estate_near_icon_end"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                        <ImageView
+                            android:id="@+id/add_estate_near_icon_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="60dp"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:tint="@color/grey_60"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/add_estate_near_chips_box"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:text="@string/add_estate_near_places" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
@@ -341,7 +394,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="textCapWords"
                         android:maxLength="50"
                         android:text="@={viewmodel.agent}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -361,7 +414,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top"
-                        android:inputType="textMultiLine"
+                        android:inputType="textMultiLine|textCapSentences"
                         android:maxLines="10"
                         android:minLines="5"
                         android:scrollbars="vertical"

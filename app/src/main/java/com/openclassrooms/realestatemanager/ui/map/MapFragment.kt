@@ -4,19 +4,18 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -27,6 +26,7 @@ import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.map_fragment.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback,
@@ -40,23 +40,22 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         savedInstanceState: Bundle?
     ): View? {
         (activity as MainActivity).hideBottomNavigation(false)
-        var mapFragment =
-            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment?
-        if (mapFragment == null) {
-            val fm: FragmentManager? = fragmentManager
-            if (fm != null) {
-                val ft = fm.beginTransaction()
-                mapFragment = SupportMapFragment.newInstance()
-                ft.replace(R.id.map_fragment, mapFragment).commit()
-            }
-        }
-        mapFragment!!.getMapAsync(this)
-        // Inflate the layout for this fragment
+
         return inflater.inflate(
             R.layout.map_fragment,
             container,
             false
         )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // MAP
+        if (map_view != null) {
+            map_view.onCreate(null)
+            map_view.onResume()
+            map_view.getMapAsync(this)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,19 +74,23 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
     private fun onListReceived(estates: List<Estate>) {
         this.estates = estates
+        createMarkers()
     }
 
     override fun onMapReady(p0: GoogleMap) {
         map = p0
-        map.setOnMarkerClickListener(this)
         checkPermissions()
-        createMarkers()
+        map.setOnMarkerClickListener(this)
+
     }
 
     private fun createMarkers() {
         for (estate in estates) {
-            val position = LatLng(estate.latLng[0]!!.toDouble(), estate.latLng[1]!!.toDouble())
-            map.addMarker(MarkerOptions().position(position).title(estate.id.toString()))
+            if (!estate.latLng.isNullOrEmpty()) {
+                val position = LatLng(estate.latLng[0]!!.toDouble(), estate.latLng[1]!!.toDouble())
+                map.addMarker(MarkerOptions().position(position).title(estate.id.toString()))
+            } else
+                Log.d("MapFragment", "no LatLng")
         }
 
     }
@@ -154,6 +157,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
 
     companion object {
+
         fun newInstance() = MapFragment()
 
         const val LOCATION_PERMISSION_REQUEST_CODE: Int = 17

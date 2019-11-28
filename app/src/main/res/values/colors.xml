@@ -29,6 +29,7 @@
     <color name="grey_40">#999999</color>
     <color name="grey_60">#666666</color>
     <color name="grey_80">#37474F</color>
+    <color name="grey_88">#e0e0e0</color>
     <color name="grey_90">#263238</color>
 
 </resources>

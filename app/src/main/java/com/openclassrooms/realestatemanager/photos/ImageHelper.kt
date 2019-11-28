@@ -1,12 +1,16 @@
 package com.openclassrooms.realestatemanager.photos
 
 import android.content.Context
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
+import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -86,6 +90,7 @@ fun getEditText(context: Context, index: Int): EditText? {
         layoutParams = lp
         hint = context.resources.getString(R.string.add_estate_no_title)
         textAlignment = View.TEXT_ALIGNMENT_CENTER
+        inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         maxLines = 1
         filters = filterArray
         setBackgroundColor(Color.parseColor("#80FFFFFF")) // white 50% transparent
@@ -112,6 +117,60 @@ fun getDeleteButton(context: Context, index: Int): ImageView? {
         tag = index
     }
 }
+
+/**
+ * Rotate an image if required.
+ * @param img
+ * @param selectedImage
+ * @return
+ */
+fun rotateImageIfRequired(
+    context: Context,
+    img: Bitmap,
+    selectedImage: Uri
+): Bitmap? {
+// Detect rotation
+    val rotation = getRotation(context, selectedImage)
+    return if (rotation != 0) {
+        val matrix = Matrix()
+        matrix.postRotate(rotation.toFloat())
+        val rotatedImg =
+            Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
+        img.recycle()
+        rotatedImg
+    } else {
+        img
+    }
+}
+
+/**
+ * Get the rotation of the last image added.
+ * @param context
+ * @param selectedImage
+ * @return
+ */
+fun getRotation(
+    context: Context,
+    selectedImage: Uri
+): Int {
+    var rotation = 0
+    val content = context.contentResolver
+    val mediaCursor: Cursor? = content.query(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        arrayOf("orientation", "date_added"),
+        null,
+        null,
+        "date_added desc"
+    )
+        while (mediaCursor!!.moveToNext()) {
+            rotation = mediaCursor.getInt(0)
+            break
+
+    }
+    mediaCursor.close()
+    return rotation
+}
+
 
 
 

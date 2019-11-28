@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.chip.Chip
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddEstateFragmentBinding
 import com.openclassrooms.realestatemanager.photos.*
@@ -48,8 +49,13 @@ class AddEstateFragment : Fragment() {
     private val galleryBtn: ImageButton by lazy { add_estate_load_from_gallery_btn }
     private val photosLayout: LinearLayout by lazy { add_estate_photos_layout }
     private var index = 0
+
     // STATUS ITEM PER DEFAULT
     private var itemStatus: Int = 0
+
+    // NEAR PLACES INIT
+    private val choices by lazy { context!!.resources.getStringArray(R.array.add_estate_near_choices) }
+    private val nearChecked by lazy { BooleanArray(choices.size) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,9 +83,12 @@ class AddEstateFragment : Fragment() {
         setOnGalleryBtnClick()
         viewModel.init(context!!.resources.getString(R.string.add_estate_status_available))
         datePickersListener()
+        // Observe when a new estate is created in viewModel
         observeNewEstate()
-        viewDataBinding.addEstateStatus.setOnClickListener { showStatusChoiceDialog() }
-        // Location will be used to save the address as LatLng in the database when the estate is created
+        // Status onClicked
+        viewDataBinding.addEstateStatus.setOnClickListener { showStatusChoicesDialog() }
+        // Near onClicked
+        viewDataBinding.addEstateNear.setOnClickListener { showNearChoicesDialog() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -130,7 +139,9 @@ class AddEstateFragment : Fragment() {
             Observer { t ->
                 if (t) {
                     // To convert the address to a List<Double> with latitude and longitude
-                    viewModel.newEstate.latLng = stringAddressToLocation(context!!, viewModel.newEstate.address)
+                    val addressFormatted = viewModel.newEstate.address
+                    viewModel.newEstate.latLng =
+                        stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
                     estatesViewModel.createEstate(viewModel.newEstate)
                     (activity as MainActivity).setFragment(ListViewFragment.newInstance(), false)
                 }
@@ -235,19 +246,22 @@ class AddEstateFragment : Fragment() {
         }
     }
 
-    private fun showStatusChoiceDialog() {
+    private fun showStatusChoicesDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
         val choices = context!!.resources.getStringArray(R.array.add_estate_status_choices)
-        builder.setCancelable(true)
-        builder.setSingleChoiceItems(
-            choices, itemStatus
-        ) { dialog, which ->
-            dialog.dismiss()
-            viewModel.status.value = choices[which]
-            viewModel.hasBeenSold.value = (which == 1)
-            itemStatus = which
+        builder.apply {
+            setCancelable(true)
+            setSingleChoiceItems(
+                choices, itemStatus
+            ) { dialog, which ->
+                dialog.dismiss()
+                viewModel.status.value = choices[which]
+                viewModel.hasBeenSold.value = (which == 1)
+                itemStatus = which
+            }
+            create()
+            show()
         }
-        builder.create().show()
     }
 
     private fun displayDatePickerPopUp(dateSold: Boolean) {
@@ -268,6 +282,38 @@ class AddEstateFragment : Fragment() {
         ).show()
     }
 
+    private fun showNearChoicesDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+        builder.apply {
+            setPositiveButton("OK") { _, _ -> updateNearList() }
+            setCancelable(true)
+            setMultiChoiceItems(
+                choices, nearChecked
+            ) { _, which, isChecked -> nearChecked[which] = isChecked }
+            create()
+            show()
+        }
+    }
+
+    private fun updateNearList() {
+        val list: MutableList<String> = mutableListOf()
+        for ((index, b) in nearChecked.withIndex()) {
+            if (b) list.add(choices[index])
+        }
+        viewModel.nearPlaces.value = list
+        addChipsToView(list)
+    }
+
+    private fun addChipsToView(list: MutableList<String>) {
+        add_estate_near_chips_box.removeAllViews()
+        for (place in list) {
+            val chip =
+                layoutInflater.inflate(R.layout.chip_layout, add_estate_near_chips_box, false) as Chip
+            chip.text = place
+            chip.setOnClickListener{showNearChoicesDialog()}
+            add_estate_near_chips_box.addView(chip)
+        }
+    }
 
 
     companion object {
@@ -279,3 +325,4 @@ class AddEstateFragment : Fragment() {
 
 
 }
+

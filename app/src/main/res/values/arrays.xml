@@ -5,4 +5,20 @@
         <item>@string/add_estate_status_available</item>
         <item>@string/add_estate_status_sold</item>
     </array>
+
+    <array name="add_estate_near_choices">
+        <item>@string/nearby_center</item>
+        <item>@string/nearby_restaurants</item>
+        <item>@string/nearby_station</item>
+        <item>@string/nearby_supermarket</item>
+        <item>@string/nearby_school</item>
+        <item>@string/nearby_cinema</item>
+        <item>@string/nearby_pool</item>
+        <item>@string/nearby_hospital</item>
+        <item>@string/nearby_library</item>
+        <item>@string/nearby_park</item>
+        <item>@string/nearby_nightlife</item>
+    </array>
+
+
 </resources>

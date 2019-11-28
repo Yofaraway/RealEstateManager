@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,7 +12,7 @@
     </data>
 
     <RelativeLayout
-        android:id="@+id/details_images_slider_layout"
+        android:id="@+id/details_main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/grey_5"
@@ -39,7 +40,7 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/details_card_2"
+                    android:id="@+id/details_card_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing_middle"
@@ -53,11 +54,10 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:paddingLeft="@dimen/spacing_large"
-                        android:paddingTop="@dimen/spacing_middle"
-                        android:paddingRight="@dimen/spacing_large"
-                        android:paddingBottom="@dimen/spacing_middle">
+                        android:layout_marginStart="@dimen/spacing_xlarge"
+                        android:layout_marginTop="@dimen/spacing_middle"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:layout_marginBottom="@dimen/spacing_middle">
 
 
                         <ImageView
@@ -168,10 +168,10 @@
                             android:id="@+id/details_surface_data_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_alignStart="@id/details_surface_tv"
                             android:layout_alignBottom="@id/details_bathrooms_data_tv"
-                            android:layout_marginStart="@dimen/default_margin">
+                            android:layout_marginStart="@dimen/default_margin"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/details_surface_data_tv"
@@ -197,7 +197,118 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/details_card_1"
+                    android:id="@+id/details_card_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_below="@id/details_card_1"
+                    android:layout_marginLeft="@dimen/spacing_middle"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/spacing_middle"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="top"
+                        android:layout_marginStart="@dimen/spacing_middle"
+                        android:layout_marginTop="@dimen/spacing_middle"
+                        android:layout_marginEnd="@dimen/spacing_middle"
+                        android:layout_marginBottom="@dimen/spacing_middle">
+
+                        <TextView
+                            android:id="@+id/details_address_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:text="@string/details_address"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toStartOf="@id/details_map_static_layout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/details_address_icon"
+                            android:layout_width="13dp"
+                            android:layout_height="17dp"
+                            android:layout_marginTop="@dimen/spacing_middle"
+                            app:layout_constraintBottom_toBottomOf="@+id/details_address"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/details_address_title"
+                            app:srcCompat="@drawable/ic_place_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/details_address"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:layout_marginTop="@dimen/spacing_middle"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:text="@{viewmodel.address}"
+                            app:layout_constraintEnd_toStartOf="@id/details_map_static_layout"
+                            app:layout_constraintStart_toEndOf="@id/details_address_icon"
+                            app:layout_constraintTop_toBottomOf="@id/details_address_title" />
+
+                        <TextView
+                            android:id="@+id/details_address_city"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:text="@{viewmodel.city}"
+                            app:layout_constraintEnd_toStartOf="@id/details_map_static_layout"
+                            app:layout_constraintStart_toEndOf="@id/details_address_icon"
+                            app:layout_constraintTop_toBottomOf="@id/details_address" />
+
+                        <TextView
+                            android:id="@+id/details_address_zipcode"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_middle"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:text="@{viewmodel.zipCode}"
+                            app:layout_constraintEnd_toStartOf="@id/details_map_static_layout"
+                            app:layout_constraintStart_toEndOf="@id/details_address_icon"
+                            app:layout_constraintTop_toBottomOf="@id/details_address_city" />
+
+                        <RelativeLayout
+                            android:id="@+id/details_map_static_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.gms.maps.MapView
+                                android:id="@+id/details_map_static"
+                                android:layout_width="160dp"
+                                android:layout_height="160dp"
+                                app:mapType="normal"
+                                map:liteMode="true" />
+
+                            <TextView
+                                android:id="@+id/details_no_marker_map"
+                                android:layout_width="160dp"
+                                android:layout_height="160dp"
+                                android:background="@color/veryTransparentWhite"
+                                android:gravity="center"
+                                android:paddingBottom="@dimen/spacing_xlarge"
+                                android:text="@string/details_no_location"
+                                android:visibility="gone" />
+
+
+                        </RelativeLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/details_card_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/details_card_2"
@@ -214,7 +325,7 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:orientation="vertical"
@@ -223,12 +334,32 @@
                         android:paddingRight="@dimen/spacing_large"
                         android:paddingBottom="@dimen/spacing_middle">
 
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/details_description"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/details_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:formatPrice="@{viewmodel.price}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="1,000,000" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -238,7 +369,6 @@
                             tools:text="@tools:sample/lorem/random" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
 
 
             </RelativeLayout>

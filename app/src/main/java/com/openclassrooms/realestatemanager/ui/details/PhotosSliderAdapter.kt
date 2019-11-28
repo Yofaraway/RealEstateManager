@@ -9,10 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.openclassrooms.realestatemanager.R
-import kotlinx.android.synthetic.main.photo_slider_items.view.*
+import kotlinx.android.synthetic.main.item_photo_slider.view.*
 
 
-class PhotosSliderAdapter(contextParent: Context, val listPhotos: List<String>, val listTitlesPhotos: List<String>) :
+class PhotosSliderAdapter(contextParent: Context, private val listPhotos: List<String>, private val listTitlesPhotos: List<String>) :
     PagerAdapter() {
 
     val context = contextParent
@@ -21,7 +21,7 @@ class PhotosSliderAdapter(contextParent: Context, val listPhotos: List<String>, 
         // layout
         val inflater = LayoutInflater.from(context)
         val layout =
-            inflater.inflate(R.layout.photo_slider_items, container, false) as ViewGroup
+            inflater.inflate(R.layout.item_photo_slider, container, false) as ViewGroup
         // photo
         val uri = Uri.parse(listPhotos[position])
         val photoView: ImageView = layout.pagerImage
