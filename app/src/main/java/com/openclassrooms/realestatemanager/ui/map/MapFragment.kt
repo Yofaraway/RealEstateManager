@@ -25,6 +25,7 @@ import com.openclassrooms.realestatemanager.model.Estate
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
+import com.openclassrooms.realestatemanager.utils.TAG_DETAILS_FRAGMENT
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.map_fragment.*
 
@@ -97,7 +98,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         val id = p0!!.title.toLong()
-        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id), true)
+        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id), true, TAG_DETAILS_FRAGMENT)
         return true
     }
 

@@ -13,6 +13,9 @@ import com.openclassrooms.realestatemanager.di.Injection.provideViewModelFactory
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.ui.map.MapFragment
+import com.openclassrooms.realestatemanager.utils.TAG_FILTER_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.TAG_LIST_VIEW_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.TAG_MAP_FRAGMENT
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.bottom_tab_map -> {
-                    setFragment(MapFragment.newInstance(), false)
+                    setFragment(MapFragment.newInstance(), false, TAG_MAP_FRAGMENT)
                     true
                 }
                 else -> false
@@ -52,7 +55,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_toolbar_filter -> setFragment(FilterFragment.newInstance(), true)
+            R.id.menu_toolbar_filter -> setFragment(
+                FilterFragment.newInstance(),
+                true,
+                TAG_FILTER_FRAGMENT
+            )
         }
         return false
     }
@@ -67,19 +74,30 @@ class MainActivity : AppCompatActivity() {
 
     //addToBackStack not included in first fragment
     private fun setFirstFragment() {
-        setFragment(ListViewFragment.newInstance(), false)
+        setFragment(ListViewFragment.newInstance(), false, TAG_LIST_VIEW_FRAGMENT)
     }
 
-    fun setFragment(fragment: Fragment, addBackStack: Boolean) {
+    fun setFragment(fragment: Fragment, addBackStack: Boolean, tag: String) {
         val transaction = supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frame, fragment)
+            .replace(R.id.main_frame, fragment, tag)
         if (addBackStack) transaction.addToBackStack(null)
         transaction.commit()
     }
 
-    fun hideBottomNavigation(boolean: Boolean){
+    fun setFragmentOnTopOfView(fragment: Fragment, addBackStack: Boolean) {
+        val transaction = supportFragmentManager.beginTransaction().add(R.id.main_frame, fragment)
+        if (addBackStack) transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun removeFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().remove(fragment).commit()
+    }
+
+    fun hideBottomNavigation(boolean: Boolean) {
         if (boolean) bottom_navigation.visibility = View.GONE
         else bottom_navigation.visibility = View.VISIBLE
     }
+
 
 }

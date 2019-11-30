@@ -33,13 +33,15 @@ class AddEstateViewModel : ViewModel() {
     var pathToPhotos = MutableLiveData<MutableList<String?>>()
     var titlesPhotos = MutableLiveData<MutableList<String?>>()
     val atLeastOnePhoto = MutableLiveData<Boolean>(false)
-
     // CHECK INPUTS
     val showError = MutableLiveData<Boolean>(false)
     val dateAvailableDatePicker = MutableLiveData<Boolean>()
     val dateSoldDatePicker = MutableLiveData<Boolean>()
     lateinit var newEstate: Estate
     val addNewEstate = MutableLiveData<Boolean>(false)
+
+    // path to photo taken from camera
+    var newPhotoPath:String? = null
 
 
     fun init(statusDefault: String) {

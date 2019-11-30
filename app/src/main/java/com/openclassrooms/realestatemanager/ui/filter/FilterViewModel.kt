@@ -142,7 +142,7 @@ class FilterViewModel : ViewModel() {
         val listFiltered: MutableList<Estate> = mutableListOf()
 
         for (estate in list) {
-            if (estate.dateAvailableSince.after(dateFrom) || estate.dateAvailableSince == dateFrom)
+            if (estate.dateAvailableSince.after(dateFrom) || estate.dateAvailableSince.compareTo(dateFrom) == 0)
                 listFiltered.add(estate)
         }
         return listFiltered
@@ -155,7 +155,7 @@ class FilterViewModel : ViewModel() {
         for (estate in list) {
             if (estate.dateSold != null) {
                 val dateSold = estate.dateSold
-                if (dateSold!!.after(dateAfter) || dateSold == dateAfter)
+                if (dateSold!!.after(dateAfter) || dateSold.compareTo(dateAfter) == 0)
                     listFiltered.add(estate)
             }
         }
@@ -171,7 +171,7 @@ class FilterViewModel : ViewModel() {
         for (estate in list) {
             if (estate.dateSold != null) {
                 val dateSold = estate.dateSold
-                if (dateSold!!.before(dateBefore) || dateSold == dateBefore)
+                if (dateSold!!.before(dateBefore) || dateSold.compareTo(dateBefore) == 0)
                     listFiltered.add(estate)
             }
 

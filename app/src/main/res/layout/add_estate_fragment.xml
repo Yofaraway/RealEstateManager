@@ -13,9 +13,56 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/add_estate_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/add_estate_adjustments_photo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:visibility="gone"
+            tools:context=".ui.addestate.NewPhotoAdjustmentFragment">
+
+            <ImageButton
+                android:id="@+id/add_estate_adjustments_rotate_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_xlarge"
+                android:background="@color/black"
+                app:srcCompat="@drawable/ic_refresh_black_24dp" />
+
+            <ImageView
+                android:id="@+id/add_estate_adjustments_new_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_estate_adjustments_confirm_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/spacing_xxlarge"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/add_estate_confirm" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_estate_adjustments_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/spacing_xxlarge"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/add_estate_cancel" />
+
+
+        </RelativeLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -53,7 +100,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="4"
-                            android:text="@={viewmodel.surface}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.surface}"
+                            tools:text="900" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,7 +126,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="10"
-                            android:text="@={viewmodel.price}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.price}"
+                            tools:text="123456000" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -99,7 +150,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"
                         android:maxLength="40"
-                        android:text="@={viewmodel.type}" />
+                        android:padding="0dp"
+                        android:text="@={viewmodel.type}"
+                        tools:text="Appartement" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,7 +179,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:text="@={viewmodel.rooms}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.rooms}"
+                            tools:text="10" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -150,7 +205,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:text="@={viewmodel.bathrooms}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.bathrooms}"
+                            tools:text="3" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -173,7 +230,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="2"
-                            android:text="@={viewmodel.bedrooms}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.bedrooms}"
+                            tools:text="5" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -194,7 +253,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"
                         android:maxLength="100"
-                        android:text="@={viewmodel.address}" />
+                        android:padding="0dp"
+                        android:text="@={viewmodel.address}"
+                        tools:text="10 rue de la lune" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -221,7 +282,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"
                             android:maxLength="100"
-                            android:text="@={viewmodel.addressCity}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.addressCity}"
+                            tools:text="Paris" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -246,7 +309,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="6"
-                            android:text="@={viewmodel.addressZipCode}" />
+                            android:padding="0dp"
+                            android:text="@={viewmodel.addressZipCode}"
+                            tools:text="75000" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -257,7 +322,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:minHeight="60dp"
+                    android:minHeight="50dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -286,7 +351,7 @@
                         <ImageView
                             android:id="@+id/add_estate_near_icon_end"
                             android:layout_width="wrap_content"
-                            android:layout_height="60dp"
+                            android:layout_height="50dp"
                             android:layout_marginEnd="@dimen/spacing_medium"
                             android:tint="@color/grey_60"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -320,7 +385,9 @@
                         android:focusable="true"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
-                        android:text="@={viewmodel.status}" />
+                        android:padding="0dp"
+                        android:text="@={viewmodel.status}"
+                        tools:text="Available" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -347,7 +414,9 @@
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
                             android:inputType="none"
-                            android:onClick="@{()->viewmodel.onDateAvailableClick()}" />
+                            android:onClick="@{()->viewmodel.onDateAvailableClick()}"
+                            android:padding="0dp"
+                            tools:text="19/01/2020" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -373,7 +442,9 @@
                             android:layout_height="wrap_content"
                             android:focusableInTouchMode="false"
                             android:inputType="none"
-                            android:onClick="@{()->viewmodel.onDateSoldClick()}" />
+                            android:onClick="@{()->viewmodel.onDateSoldClick()}"
+                            android:padding="0dp"
+                            tools:text="08/08/2020" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -396,7 +467,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
                         android:maxLength="50"
-                        android:text="@={viewmodel.agent}" />
+                        android:padding="0dp"
+                        android:text="@={viewmodel.agent}"
+                        tools:text="John Lennon" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -488,6 +561,7 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-
     </LinearLayout>
+
+
 </layout>

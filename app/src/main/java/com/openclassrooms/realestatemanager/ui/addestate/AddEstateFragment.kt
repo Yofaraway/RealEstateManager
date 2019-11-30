@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
@@ -25,6 +24,7 @@ import com.openclassrooms.realestatemanager.photos.*
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
+import com.openclassrooms.realestatemanager.utils.TAG_LIST_VIEW_FRAGMENT
 import com.openclassrooms.realestatemanager.utils.stringAddressToLocation
 import kotlinx.android.synthetic.main.add_estate_fragment.*
 import java.io.File
@@ -41,18 +41,14 @@ class AddEstateFragment : Fragment() {
     private val estatesViewModel: EstatesViewModel by lazy {
         ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
     }
-
     // LOAD PHOTOS
-    private lateinit var currentPhotoPath: String
     private var holdersList: MutableList<ConstraintLayout?> = mutableListOf()
     private val cameraBtn: ImageButton by lazy { add_estate_load_from_camera_btn }
     private val galleryBtn: ImageButton by lazy { add_estate_load_from_gallery_btn }
     private val photosLayout: LinearLayout by lazy { add_estate_photos_layout }
     private var index = 0
-
     // STATUS ITEM PER DEFAULT
     private var itemStatus: Int = 0
-
     // NEAR PLACES INIT
     private val choices by lazy { context!!.resources.getStringArray(R.array.add_estate_near_choices) }
     private val nearChecked by lazy { BooleanArray(choices.size) }
@@ -62,9 +58,7 @@ class AddEstateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(
-            R.layout.add_estate_fragment,
-            container,
-            false
+            R.layout.add_estate_fragment, container, false
         )
         (activity as MainActivity).hideBottomNavigation(true)
 
@@ -73,6 +67,7 @@ class AddEstateFragment : Fragment() {
             this.viewmodel = viewModel
         }
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+
         return viewDataBinding.root
     }
 
@@ -93,6 +88,7 @@ class AddEstateFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+        // Replace icon in toolbar
         menu.clear()
         inflater.inflate(R.menu.menu_add, menu)
         val actionBar = (activity as MainActivity).supportActionBar
@@ -143,7 +139,11 @@ class AddEstateFragment : Fragment() {
                     viewModel.newEstate.latLng =
                         stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
                     estatesViewModel.createEstate(viewModel.newEstate)
-                    (activity as MainActivity).setFragment(ListViewFragment.newInstance(), false)
+                    (activity as MainActivity).setFragment(
+                        ListViewFragment.newInstance(),
+                        false,
+                        TAG_LIST_VIEW_FRAGMENT
+                    )
                 }
             })
     }
@@ -154,7 +154,7 @@ class AddEstateFragment : Fragment() {
     private fun setOnCameraBtnClick() {
         cameraBtn.setOnClickListener {
             val newPhoto: File = createFile(context!!)
-            currentPhotoPath = newPhoto.absolutePath
+            viewModel.newPhotoPath = newPhoto.absolutePath
             val camera: Intent? = getCameraIntent(context!!, newPhoto)
             startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
         }
@@ -174,10 +174,11 @@ class AddEstateFragment : Fragment() {
             when (requestCode) {
                 // RESULT FROM CAMERA INTENT
                 REQUEST_IMAGE_CAPTURE -> {
-                    addNewPhotoToModel(currentPhotoPath)
-                    val bitmap: Bitmap = BitmapFactory.decodeFile(currentPhotoPath)
-                    addNewPhotoToView(getImageViewFromBitmap(context!!, bitmap))
-                    index++
+                    // Display fragment to rotate image
+                    view?.clearFocus()
+                    (activity as MainActivity).setFragmentOnTopOfView(
+                        AdjustmentsPhotoFragment.newInstance(viewModel.newPhotoPath!!), true
+                    )
                 }
 
                 // RESULT FROM GALLERY INTENT
@@ -308,12 +309,26 @@ class AddEstateFragment : Fragment() {
         add_estate_near_chips_box.removeAllViews()
         for (place in list) {
             val chip =
-                layoutInflater.inflate(R.layout.chip_layout, add_estate_near_chips_box, false) as Chip
+                layoutInflater.inflate(
+                    R.layout.chip_layout,
+                    add_estate_near_chips_box,
+                    false
+                ) as Chip
             chip.text = place
-            chip.setOnClickListener{showNearChoicesDialog()}
+            chip.setOnClickListener { showNearChoicesDialog() }
             add_estate_near_chips_box.addView(chip)
         }
     }
+
+    // Callback from AdjustmentsPhotoFragment
+    fun updateAdjustedPhoto(){
+        val photoPath = viewModel.newPhotoPath
+        addNewPhotoToModel(photoPath!!)
+        val bitmap = BitmapFactory.decodeFile(photoPath)
+        addNewPhotoToView(getImageViewFromBitmap(context!!, bitmap))
+        index++
+    }
+
 
 
     companion object {
@@ -322,7 +337,5 @@ class AddEstateFragment : Fragment() {
 
         fun newInstance() = AddEstateFragment()
     }
-
-
 }
 

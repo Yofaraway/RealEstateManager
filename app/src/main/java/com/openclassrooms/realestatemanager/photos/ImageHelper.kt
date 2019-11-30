@@ -1,13 +1,11 @@
 package com.openclassrooms.realestatemanager.photos
 
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
-import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.text.InputType
@@ -17,8 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.openclassrooms.realestatemanager.R
-import java.io.File
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,7 +46,7 @@ fun getLayout(context: Context, index: Int): ConstraintLayout? {
     }
 }
 
-fun getImageViewFromBitmap(context: Context, selectedImage: Bitmap): ImageView? {
+fun getImageViewFromBitmap(context: Context, selectedImage: Bitmap?): ImageView? {
     val image = ImageView(context)
     val lp = ConstraintLayout.LayoutParams(300, 400)
     lp.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
@@ -118,59 +115,23 @@ fun getDeleteButton(context: Context, index: Int): ImageView? {
     }
 }
 
-/**
- * Rotate an image if required.
- * @param img
- * @param selectedImage
- * @return
- */
-fun rotateImageIfRequired(
-    context: Context,
-    img: Bitmap,
-    selectedImage: Uri
-): Bitmap? {
-// Detect rotation
-    val rotation = getRotation(context, selectedImage)
-    return if (rotation != 0) {
-        val matrix = Matrix()
-        matrix.postRotate(rotation.toFloat())
-        val rotatedImg =
-            Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
-        img.recycle()
-        rotatedImg
-    } else {
-        img
-    }
+
+
+fun rotateImage(img: Bitmap, degree: Int): Bitmap {
+    val matrix = Matrix()
+    matrix.postRotate(degree.toFloat())
+    val rotatedImg =
+        Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
+    img.recycle()
+    return rotatedImg
 }
 
-/**
- * Get the rotation of the last image added.
- * @param context
- * @param selectedImage
- * @return
- */
-fun getRotation(
-    context: Context,
-    selectedImage: Uri
-): Int {
-    var rotation = 0
-    val content = context.contentResolver
-    val mediaCursor: Cursor? = content.query(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        arrayOf("orientation", "date_added"),
-        null,
-        null,
-        "date_added desc"
-    )
-        while (mediaCursor!!.moveToNext()) {
-            rotation = mediaCursor.getInt(0)
-            break
-
-    }
-    mediaCursor.close()
-    return rotation
+fun replaceFileWithChangedBitmap(path: String, bitmap: Bitmap){
+    val file = File(path)
+    val os: OutputStream = BufferedOutputStream(FileOutputStream(file))
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
+    os.close()
 }
-
 
 
 

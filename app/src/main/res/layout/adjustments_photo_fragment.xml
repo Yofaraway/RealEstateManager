@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adjustments_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:clickable="true"
+    android:focusable="true">
+
+
+    <ImageButton
+        android:id="@+id/adjustments_rotate_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_xlarge"
+        android:background="@color/black"
+        app:srcCompat="@drawable/ic_refresh_black_24dp" />
+
+    <ImageView
+        android:id="@+id/adjustments_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/adjustments_confirm_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:text="@string/add_estate_confirm" />
+
+
+</RelativeLayout>

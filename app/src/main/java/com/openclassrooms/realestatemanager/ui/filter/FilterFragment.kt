@@ -275,7 +275,7 @@ class FilterFragment : Fragment() {
                     filterViewModel.getListFiltered(estates)
                 (activity as MainActivity).setFragment(
                     ListViewFragment.filteredInstance(),
-                    false
+                    false, "ListViewFragment"
                 )
 
             }
@@ -291,7 +291,6 @@ class FilterFragment : Fragment() {
             viewLifecycleOwner,
             androidx.lifecycle.Observer { t -> if (!t.isNullOrEmpty()) estates = t })
     }
-
 
 
     companion object {

@@ -27,6 +27,7 @@
     <string name="add_estate_agent">Agent</string>
     <string name="add_estate_photo">Add at least one photo</string>
     <string name="add_estate_confirm">Confirm</string>
+    <string name="add_estate_cancel">Cancel</string>
     <string name="add_estate_load_photo">ADD A PHOTO :</string>
     <string name="add_estate_no_title">(no title)</string>
     <string name="add_estate_max_photos">You can\'t pick more than 10 photos</string>
@@ -96,6 +97,9 @@
     <string name="img_bg">background</string>
     <string name="img_photo">image button photo</string>
     <string name="img_gallery">image button gallery</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

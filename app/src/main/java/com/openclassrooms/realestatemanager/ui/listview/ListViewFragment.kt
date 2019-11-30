@@ -19,6 +19,9 @@ import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment
+import com.openclassrooms.realestatemanager.utils.TAG_ADD_ESTATE_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.TAG_DETAILS_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.TAG_FILTER_FRAGMENT
 import kotlinx.android.synthetic.main.list_view_fragment.*
 
 class ListViewFragment : Fragment() {
@@ -26,7 +29,6 @@ class ListViewFragment : Fragment() {
     // List
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +58,11 @@ class ListViewFragment : Fragment() {
     private fun addBtnListener() {
         val addEstateFab: FloatingActionButton = list_add_estate_fab
         addEstateFab.setOnClickListener {
-            (activity as MainActivity).setFragment(AddEstateFragment.newInstance(), true)
+            (activity as MainActivity).setFragment(
+                AddEstateFragment.newInstance(),
+                true,
+                TAG_ADD_ESTATE_FRAGMENT
+            )
         }
     }
 
@@ -89,7 +95,7 @@ class ListViewFragment : Fragment() {
         when (item.itemId) {
             R.id.menu_toolbar_filter -> (activity as MainActivity).setFragment(
                 FilterFragment.newInstance(),
-                true
+                true, TAG_FILTER_FRAGMENT
             )
         }
         super.onOptionsItemSelected(item)
@@ -112,7 +118,11 @@ class ListViewFragment : Fragment() {
 
 
     private fun onEstateClick(id: Long) {
-        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id), true)
+        (activity as MainActivity).setFragment(
+            DetailsFragment.newInstance(id),
+            true,
+            TAG_DETAILS_FRAGMENT
+        )
     }
 
 
