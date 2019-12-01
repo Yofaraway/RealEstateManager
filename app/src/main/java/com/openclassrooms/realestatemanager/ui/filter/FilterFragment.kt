@@ -33,7 +33,7 @@ class FilterFragment : Fragment() {
         ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
     }
 
-    private lateinit var estates: List<Estate>
+    private var estates: List<Estate> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

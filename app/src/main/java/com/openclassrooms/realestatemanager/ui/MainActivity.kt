@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
+    // Used with the fragment to rotate photo after the camera intent
     fun setFragmentOnTopOfView(fragment: Fragment, addBackStack: Boolean) {
         val transaction = supportFragmentManager.beginTransaction().add(R.id.main_frame, fragment)
         if (addBackStack) transaction.addToBackStack(null)
@@ -97,6 +98,10 @@ class MainActivity : AppCompatActivity() {
     fun hideBottomNavigation(boolean: Boolean) {
         if (boolean) bottom_navigation.visibility = View.GONE
         else bottom_navigation.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
 

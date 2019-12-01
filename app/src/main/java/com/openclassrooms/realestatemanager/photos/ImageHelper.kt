@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.setPadding
 import com.openclassrooms.realestatemanager.R
 import java.io.*
 import java.text.SimpleDateFormat
@@ -39,6 +40,7 @@ fun getLayout(context: Context, index: Int): ConstraintLayout? {
         ViewGroup.LayoutParams.WRAP_CONTENT,
         ViewGroup.LayoutParams.WRAP_CONTENT
     )
+    lp.setMargins(10,0,10,0)
 
     return layout.apply {
         layoutParams = lp
@@ -73,7 +75,7 @@ fun getImageViewFromContentURI(context: Context, uri: Uri): ImageView? {
 }
 
 
-fun getEditText(context: Context, index: Int): EditText? {
+fun getEditText(context: Context, index: Int, text: String?): EditText? {
     val titlePhoto = EditText(context)
     val lp =
         ConstraintLayout.LayoutParams(300, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -85,13 +87,14 @@ fun getEditText(context: Context, index: Int): EditText? {
 
     return titlePhoto.apply {
         layoutParams = lp
-        hint = context.resources.getString(R.string.add_estate_no_title)
+        hint = if (text.isNullOrBlank()) context.resources.getString(R.string.add_estate_no_title)  else text
         textAlignment = View.TEXT_ALIGNMENT_CENTER
         inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         maxLines = 1
         filters = filterArray
         setBackgroundColor(Color.parseColor("#80FFFFFF")) // white 50% transparent
         tag = index
+        setPadding(0)
     }
 }
 
@@ -105,13 +108,13 @@ fun getDeleteButton(context: Context, index: Int): ImageView? {
     lp.apply {
         topToTop = ConstraintLayout.LayoutParams.PARENT_ID
         endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-        setMargins(2, 2, 2, 2)
     }
 
     return delete.apply {
         setImageResource(R.drawable.remove_photo_icon)
         layoutParams = lp
         tag = index
+        setPadding(2, 2, 2, 2)
     }
 }
 

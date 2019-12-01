@@ -1,16 +1,19 @@
-package com.openclassrooms.realestatemanager.ui.addestate
+package com.openclassrooms.realestatemanager.ui.update
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
+import com.openclassrooms.realestatemanager.utils.getAddress
+import com.openclassrooms.realestatemanager.utils.getCity
+import com.openclassrooms.realestatemanager.utils.getZipCode
 import java.util.*
 import kotlin.collections.ArrayList
 
+class UpdateEstateViewModel : ViewModel() {
 
-class AddEstateViewModel : ViewModel() {
+    var estate:Estate? = null
 
-
-    // INPUTS (2 ways data-binding)
+    // INPUTS RECEIVERS (2 ways data-binding)
 
     // EDIT TEXT
     val type = MutableLiveData<String>()
@@ -27,7 +30,6 @@ class AddEstateViewModel : ViewModel() {
     // STATUS
     val hasBeenSold = MutableLiveData<Boolean>(false)
     val status = MutableLiveData<String>()
-    private var statusDefaultForReset: String = ""
     // DATE PICKERS
     val dateAvailable = MutableLiveData<Date>()
     val dateSold = MutableLiveData<Date>()
@@ -35,30 +37,57 @@ class AddEstateViewModel : ViewModel() {
     var nearPlaces = MutableLiveData<List<String?>>(listOf())
     lateinit var placesChoicesCheckedList: BooleanArray
     // PHOTOS
-    var pathToPhotos = MutableLiveData<MutableList<String?>>()
-    var titlesPhotos = MutableLiveData<MutableList<String?>>()
+    var photoPathList = MutableLiveData<MutableList<String>>()
+    var photoTitleList = MutableLiveData<MutableList<String>>()
     val atLeastOnePhoto = MutableLiveData<Boolean>(false)
 
 
     // CHECK INPUTS
     val showError = MutableLiveData<Boolean>(false)
     lateinit var newEstate: Estate
-    val addNewEstate = MutableLiveData<Boolean>(false)
+    val updateEstate = MutableLiveData<Boolean>(false)
+
 
     // photo variables needed
-    var indexPhotos:Int = 0
-    var newPhotoPath:String? = null
+    var newPhotoPath: String? = null
 
 
-    fun init(statusDefault: String, placesChoicesListSize: Int) {
-        // Photo
-        pathToPhotos.value = mutableListOf()
-        titlesPhotos.value = mutableListOf()
-        // Status
-        statusDefaultForReset = statusDefault
-        status.value = statusDefault
-        // Near places
-        placesChoicesCheckedList = BooleanArray(placesChoicesListSize)
+    fun init(estate: Estate, strAvailable: String, strSold: String, listNearPlaces: Array<String>) {
+        this.estate = estate
+        type.value = estate.type
+        surface.value = estate.surface.toString()
+        price.value = estate.priceDollars.toString()
+        rooms.value = estate.rooms.toString()
+        bathrooms.value = estate.bathrooms.toString()
+        bedrooms.value = estate.bedrooms.toString()
+        address.value = getAddress(estate.address)
+        addressCity.value = getCity(estate.address)
+        addressZipCode.value = getZipCode(estate.address)
+        agent.value = estate.agent
+        description.value = estate.description
+        dateAvailable.value = estate.dateAvailableSince
+        nearPlaces.value = estate.nearTo
+        placesChoicesCheckedList = BooleanArray(listNearPlaces.size)
+        photoTitleList.value?.addAll(estate.titlesPhotos)
+        photoPathList.value?.addAll(estate.pathPhotos)
+
+
+        // for each places in the list, set true for this place index in the list of booleans
+        for (strPlace in estate.nearTo) {
+            placesChoicesCheckedList[listNearPlaces.indexOf(strPlace)] = true
+        }
+
+        // Date sold
+        if (estate.dateSold != null) {
+            hasBeenSold.value = true
+            dateSold.value = estate.dateSold
+            status.value = strSold
+        } else {
+            hasBeenSold.value = false
+            status.value = strAvailable
+        }
+
+
     }
 
 
@@ -69,7 +98,7 @@ class AddEstateViewModel : ViewModel() {
         if (!checkEmptyEditTexts(getStringInputs())
             && !checkEmptyDates(getDateInputs())
             && atLeastOnePhoto.value!!
-        ) createNewEstate()
+        ) //createNewEstate()
         else showError.value = true
     }
 
@@ -88,6 +117,7 @@ class AddEstateViewModel : ViewModel() {
             addressZipCode.value,
             agent.value
         )
+
     }
 
 
@@ -110,33 +140,6 @@ class AddEstateViewModel : ViewModel() {
     }
 
 
-    private fun createNewEstate() {
-        val pathList = getListWithoutNull(pathToPhotos.value!!)
-        val titlesList = getListWithoutNull(titlesPhotos.value!!)
-        val addressComplete = "${address.value} -${addressCity.value} -${addressZipCode.value}"
-
-        newEstate = Estate(
-            null,
-            type.value!!,
-            price.value!!.toInt(),
-            surface.value!!.toInt(),
-            rooms.value!!.toInt(),
-            bathrooms.value!!.toInt(),
-            bedrooms.value!!.toInt(),
-            description.value!!,
-            pathList,
-            titlesList,
-            addressComplete,
-            mutableListOf(),
-            nearPlaces.value!!,
-            hasBeenSold.value!!,
-            dateAvailable.value!!,
-            dateSold.value,
-            agent.value!!
-        )
-        addNewEstate.value = true
-    }
-
 
     private fun getListWithoutNull(mutableList: MutableList<String?>): MutableList<String> {
         val list: MutableList<String> = ArrayList()
@@ -148,3 +151,4 @@ class AddEstateViewModel : ViewModel() {
 
 
 }
+

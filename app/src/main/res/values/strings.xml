@@ -70,6 +70,9 @@
     <string name="filter_dollar">$%s</string>
     <string name="filter_no_filter">You haven\'t selected any filter </string>
 
+    // UPDATE ESTATE FRAGMENT
+    <string name="update_estate_title">Edit this estate</string>
+
     // MAP FRAGMENT
     <string name="map_permission_needed">The map needs your location to work</string>
 
@@ -98,8 +101,8 @@
     <string name="img_photo">image button photo</string>
     <string name="img_gallery">image button gallery</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 
 
 </resources>

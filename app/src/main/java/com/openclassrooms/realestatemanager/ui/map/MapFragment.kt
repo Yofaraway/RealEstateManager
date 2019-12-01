@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.map
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -98,24 +99,33 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         val id = p0!!.title.toLong()
-        (activity as MainActivity).setFragment(DetailsFragment.newInstance(id), true, TAG_DETAILS_FRAGMENT)
+        (activity as MainActivity).setFragment(
+            DetailsFragment.newInstance(id),
+            true,
+            TAG_DETAILS_FRAGMENT
+        )
         return true
     }
 
 
     private fun checkPermissions() {
-        if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        )
-        // If permission already granted
-            locationEnabled()
-        else {
-            // Asking for location permission
-            requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    activity!!,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                == PackageManager.PERMISSION_GRANTED
             )
-        }
+            // If permission already granted
+                locationEnabled()
+            else {
+                // Asking for location permission
+                requestPermissions(
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+            }
+        } else locationEnabled()
     }
 
     override fun onRequestPermissionsResult(

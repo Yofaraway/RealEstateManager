@@ -1,9 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +15,8 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.DetailsFragmentBinding
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.ui.update.UpdateEstateFragment
+import com.openclassrooms.realestatemanager.utils.TAG_UPDATE_ESTATE_FRAGMENT
 import kotlinx.android.synthetic.main.details_fragment.*
 
 
@@ -39,7 +39,6 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         val rootView = inflater.inflate(R.layout.details_fragment, container, false)
         (activity as MainActivity).hideBottomNavigation(true)
-        (activity as MainActivity).supportActionBar?.hide()
 
         // DATA BINDING
         viewDataBinding = DetailsFragmentBinding.bind(rootView).apply {
@@ -59,9 +58,42 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
         estatesViewModel = ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
         getEstate()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        // Replace icon in toolbar
+        menu.clear()
+        inflater.inflate(R.menu.menu_edit, menu)
+        val actionBar = (activity as MainActivity).supportActionBar
+        actionBar?.apply {
+            // back button
+            setDisplayHomeAsUpEnabled(true)
+            // title
+            title =
+                context!!.resources.getString(R.string.app_name)
+        }
+    }
+
+    private fun getEstate() {
+        val id = arguments!!.getLong(KEY_ESTATE_FOR_DETAILS)
+
+        estatesViewModel.getEstateWithId(id)
+            .observe(this, Observer { t ->
+                if (t != null) {
+                    detailsViewModel.init(t)
+                    viewPager.adapter =
+                        PhotosSliderAdapter(
+                            context!!,
+                            detailsViewModel.estate.value!!.pathPhotos,
+                            detailsViewModel.estate.value!!.titlesPhotos
+                        )
+                }
+            })
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -92,22 +124,23 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun getEstate() {
-        val args = arguments
-        val id = args!!.getLong(KEY_ESTATE_FOR_DETAILS)
-
-        estatesViewModel.getEstateWithId(id)
-            .observe(this, Observer { t ->
-                if (t != null) {
-                    detailsViewModel.init(t)
-                    viewPager.adapter =
-                        PhotosSliderAdapter(
-                            context!!,
-                            detailsViewModel.estate.value!!.pathPhotos,
-                            detailsViewModel.estate.value!!.titlesPhotos
-                        )
-                }
-            })
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = arguments!!.getLong(KEY_ESTATE_FOR_DETAILS)
+        when (item.itemId) {
+            R.id.menu_toolbar_edit -> {
+                (activity as MainActivity).setFragment(
+                    UpdateEstateFragment.newInstance(id),
+                    true, TAG_UPDATE_ESTATE_FRAGMENT
+                )
+                return true
+            }
+            android.R.id.home -> {
+                fragmentManager?.popBackStack()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+        return false
     }
 
 

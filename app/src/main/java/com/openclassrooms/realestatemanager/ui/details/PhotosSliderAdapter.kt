@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.openclassrooms.realestatemanager.R
 import kotlinx.android.synthetic.main.item_photo_slider.view.*
 
@@ -34,6 +35,10 @@ class PhotosSliderAdapter(contextParent: Context, private val listPhotos: List<S
         container.addView(layout)
         return layout
 
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        (container as ViewPager).removeView(`object` as View)
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {

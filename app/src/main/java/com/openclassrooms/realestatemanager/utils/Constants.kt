@@ -8,6 +8,7 @@ const val TAG_ADD_ESTATE_FRAGMENT:String = "AddEstateFragment"
 const val TAG_FILTER_FRAGMENT:String = "FilterFragment"
 const val TAG_DETAILS_FRAGMENT:String = "DetailsFragment"
 const val TAG_ADJUSTMENTS_PHOTO_FRAGMENT:String = "AdjustmentsPhotoFragment"
+const val TAG_UPDATE_ESTATE_FRAGMENT:String = "UpdateEstateFragment"
 
 
 // NUMBER OF PHOTOS MIN & MAX FOR ONE ESTATE

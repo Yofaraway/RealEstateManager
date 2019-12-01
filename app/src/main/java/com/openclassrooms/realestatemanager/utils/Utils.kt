@@ -44,3 +44,16 @@ fun stringAddressToLocation(context: Context, address: String): List<String?> {
     }
     return list
 }
+
+
+fun getAddress(str: String): String {
+    return str.substring(0, str.indexOf("-"))
+}
+
+fun getCity(str: String): String {
+    return str.substring(str.indexOf("-") + 1, str.lastIndexOf("-"))
+}
+
+fun getZipCode(str: String): String {
+    return str.substring(str.lastIndexOf("-") + 1)
+}

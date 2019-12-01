@@ -10,9 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -33,7 +31,7 @@ import java.util.*
 
 class AddEstateFragment : Fragment() {
 
-    // VIEWMODEL & DATA BINDING
+    // VIEW MODELS & DATA BINDING
     private lateinit var viewDataBinding: AddEstateFragmentBinding
     private val viewModel: AddEstateViewModel by lazy {
         ViewModelProviders.of(this).get(AddEstateViewModel::class.java)
@@ -41,25 +39,21 @@ class AddEstateFragment : Fragment() {
     private val estatesViewModel: EstatesViewModel by lazy {
         ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
     }
-    // LOAD PHOTOS
+
+
+    // PHOTOS
     private var holdersList: MutableList<ConstraintLayout?> = mutableListOf()
-    private val cameraBtn: ImageButton by lazy { add_estate_load_from_camera_btn }
-    private val galleryBtn: ImageButton by lazy { add_estate_load_from_gallery_btn }
-    private val photosLayout: LinearLayout by lazy { add_estate_photos_layout }
-    private var index = 0
     // STATUS ITEM PER DEFAULT
     private var itemStatus: Int = 0
-    // NEAR PLACES INIT
-    private val choices by lazy { context!!.resources.getStringArray(R.array.add_estate_near_choices) }
-    private val nearChecked by lazy { BooleanArray(choices.size) }
+    // NEAR PLACES
+    private val placesChoices by lazy { context!!.resources.getStringArray(R.array.add_estate_near_choices) }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(
-            R.layout.add_estate_fragment, container, false
-        )
+        val rootView = inflater.inflate(R.layout.add_estate_fragment, container, false)
         (activity as MainActivity).hideBottomNavigation(true)
 
         // DATA BINDING
@@ -71,26 +65,11 @@ class AddEstateFragment : Fragment() {
         return viewDataBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setHasOptionsMenu(true)
-        setOnCameraBtnClick()
-        setOnGalleryBtnClick()
-        viewModel.init(context!!.resources.getString(R.string.add_estate_status_available))
-        datePickersListener()
-        // Observe when a new estate is created in viewModel
-        observeNewEstate()
-        // Status onClicked
-        viewDataBinding.addEstateStatus.setOnClickListener { showStatusChoicesDialog() }
-        // Near onClicked
-        viewDataBinding.addEstateNear.setOnClickListener { showNearChoicesDialog() }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         // Replace icon in toolbar
         menu.clear()
-        inflater.inflate(R.menu.menu_add, menu)
         val actionBar = (activity as MainActivity).supportActionBar
         actionBar?.apply {
             // back button
@@ -101,35 +80,52 @@ class AddEstateFragment : Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_toolbar_refresh -> {
-                viewModel.reset()
-                return true
-            }
-            android.R.id.home -> {
-                fragmentManager?.popBackStack()
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+
+        // Init view model
+        viewModel.init(
+            context!!.resources.getString(R.string.add_estate_status_available),
+            placesChoices.size
+        )
+
+        // Listeners
+        setOnClickListeners()
+
+        // Observe when a new estate is created in viewModel
+        setObserverNewEstate()
+    }
+
+
+    private fun setOnClickListeners() {
+        // --- DATE PICKERS --- //
+        // date available
+        viewDataBinding.addEstateDateAvailable.editText?.setOnClickListener {
+            displayDatePickerPopUp(
+                false
+            )
         }
-        return false
+        // date sold
+        viewDataBinding.addEstateDateSold.editText?.setOnClickListener { displayDatePickerPopUp(true) }
+
+        // -- NEARS PLACES -- //
+        viewDataBinding.addEstateNear.setOnClickListener { showNearChoicesDialog() }
+        viewModel.nearPlaces.observe(viewLifecycleOwner, Observer { t -> (addChipsToView(t!!)) })
+
+        // -- STATUS -- //
+        viewDataBinding.addEstateStatus.editText?.setOnClickListener { showStatusChoicesDialog() }
+
+        // -- PHONE BUTTONS -- //
+        // camera
+        viewDataBinding.addEstateLoadFromCameraBtn.setOnClickListener { displayCameraIntent() }
+        // gallery
+        viewDataBinding.addEstateLoadFromGalleryBtn.setOnClickListener { displayGalleryIntent() }
     }
 
 
-    private fun datePickersListener() {
-        // When one of the date pickers is clicked, its boolean in the viewmodel
-        // is set to true (by data binding) so we can observe it from there and
-        // open the DatePickerDialog
-        viewModel.dateAvailableDatePicker.observe(
-            this,
-            Observer { t -> if (t) displayDatePickerPopUp(false) })
-        viewModel.dateSoldDatePicker.observe(
-            this,
-            Observer { t -> if (t) displayDatePickerPopUp(true) })
-    }
-
-    private fun observeNewEstate() {
+    private fun setObserverNewEstate() {
         viewModel.addNewEstate.observe(
             this,
             Observer { t ->
@@ -149,52 +145,74 @@ class AddEstateFragment : Fragment() {
     }
 
 
-    // BUTTONS
+    /** DATE PICKERS **/
+    private fun displayDatePickerPopUp(dateSold: Boolean) {
+        val cldr = Calendar.getInstance()
+        DatePickerDialog(
+            context!!,
+            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                val datePicked = Calendar.getInstance()
+                datePicked.set(year, monthOfYear, dayOfMonth)
+                if (!dateSold) {
+                    viewModel.dateAvailable.value = datePicked.time
+                } else {
+                    viewModel.dateSold.value = datePicked.time
+                }
+            }, cldr.get(Calendar.YEAR), cldr.get(Calendar.MONTH), cldr.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
 
-    private fun setOnCameraBtnClick() {
-        cameraBtn.setOnClickListener {
+
+    /** NEAR PLACES (CHECKBOXES & CHIPS) **/
+    private fun showNearChoicesDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+        builder.apply {
+            setPositiveButton("OK") { _, _ -> updateNearList() }
+            setCancelable(true)
+            setMultiChoiceItems(
+                placesChoices, viewModel.placesChoicesCheckedList
+            ) { _, which, isChecked -> viewModel.placesChoicesCheckedList[which] = isChecked }
+            create()
+            show()
+        }
+    }
+
+    private fun updateNearList() {
+        val list: MutableList<String> = mutableListOf()
+        for ((index, b) in viewModel.placesChoicesCheckedList.withIndex()) {
+            if (b) list.add(placesChoices[index])
+        }
+        viewModel.nearPlaces.value = list
+    }
+
+    private fun addChipsToView(list: List<String?>) {
+        add_estate_near_chips_box.removeAllViews()
+        for (place in list) {
+            val chip =
+                layoutInflater.inflate(
+                    R.layout.chip_layout,
+                    add_estate_near_chips_box,
+                    false
+                ) as Chip
+            chip.text = place
+            chip.setOnClickListener { showNearChoicesDialog() }
+            add_estate_near_chips_box.addView(chip)
+        }
+    }
+
+
+    /** PHOTO BUTTONS **/
+    private fun displayCameraIntent() {
             val newPhoto: File = createFile(context!!)
             viewModel.newPhotoPath = newPhoto.absolutePath
             val camera: Intent? = getCameraIntent(context!!, newPhoto)
             startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
-        }
     }
 
-    private fun setOnGalleryBtnClick() {
-        galleryBtn.setOnClickListener {
-            startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
-        }
+    private fun displayGalleryIntent() {
+        startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
     }
 
-    // ON ACTIVITY RESULT
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                // RESULT FROM CAMERA INTENT
-                REQUEST_IMAGE_CAPTURE -> {
-                    // Display fragment to rotate image
-                    view?.clearFocus()
-                    (activity as MainActivity).setFragmentOnTopOfView(
-                        AdjustmentsPhotoFragment.newInstance(viewModel.newPhotoPath!!), true
-                    )
-                }
-
-                // RESULT FROM GALLERY INTENT
-                REQUEST_GALLERY -> {
-                    addNewPhotoToModel(data?.dataString!!)
-                    addNewPhotoToView(
-                        getImageViewFromContentURI(
-                            context!!,
-                            data.data!!
-                        )
-                    )
-                    index++
-                }
-            }
-        }
-    }
 
     private fun addNewPhotoToModel(path: String) {
         // The path to the file of the photo
@@ -206,23 +224,23 @@ class AddEstateFragment : Fragment() {
 
     private fun addNewPhotoToView(imageView: ImageView?) {
         // Holder of ImageView + EditText + Button
-        val photoHolder: ConstraintLayout? = getLayout(context!!, index)
+        val photoHolder: ConstraintLayout? = getLayout(context!!, viewModel.indexPhotos)
         photoHolder!!.addView(imageView)
         // EditText
-        val editText: EditText? = getEditText(context!!, index)
-        editText!!.addTextChangedListener(onTitlePhotoChangeListener(editText.tag.toString().toInt()))
+        val editText: EditText? = getEditText(context!!, viewModel.indexPhotos, null)
+        editText!!.addTextChangedListener(onTitlePhotoChanged(editText.tag.toString().toInt()))
         photoHolder.addView(editText)
         // Delete button
-        val deletePhotoBtn: ImageView? = getDeleteButton(context!!, index)
-        deletePhotoBtn!!.setOnClickListener { onDeletePhotoBtnClick(deletePhotoBtn.tag.toString().toInt()) }
+        val deletePhotoBtn: ImageView? = getDeleteButton(context!!, viewModel.indexPhotos)
+        deletePhotoBtn!!.setOnClickListener { onDeletePhotoBtnClicked(deletePhotoBtn.tag.toString().toInt()) }
         photoHolder.addView(deletePhotoBtn)
         holdersList.add(photoHolder)
         // Layout of all photos
-        photosLayout.addView(photoHolder)
+        viewDataBinding.addEstatePhotosLayout.addView(photoHolder)
     }
 
 
-    private fun onDeletePhotoBtnClick(tag: Int) {
+    private fun onDeletePhotoBtnClicked(tag: Int) {
         // remove from view
         holdersList[tag]!!.visibility = View.GONE
         holdersList[tag] = null
@@ -234,7 +252,7 @@ class AddEstateFragment : Fragment() {
             viewModel.atLeastOnePhoto.value = false
     }
 
-    private fun onTitlePhotoChangeListener(tag: Int): TextWatcher {
+    private fun onTitlePhotoChanged(tag: Int): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString() == "") viewModel.titlesPhotos.value!![tag] =
@@ -265,70 +283,70 @@ class AddEstateFragment : Fragment() {
         }
     }
 
-    private fun displayDatePickerPopUp(dateSold: Boolean) {
-        val cldr = Calendar.getInstance()
-        DatePickerDialog(
-            context!!,
-            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                val datePicked = Calendar.getInstance()
-                datePicked.set(year, monthOfYear, dayOfMonth)
-                if (!dateSold) {
-                    viewModel.dateAvailable.value = datePicked.time
-                    viewModel.dateAvailableDatePicker.value = false
-                } else {
-                    viewModel.dateSold.value = datePicked.time
-                    viewModel.dateSoldDatePicker.value = false
-                }
-            }, cldr.get(Calendar.YEAR), cldr.get(Calendar.MONTH), cldr.get(Calendar.DAY_OF_MONTH)
-        ).show()
-    }
-
-    private fun showNearChoicesDialog() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
-        builder.apply {
-            setPositiveButton("OK") { _, _ -> updateNearList() }
-            setCancelable(true)
-            setMultiChoiceItems(
-                choices, nearChecked
-            ) { _, which, isChecked -> nearChecked[which] = isChecked }
-            create()
-            show()
-        }
-    }
-
-    private fun updateNearList() {
-        val list: MutableList<String> = mutableListOf()
-        for ((index, b) in nearChecked.withIndex()) {
-            if (b) list.add(choices[index])
-        }
-        viewModel.nearPlaces.value = list
-        addChipsToView(list)
-    }
-
-    private fun addChipsToView(list: MutableList<String>) {
-        add_estate_near_chips_box.removeAllViews()
-        for (place in list) {
-            val chip =
-                layoutInflater.inflate(
-                    R.layout.chip_layout,
-                    add_estate_near_chips_box,
-                    false
-                ) as Chip
-            chip.text = place
-            chip.setOnClickListener { showNearChoicesDialog() }
-            add_estate_near_chips_box.addView(chip)
-        }
-    }
 
     // Callback from AdjustmentsPhotoFragment
-    fun updateAdjustedPhoto(){
+    fun updateAdjustedPhoto() {
         val photoPath = viewModel.newPhotoPath
         addNewPhotoToModel(photoPath!!)
         val bitmap = BitmapFactory.decodeFile(photoPath)
         addNewPhotoToView(getImageViewFromBitmap(context!!, bitmap))
-        index++
+        viewModel.indexPhotos++
     }
 
+
+    // ON ACTIVITY RESULT (CAMERA OR GALLERY INTENT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+
+                // RESULT FROM CAMERA INTENT
+                REQUEST_IMAGE_CAPTURE -> {
+                    // Display fragment to rotate image
+                    view?.clearFocus()
+                    (activity as MainActivity).setFragmentOnTopOfView(
+                        AdjustmentsPhotoFragment.newInstance(viewModel.newPhotoPath!!), true
+                    )
+                }
+
+                // RESULT FROM GALLERY INTENT
+                REQUEST_GALLERY -> {
+                    // Give permanent permission to read the uri (needed after a reboot of the device)
+                    val takeFlags = data?.flags?.and(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                    try {
+                        activity!!.contentResolver.takePersistableUriPermission(
+                            data!!.data!!,
+                            takeFlags!!
+                        )
+                    } catch (e: SecurityException) {
+                        e.printStackTrace()
+                    }
+
+                    addNewPhotoToModel(data?.dataString!!)
+                    addNewPhotoToView(
+                        getImageViewFromContentURI(
+                            context!!,
+                            data.data!!
+                        )
+                    )
+                    viewModel.indexPhotos++
+                }
+            }
+        }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                fragmentManager?.popBackStack()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+        return false
+    }
 
 
     companion object {
