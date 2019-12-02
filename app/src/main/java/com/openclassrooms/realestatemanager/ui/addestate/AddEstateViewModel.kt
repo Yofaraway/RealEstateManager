@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AddEstateViewModel : ViewModel() {
@@ -35,25 +34,22 @@ class AddEstateViewModel : ViewModel() {
     var nearPlaces = MutableLiveData<List<String?>>(listOf())
     lateinit var placesChoicesCheckedList: BooleanArray
     // PHOTOS
-    var pathToPhotos = MutableLiveData<MutableList<String?>>()
-    var titlesPhotos = MutableLiveData<MutableList<String?>>()
+    var photoPathList = MutableLiveData<MutableList<String>>()
+    var photoTitleList = MutableLiveData<MutableList<String>>()
     val atLeastOnePhoto = MutableLiveData<Boolean>(false)
-
+    var newPhotoPath:String? = null
 
     // CHECK INPUTS
     val showError = MutableLiveData<Boolean>(false)
     lateinit var newEstate: Estate
     val addNewEstate = MutableLiveData<Boolean>(false)
 
-    // photo variables needed
-    var indexPhotos:Int = 0
-    var newPhotoPath:String? = null
 
 
     fun init(statusDefault: String, placesChoicesListSize: Int) {
         // Photo
-        pathToPhotos.value = mutableListOf()
-        titlesPhotos.value = mutableListOf()
+        photoPathList.value = mutableListOf()
+        photoTitleList.value = mutableListOf()
         // Status
         statusDefaultForReset = statusDefault
         status.value = statusDefault
@@ -65,7 +61,7 @@ class AddEstateViewModel : ViewModel() {
 
 
     // on button click (listener with data binding)
-    fun onAddBtnClick() {
+    fun onConfirmBtnClick() {
         if (!checkEmptyEditTexts(getStringInputs())
             && !checkEmptyDates(getDateInputs())
             && atLeastOnePhoto.value!!
@@ -111,8 +107,6 @@ class AddEstateViewModel : ViewModel() {
 
 
     private fun createNewEstate() {
-        val pathList = getListWithoutNull(pathToPhotos.value!!)
-        val titlesList = getListWithoutNull(titlesPhotos.value!!)
         val addressComplete = "${address.value} -${addressCity.value} -${addressZipCode.value}"
 
         newEstate = Estate(
@@ -124,8 +118,8 @@ class AddEstateViewModel : ViewModel() {
             bathrooms.value!!.toInt(),
             bedrooms.value!!.toInt(),
             description.value!!,
-            pathList,
-            titlesList,
+            photoPathList.value!!.toList(),
+            photoTitleList.value!!.toList(),
             addressComplete,
             mutableListOf(),
             nearPlaces.value!!,
@@ -136,15 +130,4 @@ class AddEstateViewModel : ViewModel() {
         )
         addNewEstate.value = true
     }
-
-
-    private fun getListWithoutNull(mutableList: MutableList<String?>): MutableList<String> {
-        val list: MutableList<String> = ArrayList()
-        for (entry in mutableList) {
-            if (entry != null) list.add(entry)
-        }
-        return list
-    }
-
-
 }

@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
     fun removeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().remove(fragment).commit()
+        supportFragmentManager.popBackStack()
     }
 
     fun hideBottomNavigation(boolean: Boolean) {

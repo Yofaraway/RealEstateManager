@@ -36,5 +36,9 @@ class EstatesViewModel(
         executor.execute { estateDataSource.createTask(estate) }
     }
 
+    fun updateEstate(estate: Estate) {
+        executor.execute { estateDataSource.updateEstate(estate) }
+    }
+
 
 }

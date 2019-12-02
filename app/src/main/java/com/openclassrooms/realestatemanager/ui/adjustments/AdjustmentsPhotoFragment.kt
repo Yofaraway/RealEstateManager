@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.addestate
+package com.openclassrooms.realestatemanager.ui.adjustments
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,13 +11,17 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.photos.replaceFileWithChangedBitmap
 import com.openclassrooms.realestatemanager.photos.rotateImage
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import com.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
+import com.openclassrooms.realestatemanager.ui.update.UpdateEstateFragment
 import com.openclassrooms.realestatemanager.utils.TAG_ADD_ESTATE_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.TAG_UPDATE_ESTATE_FRAGMENT
 import kotlinx.android.synthetic.main.adjustments_photo_fragment.*
 
 class AdjustmentsPhotoFragment : Fragment() {
 
     var bitmap: Bitmap? = null
     lateinit var path: String
+    private var fragmentFrom: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +36,7 @@ class AdjustmentsPhotoFragment : Fragment() {
         setImageView()
         setOnRotateButtonClickedListener()
         setOnConfirmButtonClickedListener()
+        fragmentFrom = arguments!!.getString(KEY_FRAGMENT_TAG)
     }
 
     private fun setImageView() {
@@ -52,21 +57,34 @@ class AdjustmentsPhotoFragment : Fragment() {
             replaceFileWithChangedBitmap(path, bitmap!!)
             (activity as MainActivity).supportActionBar?.show()
             (activity as MainActivity).removeFragment(this)
-            (fragmentManager?.findFragmentByTag(TAG_ADD_ESTATE_FRAGMENT) as AddEstateFragment).updateAdjustedPhoto()
+            when (fragmentFrom) {
+
+                TAG_ADD_ESTATE_FRAGMENT -> (fragmentManager?.findFragmentByTag(
+                    TAG_ADD_ESTATE_FRAGMENT
+                ) as AddEstateFragment).updateAdjustedPhoto()
+
+                TAG_UPDATE_ESTATE_FRAGMENT -> (fragmentManager?.findFragmentByTag(
+                    TAG_UPDATE_ESTATE_FRAGMENT
+                ) as UpdateEstateFragment).updateAdjustedPhoto()
+            }
+
         }
     }
 
     companion object {
 
-        fun newInstance(path: String): Fragment {
-            val fragment = AdjustmentsPhotoFragment()
+        fun newInstance(path: String, tag: String): Fragment {
+            val fragment =
+                AdjustmentsPhotoFragment()
             val args = Bundle()
             args.putString(KEY_PHOTO_PATH, path)
+            args.putString(KEY_FRAGMENT_TAG, tag)
             fragment.arguments = args
             return fragment
         }
 
         private const val KEY_PHOTO_PATH: String = "KEY_PHOTO_PATH"
+        private const val KEY_FRAGMENT_TAG: String = "KEY_FRAGMENT_TAG"
     }
 
 

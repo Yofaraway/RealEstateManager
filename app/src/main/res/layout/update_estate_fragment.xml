@@ -512,7 +512,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:onClick="@{() -> viewmodel.onAddBtnClick()}"
+                    android:onClick="@{() -> viewmodel.onConfirmBtnClick()}"
                     android:text="@string/add_estate_confirm" />
 
 

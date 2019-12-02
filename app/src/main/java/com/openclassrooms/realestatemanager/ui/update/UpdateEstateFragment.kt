@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.update
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -18,8 +19,10 @@ import com.openclassrooms.realestatemanager.databinding.UpdateEstateFragmentBind
 import com.openclassrooms.realestatemanager.photos.*
 import com.openclassrooms.realestatemanager.ui.EstatesViewModel
 import com.openclassrooms.realestatemanager.ui.MainActivity
-import com.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
+import com.openclassrooms.realestatemanager.ui.adjustments.AdjustmentsPhotoFragment
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
+import com.openclassrooms.realestatemanager.utils.TAG_UPDATE_ESTATE_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.stringAddressToLocation
 import kotlinx.android.synthetic.main.update_estate_fragment.*
 import java.io.File
 import java.util.*
@@ -37,7 +40,8 @@ class UpdateEstateFragment : Fragment() {
         ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
     }
 
-
+    // STATUS ITEM PER DEFAULT
+    private var itemStatus: Int = 0
     // NEAR PLACES
     private val placesChoices by lazy { context!!.resources.getStringArray(R.array.add_estate_near_choices) }
     // PHOTOS
@@ -84,23 +88,23 @@ class UpdateEstateFragment : Fragment() {
         // Get near places
         viewModel.nearPlaces.observe(viewLifecycleOwner, Observer { t -> addChipsToView(t!!) })
         // Load photos
-        viewModel.nearPlaces.observe(viewLifecycleOwner, Observer { t ->
-            run {
-                if (t.isNullOrEmpty()) viewModel.atLeastOnePhoto.value = false
-                else {
-                    viewModel.atLeastOnePhoto.value = true
-                    addPhotosToView(t)
-                }
-            }
+        viewModel.photoTitleList.observe(viewLifecycleOwner, Observer { t ->
+            viewModel.atLeastOnePhoto.value = !t.isNullOrEmpty()
         })
+
+        viewModel.atLeastOnePhoto.observe(
+            viewLifecycleOwner,
+            Observer { t -> if (t) updateViewWithPhotos(viewModel.photoPathList.value!!) })
         // Listeners
         setOnClickListeners()
+
+        // Observe when a new estate is created in viewModel
+        setObserverUpdateEstate()
     }
 
 
     private fun getEstate() {
-        val args = arguments
-        val id = args!!.getLong(DetailsFragment.KEY_ESTATE_FOR_DETAILS)
+        val id = arguments!!.getLong(DetailsFragment.KEY_ESTATE_FOR_DETAILS)
 
         estatesViewModel.getEstateWithId(id).observe(viewLifecycleOwner, Observer { t ->
             viewModel.init(
@@ -132,17 +136,32 @@ class UpdateEstateFragment : Fragment() {
         viewDataBinding.updateEstateNear.setOnClickListener { showNearChoicesDialog() }
 
         // -- STATUS -- //
+        viewDataBinding.updateEstateStatus.setOnClickListener { showStatusChoicesDialog() }
         // -- PHONE BUTTONS -- //
         // camera
         viewDataBinding.updateEstateLoadFromCameraBtn.setOnClickListener { displayCameraIntent() }
         // gallery
         viewDataBinding.updateEstateLoadFromGalleryBtn.setOnClickListener { displayGalleryIntent() }
-
-
     }
 
 
-    /** DATE PICKERS **/
+    private fun setObserverUpdateEstate() {
+        viewModel.updateEstate.observe(
+            this,
+            Observer { t ->
+                if (t) {
+                    // To convert the address to a List<Double> with latitude and longitude
+                    val addressFormatted = viewModel.updatedEstate.address
+                    viewModel.updatedEstate.latLng =
+                        stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
+                    estatesViewModel.updateEstate(viewModel.updatedEstate)
+                    (activity as MainActivity).supportFragmentManager.popBackStack()
+                }
+            })
+    }
+
+
+    /********** DATE PICKERS **********/
     private fun displayDatePickerPopUp(dateSold: Boolean) {
         val cldr = Calendar.getInstance()
         DatePickerDialog(
@@ -160,7 +179,27 @@ class UpdateEstateFragment : Fragment() {
     }
 
 
-    /** NEAR PLACES (CHECKBOXES & CHIPS) **/
+    /********** STATUS **********/
+    private fun showStatusChoicesDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+        val choices = context!!.resources.getStringArray(R.array.add_estate_status_choices)
+        builder.apply {
+            setCancelable(true)
+            setSingleChoiceItems(
+                choices, itemStatus
+            ) { dialog, which ->
+                dialog.dismiss()
+                viewModel.status.value = choices[which]
+                viewModel.hasBeenSold.value = (which == 1)
+                itemStatus = which
+            }
+            create()
+            show()
+        }
+    }
+
+
+    /********** NEAR PLACES **********/
     private fun showNearChoicesDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
         builder.apply {
@@ -198,24 +237,31 @@ class UpdateEstateFragment : Fragment() {
     }
 
 
-    /** PHOTO BUTTONS **/
+    /********** PHOTO **********/
     private fun displayCameraIntent() {
         val newPhoto: File = createFile(context!!)
         viewModel.newPhotoPath = newPhoto.absolutePath
         val camera: Intent? = getCameraIntent(context!!, newPhoto)
-        startActivityForResult(camera, AddEstateFragment.REQUEST_IMAGE_CAPTURE)
+        startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
     }
 
     private fun displayGalleryIntent() {
-        startActivityForResult(getGalleryIntent(), AddEstateFragment.REQUEST_GALLERY)
+        startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
     }
 
+    private fun addNewPhotoToModel(path: String) {
+        // The path to the file of the photo
+        viewModel.photoPathList.value?.add(path)
+        // The title of the photo : "(no title)" per default
+        viewModel.photoTitleList.value?.add(context!!.resources.getString(R.string.add_estate_no_title))
+        viewModel.atLeastOnePhoto.value = true
+    }
 
-    private fun addPhotosToView(listPaths: List<String?>) {
+    private fun updateViewWithPhotos(listPaths: List<String?>) {
         holdersPhoto = mutableListOf()
-        val listTitles = viewModel.estate?.titlesPhotos
-        val test = viewModel.estate?.pathPhotos
-        for ((index, path) in test!!.withIndex()) {
+        viewDataBinding.updateEstatePhotosLayout.removeAllViews()
+        val listTitles = viewModel.photoTitleList.value
+        for ((index, path) in listPaths.withIndex()) {
             // photoHolder contains the image, the title and the delete button
             val photoHolder: ConstraintLayout? = getLayout(context!!, index)
 
@@ -235,14 +281,13 @@ class UpdateEstateFragment : Fragment() {
             photoHolder?.addView(deleteBtn)
             holdersPhoto.add(photoHolder)
             viewDataBinding.updateEstatePhotosLayout.addView(photoHolder)
-
         }
     }
 
     private fun onTitlePhotoChanged(index: Int): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString() == "") viewModel.photoTitleList.value!![index] =
+                if (s.toString().isEmpty()) viewModel.photoTitleList.value!![index] =
                     context!!.resources.getString(R.string.add_estate_no_title)
                 else viewModel.photoTitleList.value!![index] = s.toString()
             }
@@ -254,9 +299,54 @@ class UpdateEstateFragment : Fragment() {
 
     private fun onDeletePhotoBtnClicked(index: Int) {
         holdersPhoto[index]?.visibility = View.GONE
-        viewModel.photoTitleList.value?.removeAt(index)
         viewModel.photoPathList.value?.removeAt(index)
+        viewModel.photoTitleList.value?.removeAt(index)
+        viewModel.atLeastOnePhoto.value = !viewModel.photoTitleList.value.isNullOrEmpty()
+    }
 
+    // Callback from AdjustmentsPhotoFragment
+    fun updateAdjustedPhoto() {
+        val photoPath = viewModel.newPhotoPath
+        addNewPhotoToModel(photoPath!!)
+    }
+
+
+    // ON ACTIVITY RESULT (CAMERA OR GALLERY INTENT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+
+                // RESULT FROM CAMERA INTENT
+                REQUEST_IMAGE_CAPTURE -> {
+                    // Display fragment to rotate image
+                    view?.clearFocus()
+                    (activity as MainActivity).setFragmentOnTopOfView(
+                        AdjustmentsPhotoFragment.newInstance(
+                            viewModel.newPhotoPath!!,
+                            TAG_UPDATE_ESTATE_FRAGMENT
+                        ), true
+                    )
+                }
+
+                // RESULT FROM GALLERY INTENT
+                REQUEST_GALLERY -> {
+                    // Give permanent permission to read the uri (needed after a reboot of the device)
+                    val takeFlags = data?.flags?.and(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                    try {
+                        activity!!.contentResolver.takePersistableUriPermission(
+                            data!!.data!!,
+                            takeFlags!!
+                        )
+                    } catch (e: SecurityException) {
+                        e.printStackTrace()
+                    }
+
+                    addNewPhotoToModel(data?.dataString!!)
+                }
+            }
+        }
     }
 
 
@@ -274,6 +364,8 @@ class UpdateEstateFragment : Fragment() {
 
     companion object {
         private const val KEY_ESTATE_FOR_UPDATE: String = "ID_ESTATE"
+        const val REQUEST_IMAGE_CAPTURE = 76
+        const val REQUEST_GALLERY = 77
 
         fun newInstance(id: Long): UpdateEstateFragment {
             val fragment = UpdateEstateFragment()

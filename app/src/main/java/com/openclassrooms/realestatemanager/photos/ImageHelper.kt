@@ -40,7 +40,7 @@ fun getLayout(context: Context, index: Int): ConstraintLayout? {
         ViewGroup.LayoutParams.WRAP_CONTENT,
         ViewGroup.LayoutParams.WRAP_CONTENT
     )
-    lp.setMargins(10,0,10,0)
+    lp.setMargins(10, 0, 10, 0)
 
     return layout.apply {
         layoutParams = lp
@@ -48,18 +48,6 @@ fun getLayout(context: Context, index: Int): ConstraintLayout? {
     }
 }
 
-fun getImageViewFromBitmap(context: Context, selectedImage: Bitmap?): ImageView? {
-    val image = ImageView(context)
-    val lp = ConstraintLayout.LayoutParams(300, 400)
-    lp.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-    lp.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-    return image.apply {
-        setImageBitmap(selectedImage)
-        layoutParams = lp
-        scaleType = ImageView.ScaleType.CENTER_CROP
-        setPadding(5, 1, 5, 1)
-    }
-}
 
 fun getImageViewFromContentURI(context: Context, uri: Uri): ImageView? {
     val image = ImageView(context)
@@ -85,9 +73,12 @@ fun getEditText(context: Context, index: Int, text: String?): EditText? {
     val filterArray = arrayOfNulls<InputFilter>(1)
     filterArray[0] = LengthFilter(maxLength)
 
+
     return titlePhoto.apply {
         layoutParams = lp
-        hint = if (text.isNullOrBlank()) context.resources.getString(R.string.add_estate_no_title)  else text
+        if (text.isNullOrBlank() || text == context.resources.getString(R.string.add_estate_no_title))
+            this.hint = context.resources.getString(R.string.add_estate_no_title)
+        else this.setText(text)
         textAlignment = View.TEXT_ALIGNMENT_CENTER
         inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         maxLines = 1
@@ -119,7 +110,6 @@ fun getDeleteButton(context: Context, index: Int): ImageView? {
 }
 
 
-
 fun rotateImage(img: Bitmap, degree: Int): Bitmap {
     val matrix = Matrix()
     matrix.postRotate(degree.toFloat())
@@ -129,7 +119,7 @@ fun rotateImage(img: Bitmap, degree: Int): Bitmap {
     return rotatedImg
 }
 
-fun replaceFileWithChangedBitmap(path: String, bitmap: Bitmap){
+fun replaceFileWithChangedBitmap(path: String, bitmap: Bitmap) {
     val file = File(path)
     val os: OutputStream = BufferedOutputStream(FileOutputStream(file))
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
