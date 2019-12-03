@@ -24,7 +24,7 @@ import java.util.*
 @Throws(IOException::class)
 fun createFile(context: Context): File {
     // Create an image file name
-    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
     val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
     return File.createTempFile(
@@ -72,7 +72,6 @@ fun getEditText(context: Context, index: Int, text: String?): EditText? {
     val maxLength = 16
     val filterArray = arrayOfNulls<InputFilter>(1)
     filterArray[0] = LengthFilter(maxLength)
-
 
     return titlePhoto.apply {
         layoutParams = lp

@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Estate
 import com.openclassrooms.realestatemanager.utils.formatPrice
+import com.openclassrooms.realestatemanager.utils.getAddress
+import com.openclassrooms.realestatemanager.utils.getCity
 import kotlinx.android.synthetic.main.item_list.view.*
 
 class ListAdapter(
@@ -33,11 +35,18 @@ class ListAdapter(
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.type?.text = estates[position].type
-        holder.address?.text = estates[position].address
+        holder.address?.text = getFormattedAddress(estates[position].address)
         holder.price?.text = formatPrice(estates[position].priceDollars)
-        holder.photo?.setImageURI(Uri.parse(estates[position].pathPhotos[0]))
+        holder.photo?.setImageURI(Uri.parse(estates[position].photosPathList[0]))
 
         holder.itemView.setOnClickListener { listener(estates[position].id) }
+    }
+
+    private fun getFormattedAddress(str: String): String {
+        val address = getAddress(str)
+        val addressWord = context.resources.getString(R.string.list_address_word)
+        val city = getCity(str)
+        return "$address $addressWord $city"
     }
 
 

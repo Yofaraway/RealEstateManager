@@ -14,13 +14,13 @@ data class Estate(
     var bathrooms: Int,
     var bedrooms: Int,
     var description: String,
-    var pathPhotos: List<String>,
-    var titlesPhotos: List<String>,
+    var photosPathList: List<String>,
+    var photosTitlesList: List<String>,
     var address: String,
     var latLng: List<String?>,
-    var nearTo: List<String?>,
+    var placesNear: List<String?>,
     var hasBeenSold: Boolean,
-    var dateAvailableSince: Date,
+    var dateAvailable: Date,
     var dateSold: Date?,
     var agent: String
 

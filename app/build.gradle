@@ -64,6 +64,7 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.0' // google flexbox
     // GSON
     implementation 'com.google.code.gson:gson:2.8.6'
-    // EXIT INTERFACE (to fix problem of auto-rotated photo from camera intent)
-    implementation 'androidx.exifinterface:exifinterface:1.1.0'
+    // PageIndicatorView
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+
 }

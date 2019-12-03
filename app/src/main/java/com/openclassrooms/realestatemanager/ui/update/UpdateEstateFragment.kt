@@ -66,6 +66,7 @@ class UpdateEstateFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+        (activity as MainActivity).supportActionBar?.show()
         // Replace icon in toolbar
         menu.clear()
         val actionBar = (activity as MainActivity).supportActionBar
@@ -85,6 +86,8 @@ class UpdateEstateFragment : Fragment() {
 
         // Get estate and init the viewmodel with all the values of the estate
         getEstate()
+        // Get status
+        viewModel.hasBeenSold.observe(viewLifecycleOwner, Observer { t -> if (t) itemStatus = 1 })
         // Get near places
         viewModel.nearPlaces.observe(viewLifecycleOwner, Observer { t -> addChipsToView(t!!) })
         // Load photos
@@ -151,10 +154,10 @@ class UpdateEstateFragment : Fragment() {
             Observer { t ->
                 if (t) {
                     // To convert the address to a List<Double> with latitude and longitude
-                    val addressFormatted = viewModel.updatedEstate.address
-                    viewModel.updatedEstate.latLng =
+                    val addressFormatted = viewModel.estate!!.address
+                    viewModel.estate!!.latLng =
                         stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
-                    estatesViewModel.updateEstate(viewModel.updatedEstate)
+                    estatesViewModel.updateEstate(viewModel.estate!!)
                     (activity as MainActivity).supportFragmentManager.popBackStack()
                 }
             })

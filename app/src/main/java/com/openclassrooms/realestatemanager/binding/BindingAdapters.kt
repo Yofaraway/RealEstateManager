@@ -9,6 +9,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.utils.dateToString
 import com.openclassrooms.realestatemanager.utils.formatPrice
 import com.openclassrooms.realestatemanager.utils.formatSurface
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -58,6 +59,18 @@ object BindingAdapters {
         }
     }
 
+    // FORMAT DATE FOR TEXTVIEW
+    @BindingAdapter(value = ["formatDateLiteral"])
+    @JvmStatic
+    fun getFormattedDateLiteral(textView: TextView, date: Date?) {
+        if (date != null) {
+            val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            textView.text = formatter.format(date)
+        } else {
+            textView.text = ""
+        }
+    }
+
     // CHECK AND UNCHECK BEHAVIOUR OF CHECKBOXES : SOLD (PARENT) / AFTER (CHILD1) / BEFORE (CHILD2)
     @BindingAdapter(value = ["checkChild1", "checkChild2"], requireAll = true)
     @JvmStatic
@@ -85,7 +98,7 @@ object BindingAdapters {
     @BindingAdapter(value = ["emptyIfUnchecked"])
     @JvmStatic
     fun checkedIfNotEmpty(editText: TextInputEditText, checked: MutableLiveData<Boolean>) {
-     checked.value = (editText.text.toString() != "")
+        checked.value = (editText.text.toString() != "")
     }
 
 

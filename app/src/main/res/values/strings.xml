@@ -5,6 +5,7 @@
 
     <string name="list_no_item">No estates here</string>
     <string name="list_add_one">Add one by clicking the round button below</string>
+    <string name="list_address_word">in</string>
 
 
     // ADD ESTATE FRAGMENT
@@ -48,6 +49,8 @@
     <string name="details_unit_surface">m²</string>
     <string name="details_no_location">No location found</string>
     <string name="details_address">Address</string>
+    <string name="details_date_available">Available since the</string>
+    <string name="details_date_sold">Sold the </string>
 
 
     // FILTER ESTATES FRAGMENT
@@ -78,7 +81,7 @@
 
     // POI NEARBY
     <string name="nearby_center">City center</string>
-    <string name="nearby_restaurants">Restaurants and bars</string>
+    <string name="nearby_restaurants">Restaurants</string>
     <string name="nearby_station">Metro/train station</string>
     <string name="nearby_supermarket">Supermarket</string>
     <string name="nearby_school">School</string>

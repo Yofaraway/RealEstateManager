@@ -1,11 +1,12 @@
 package com.openclassrooms.realestatemanager.ui.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,17 +29,17 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     private val detailsViewModel: DetailsViewModel by lazy {
         ViewModelProviders.of(this).get(DetailsViewModel::class.java)
     }
-    // PHOTOS SLIDER
-    private val viewPager: ViewPager by lazy { details_images_slider_vp }
 
     private lateinit var map: GoogleMap
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.details_fragment, container, false)
-        (activity as MainActivity).hideBottomNavigation(true)
+
+        setHasOptionsMenu(true)
 
         // DATA BINDING
         viewDataBinding = DetailsFragmentBinding.bind(rootView).apply {
@@ -51,33 +52,45 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         mapFragment.onCreate(null)
         mapFragment.onResume()
         mapFragment.getMapAsync(this)
-
         return viewDataBinding.root
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        // Custom toolbar for the collapsing toolbar effect
+        (activity as MainActivity).supportActionBar?.hide()
+        (activity as MainActivity).hideBottomNavigation(true)
+
+        val toolbar = details_toolbar
+        toolbar.apply {
+            setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+            setNavigationOnClickListener { fragmentManager?.popBackStack() }
+            inflateMenu(R.menu.menu_edit)
+            setOnMenuItemClickListener { item: MenuItem? -> onMenuItemClick(item) }
+            title = context!!.resources.getString(R.string.app_name)
+        }
+        details_collapsing_toolbar.setExpandedTitleColor(Color.TRANSPARENT)
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setHasOptionsMenu(true)
         estatesViewModel = ViewModelProviders.of(activity!!).get(EstatesViewModel::class.java)
         getEstate()
-
+        detailsViewModel.hasBeenSold.observe(
+            viewLifecycleOwner,
+            Observer { t ->
+                if (t) {
+                    details_date_available_layout.visibility = View.GONE
+                    details_date_sold_layout.visibility = View.VISIBLE
+                } else {
+                    details_date_sold_layout.visibility = View.GONE
+                    details_date_available_layout.visibility = View.VISIBLE
+                }
+            })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        // Replace icon in toolbar
-        menu.clear()
-        inflater.inflate(R.menu.menu_edit, menu)
-        val actionBar = (activity as MainActivity).supportActionBar
-        actionBar?.apply {
-            // back button
-            setDisplayHomeAsUpEnabled(true)
-            // title
-            title =
-                context!!.resources.getString(R.string.app_name)
-        }
-    }
 
     private fun getEstate() {
         val id = arguments!!.getLong(KEY_ESTATE_FOR_DETAILS)
@@ -86,15 +99,39 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             .observe(this, Observer { t ->
                 if (t != null) {
                     detailsViewModel.init(t)
-                    viewPager.adapter =
+                    details_images_slider_vp.adapter =
                         PhotosSliderAdapter(
                             context!!,
-                            detailsViewModel.estate.value!!.pathPhotos,
-                            detailsViewModel.estate.value!!.titlesPhotos
+                            detailsViewModel.estate.value!!.photosPathList,
+                            detailsViewModel.estate.value!!.photosTitlesList
                         )
+                    setNearPlaces()
                 }
             })
     }
+
+
+    private fun setNearPlaces() {
+        if (detailsViewModel.estate.value!!.placesNear.isNullOrEmpty())
+            details_near_to_icon.visibility = View.GONE
+        else {
+            details_near_to_icon.visibility = View.VISIBLE
+            for ((index, place) in detailsViewModel.estate.value!!.placesNear.withIndex()) {
+
+                // only show the 3 first places
+                if (index < 3) {
+                    val textView = TextView(context)
+
+                    textView.apply {
+                        text = place
+                    }
+
+                    details_near_to_layout.addView(textView)
+                }
+            }
+        }
+    }
+
 
     override fun onMapReady(p0: GoogleMap) {
         map = p0
@@ -123,10 +160,9 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 13.toFloat()))
     }
 
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    private fun onMenuItemClick(item: MenuItem?): Boolean {
         val id = arguments!!.getLong(KEY_ESTATE_FOR_DETAILS)
-        when (item.itemId) {
+        when (item?.itemId) {
             R.id.menu_toolbar_edit -> {
                 (activity as MainActivity).setFragment(
                     UpdateEstateFragment.newInstance(id),
@@ -134,11 +170,6 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
                 )
                 return true
             }
-            android.R.id.home -> {
-                fragmentManager?.popBackStack()
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
         return false
     }

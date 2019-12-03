@@ -47,10 +47,18 @@ class ListViewFragment : Fragment() {
         return rootView
     }
 
+    private fun setToolBar() {
+        (activity as MainActivity).supportActionBar?.show()
+        // change title
+        (activity as MainActivity).supportActionBar?.title =
+            context!!.resources.getString(R.string.app_name)
+        // disable back button
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).supportActionBar?.show()
-
         configureViewModel()
         addBtnListener()
     }
@@ -103,13 +111,7 @@ class ListViewFragment : Fragment() {
     }
 
 
-    private fun setToolBar() {
-        // change title
-        (activity as MainActivity).supportActionBar?.title =
-            context!!.resources.getString(R.string.app_name)
-        // disable back button
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
+
 
     private fun onListReceived(estates: List<Estate>) {
         adapter = ListAdapter(context!!, estates) { id -> onEstateClick(id!!) }

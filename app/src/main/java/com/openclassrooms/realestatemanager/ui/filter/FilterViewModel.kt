@@ -128,7 +128,7 @@ class FilterViewModel : ViewModel() {
         val listFiltered: MutableList<Estate> = mutableListOf()
 
         for (estate in list) {
-            if (estate.pathPhotos.size in photoMin..photoMax)
+            if (estate.photosPathList.size in photoMin..photoMax)
                 listFiltered.add(estate)
         }
         return listFiltered
@@ -142,7 +142,7 @@ class FilterViewModel : ViewModel() {
         val listFiltered: MutableList<Estate> = mutableListOf()
 
         for (estate in list) {
-            if (estate.dateAvailableSince.after(dateFrom) || estate.dateAvailableSince.compareTo(dateFrom) == 0)
+            if (estate.dateAvailable.after(dateFrom) || estate.dateAvailable.compareTo(dateFrom) == 0)
                 listFiltered.add(estate)
         }
         return listFiltered
@@ -187,7 +187,7 @@ class FilterViewModel : ViewModel() {
         val listFiltered: MutableList<Estate> = mutableListOf()
 
         for (estate in list) {
-            if (estate.nearTo.containsAll(nearPlaces))
+            if (estate.placesNear.containsAll(nearPlaces))
                 listFiltered.add(estate)
         }
         return listFiltered

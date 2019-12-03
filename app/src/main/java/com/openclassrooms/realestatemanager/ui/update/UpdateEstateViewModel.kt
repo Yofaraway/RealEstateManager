@@ -43,7 +43,6 @@ class UpdateEstateViewModel : ViewModel() {
 
     // CHECK INPUTS
     val showError = MutableLiveData<Boolean>(false)
-    lateinit var updatedEstate: Estate
     val updateEstate = MutableLiveData<Boolean>(false)
 
 
@@ -60,15 +59,15 @@ class UpdateEstateViewModel : ViewModel() {
         addressZipCode.value = getZipCode(estate.address)
         agent.value = estate.agent
         description.value = estate.description
-        dateAvailable.value = estate.dateAvailableSince
-        nearPlaces.value = estate.nearTo
+        dateAvailable.value = estate.dateAvailable
+        nearPlaces.value = estate.placesNear
         placesChoicesCheckedList = BooleanArray(listNearPlaces.size)
-        photoPathList.value = estate.pathPhotos.toMutableList()
-        photoTitleList.value = estate.titlesPhotos.toMutableList()
+        photoPathList.value = estate.photosPathList.toMutableList()
+        photoTitleList.value = estate.photosTitlesList.toMutableList()
 
 
         // for each places in the list, set true for this place index in the list of booleans
-        for (strPlace in estate.nearTo) {
+        for (strPlace in estate.placesNear) {
             placesChoicesCheckedList[listNearPlaces.indexOf(strPlace)] = true
         }
 
@@ -132,27 +131,27 @@ class UpdateEstateViewModel : ViewModel() {
 
 
     private fun createNewUpdatedEstate() {
-        val addressComplete = "${address.value} -${addressCity.value} -${addressZipCode.value}"
+        val addressComplete = "${address.value}-${addressCity.value}-${addressZipCode.value}"
+        if (!hasBeenSold.value!!) dateSold.value = null
 
-        updatedEstate = Estate(
-            null,
-            type.value!!,
-            price.value!!.toInt(),
-            surface.value!!.toInt(),
-            rooms.value!!.toInt(),
-            bathrooms.value!!.toInt(),
-            bedrooms.value!!.toInt(),
-            description.value!!,
-            photoPathList.value!!.toList(),
-            photoTitleList.value!!.toList(),
-            addressComplete,
-            mutableListOf(),
-            nearPlaces.value!!,
-            hasBeenSold.value!!,
-            dateAvailable.value!!,
-            dateSold.value,
-            agent.value!!
-        )
+        estate.apply {
+            this?.type = type.value!!
+            this?.priceDollars = price.value!!.toInt()
+            this?.surface = surface.value!!.toInt()
+            this?.rooms = rooms.value!!.toInt()
+            this?.bathrooms = bathrooms.value!!.toInt()
+            this?.bedrooms = bedrooms.value!!.toInt()
+            this?.description = description.value!!
+            this?.photosPathList = photoPathList.value!!.toList()
+            this?.photosTitlesList = photoTitleList.value!!.toList()
+            this?.address = addressComplete
+            this?.latLng = mutableListOf()
+            this?.placesNear = nearPlaces.value!!
+            this?.hasBeenSold = hasBeenSold.value!!
+            this?.dateAvailable = dateAvailable.value!!
+            this?.dateSold = dateSold.value
+            this?.agent = agent.value!!
+        }
         updateEstate.value = true
     }
 }

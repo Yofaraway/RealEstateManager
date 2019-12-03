@@ -1,10 +1,7 @@
 package com.openclassrooms.realestatemanager.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.openclassrooms.realestatemanager.model.Estate
 
 @Dao
@@ -18,7 +15,7 @@ interface EstateDao {
     @Insert
     fun insertEstate(estate: Estate): Long
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateEstate(estate: Estate): Int
 
 }
