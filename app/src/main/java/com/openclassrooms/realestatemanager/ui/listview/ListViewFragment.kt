@@ -24,6 +24,7 @@ import com.openclassrooms.realestatemanager.utils.TAG_DETAILS_FRAGMENT
 import com.openclassrooms.realestatemanager.utils.TAG_FILTER_FRAGMENT
 import kotlinx.android.synthetic.main.list_view_fragment.*
 
+
 class ListViewFragment : Fragment() {
 
     // List
@@ -52,8 +53,7 @@ class ListViewFragment : Fragment() {
         // change title
         (activity as MainActivity).supportActionBar?.title =
             context!!.resources.getString(R.string.app_name)
-        // disable back button
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -126,6 +126,9 @@ class ListViewFragment : Fragment() {
             TAG_DETAILS_FRAGMENT
         )
     }
+
+
+
 
 
     companion object {

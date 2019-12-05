@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.addestate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
+import com.openclassrooms.realestatemanager.utils.convertEuroToDollar
 import java.util.*
 
 
@@ -44,9 +45,12 @@ class AddEstateViewModel : ViewModel() {
     lateinit var newEstate: Estate
     val addNewEstate = MutableLiveData<Boolean>(false)
 
+    // CURRENCY
+    var currency:String? = "Dollar"
 
 
-    fun init(statusDefault: String, placesChoicesListSize: Int) {
+
+    fun init(statusDefault: String, placesChoicesListSize: Int, currentCurrency: String) {
         // Photo
         photoPathList.value = mutableListOf()
         photoTitleList.value = mutableListOf()
@@ -55,6 +59,8 @@ class AddEstateViewModel : ViewModel() {
         status.value = statusDefault
         // Near places
         placesChoicesCheckedList = BooleanArray(placesChoicesListSize)
+
+        currency = currentCurrency
     }
 
 
@@ -109,6 +115,8 @@ class AddEstateViewModel : ViewModel() {
     private fun createNewEstate() {
         val addressComplete = "${address.value}-${addressCity.value}-${addressZipCode.value}"
         if (!hasBeenSold.value!!) dateSold.value = null
+
+        if (currency == "Euro") price.value = convertEuroToDollar(price.value!!.toInt()).toString()
 
         newEstate = Estate(
             null,

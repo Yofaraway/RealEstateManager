@@ -3,9 +3,7 @@ package com.openclassrooms.realestatemanager.ui.update
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.utils.getAddress
-import com.openclassrooms.realestatemanager.utils.getCity
-import com.openclassrooms.realestatemanager.utils.getZipCode
+import com.openclassrooms.realestatemanager.utils.*
 import java.util.*
 
 class UpdateEstateViewModel : ViewModel() {
@@ -45,12 +43,17 @@ class UpdateEstateViewModel : ViewModel() {
     val showError = MutableLiveData<Boolean>(false)
     val updateEstate = MutableLiveData<Boolean>(false)
 
+    // CURRENCY
+    var currency: String? = "Dollar"
+
+    fun initCurrency(currentCurrency: String) {
+        currency = currentCurrency
+    }
 
     fun init(estate: Estate, strAvailable: String, strSold: String, listNearPlaces: Array<String>) {
         this.estate = estate
         type.value = estate.type
         surface.value = estate.surface.toString()
-        price.value = estate.priceDollars.toString()
         rooms.value = estate.rooms.toString()
         bathrooms.value = estate.bathrooms.toString()
         bedrooms.value = estate.bedrooms.toString()
@@ -64,6 +67,9 @@ class UpdateEstateViewModel : ViewModel() {
         placesChoicesCheckedList = BooleanArray(listNearPlaces.size)
         photoPathList.value = estate.photosPathList.toMutableList()
         photoTitleList.value = estate.photosTitlesList.toMutableList()
+
+        if (currency == "Euro") price.value = convertDollarToEuro(estate.priceDollars).toString()
+        else price.value = estate.priceDollars.toString()
 
 
         // for each places in the list, set true for this place index in the list of booleans
@@ -133,6 +139,7 @@ class UpdateEstateViewModel : ViewModel() {
     private fun createNewUpdatedEstate() {
         val addressComplete = "${address.value}-${addressCity.value}-${addressZipCode.value}"
         if (!hasBeenSold.value!!) dateSold.value = null
+        if (currency == "Euro") price.value = convertEuroToDollar(price.value!!.toInt()).toString()
 
         estate.apply {
             this?.type = type.value!!

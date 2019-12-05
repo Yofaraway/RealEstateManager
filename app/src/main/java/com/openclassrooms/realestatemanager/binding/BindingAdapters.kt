@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.dateToString
 import com.openclassrooms.realestatemanager.utils.formatPrice
 import com.openclassrooms.realestatemanager.utils.formatSurface
@@ -31,10 +32,10 @@ object BindingAdapters {
 
 
     // FORMAT PRICE FOR TEXTVIEW (from "1000" to "$1,000")
-    @BindingAdapter(value = ["formatPrice"])
+    @BindingAdapter(value = ["formatPrice", "currency"], requireAll = true)
     @JvmStatic
-    fun getFormattedPrice(tv: TextView, price: Int) {
-        tv.text = formatPrice(price)
+    fun getFormattedPrice(tv: TextView, price: Int, currency: String) {
+       tv.text = formatPrice(price, currency)
     }
 
     // FORMAT SURFACE FOR TEXTVIEW (from "1000" to "1,000 m²")
@@ -99,6 +100,18 @@ object BindingAdapters {
     @JvmStatic
     fun checkedIfNotEmpty(editText: TextInputEditText, checked: MutableLiveData<Boolean>) {
         checked.value = (editText.text.toString() != "")
+    }
+
+
+    // CURRENCY
+    @BindingAdapter(value = ["currency"])
+    @JvmStatic
+    fun adaptCurrencyIcon(textInputLayout: TextInputLayout, currency: String) {
+        when (currency) {
+            "Dollar" -> textInputLayout.setStartIconDrawable(R.drawable.ic_attach_money_black_24dp)
+            "Euro" -> textInputLayout.setStartIconDrawable(R.drawable.ic_euro_symbol_black_24dp)
+            else -> textInputLayout.setStartIconDrawable(R.drawable.ic_attach_money_black_24dp)
+        }
     }
 
 

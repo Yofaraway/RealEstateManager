@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.ui.filter
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -18,6 +20,7 @@ import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.utils.MAX_PHOTOS
 import com.openclassrooms.realestatemanager.utils.MIN_PHOTOS
+import com.openclassrooms.realestatemanager.utils.convertDollarToEuro
 import kotlinx.android.synthetic.main.filter_fragment.*
 import java.util.*
 
@@ -57,6 +60,8 @@ class FilterFragment : Fragment() {
         actionBar?.apply {
             // back button
             setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+
             // title
             title =
                 context!!.resources.getString(R.string.filter_title)
@@ -78,7 +83,7 @@ class FilterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onActivityCreated(savedInstanceState)
-        filterViewModel.init()
+        filterViewModel.init(getCurrency()!!)
         getEstates()
         // Checkboxes listeners
         onPriceChangedListener()
@@ -91,13 +96,21 @@ class FilterFragment : Fragment() {
         onSearchButtonClicked()
     }
 
+    private fun getCurrency(): String? {
+        val prefs: SharedPreferences =
+            context!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        return prefs.getString("pref_currency", null)
+    }
+
 
     private fun onPriceChangedListener() {
         // Get highest price in db
         estatesViewModel.getEstates()
             .observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
                 var maxPrice = list.maxBy { it.priceDollars }?.priceDollars
-                if (maxPrice == null) maxPrice = 100000
+                if (maxPrice != null) {
+                    if (filterViewModel.currency == "Euro") maxPrice = convertDollarToEuro(maxPrice)
+                } else maxPrice = 100000
 
                 viewDataBinding.filterPriceSeekbar.setMaxValue(maxPrice.toFloat())
                 viewDataBinding.filterPriceSeekbar.setOnRangeSeekbarChangeListener { minValue, maxValue ->

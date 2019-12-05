@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.listview
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Estate
+import com.openclassrooms.realestatemanager.utils.convertDollarToEuro
 import com.openclassrooms.realestatemanager.utils.formatPrice
 import com.openclassrooms.realestatemanager.utils.getAddress
 import com.openclassrooms.realestatemanager.utils.getCity
@@ -36,10 +38,23 @@ class ListAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.type?.text = estates[position].type
         holder.address?.text = getFormattedAddress(estates[position].address)
-        holder.price?.text = formatPrice(estates[position].priceDollars)
+        holder.price?.text = getPriceWithCurrentCurrency(estates[position].priceDollars)
         holder.photo?.setImageURI(Uri.parse(estates[position].photosPathList[0]))
 
         holder.itemView.setOnClickListener { listener(estates[position].id) }
+    }
+
+    private fun getPriceWithCurrentCurrency(priceDollars: Int): String? {
+        return when (val currency = getCurrency()) {
+            "Euro" -> formatPrice(convertDollarToEuro(priceDollars), currency)
+            else -> formatPrice(priceDollars, currency!!)
+        }
+    }
+
+    private fun getCurrency(): String? {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        return prefs.getString("pref_currency", null)
     }
 
     private fun getFormattedAddress(str: String): String {

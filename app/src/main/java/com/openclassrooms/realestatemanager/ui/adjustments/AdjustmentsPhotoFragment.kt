@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.photos.getResizedBitmap
 import com.openclassrooms.realestatemanager.photos.replaceFileWithChangedBitmap
 import com.openclassrooms.realestatemanager.photos.rotateImage
 import com.openclassrooms.realestatemanager.ui.MainActivity
@@ -41,7 +42,8 @@ class AdjustmentsPhotoFragment : Fragment() {
 
     private fun setImageView() {
         path = arguments!!.getString(KEY_PHOTO_PATH)!!
-        bitmap = BitmapFactory.decodeFile(path)
+        val bitmapOriginal = BitmapFactory.decodeFile(path)
+        bitmap = getResizedBitmap(bitmapOriginal)
         adjustments_photo.setImageBitmap(bitmap)
     }
 

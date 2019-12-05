@@ -69,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/grey_60"
+                        app:currency="@{viewmodel.currency}"
                         app:formatPrice="@{viewmodel.priceMin}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -80,6 +81,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/grey_60"
+                        app:currency="@{viewmodel.currency}"
                         app:formatPrice="@{viewmodel.priceMax}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

@@ -3,7 +3,9 @@ package com.openclassrooms.realestatemanager.ui.update
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -73,6 +75,7 @@ class UpdateEstateFragment : Fragment() {
         actionBar?.apply {
             // back button
             setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
             // title
             title =
                 context!!.resources.getString(R.string.update_estate_title)
@@ -84,6 +87,8 @@ class UpdateEstateFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
 
+        // Set current currency
+        viewModel.initCurrency(getCurrency()!!)
         // Get estate and init the viewmodel with all the values of the estate
         getEstate()
         // Get status
@@ -117,6 +122,12 @@ class UpdateEstateFragment : Fragment() {
                 placesChoices
             )
         })
+    }
+
+    private fun getCurrency(): String? {
+        val prefs: SharedPreferences =
+            context!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        return prefs.getString("pref_currency", null)
     }
 
 

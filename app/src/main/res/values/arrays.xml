@@ -20,5 +20,10 @@
         <item>@string/nearby_nightlife</item>
     </array>
 
+    <array name="currencies">
+        <item>@string/currency_dollar</item>
+        <item>@string/currency_euro</item>
+    </array>
+
 
 </resources>

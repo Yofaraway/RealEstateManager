@@ -29,12 +29,16 @@ class FilterViewModel : ViewModel() {
     var fromAvailable = MutableLiveData<Date>()
     var afterSold = MutableLiveData<Date>()
     var beforeSold = MutableLiveData<Date>()
-
     // NEAR VALUES
     var nearPlaces = MutableLiveData<MutableList<String>>()
 
+    // Currency
+    var currency = "Dollar"
 
-    fun init() {
+
+    fun init(currentCurrency: String) {
+        currency = currentCurrency
+
         // CHECKBOXES
         for (isSelected in getCheckboxes()) {
             isSelected.value = false

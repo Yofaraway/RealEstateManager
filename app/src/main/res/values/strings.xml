@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
-    // LIST VIEW FRAGMENT
 
+
+    // LIST VIEW FRAGMENT
     <string name="list_no_item">No estates here</string>
     <string name="list_add_one">Add one by clicking the round button below</string>
     <string name="list_address_word">in</string>
@@ -79,6 +80,16 @@
     // MAP FRAGMENT
     <string name="map_permission_needed">The map needs your location to work</string>
 
+    // SETTINGS FRAGMENT
+    <string name="settings_title">Settings</string>
+    <string name="settings_currency">Currency</string>
+    <string name="settings_pick_currency">Select your currency</string>
+    <string name="settings_currency_changed">Currency changed to </string>
+
+    // CURRENCIES
+    <string name="currency_dollar">Dollar</string>
+    <string name="currency_euro">Euro</string>
+
     // POI NEARBY
     <string name="nearby_center">City center</string>
     <string name="nearby_restaurants">Restaurants</string>
@@ -98,14 +109,14 @@
     <string name="menu_filter">Filter</string>
     <string name="menu_update">Update</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_mortgage">Mortgage Calculator</string>
+    <string name="menu_settings">Settings</string>
+
 
     // IMAGE VIEWS CONTENT DESCRIPTION
     <string name="img_bg">background</string>
     <string name="img_photo">image button photo</string>
     <string name="img_gallery">image button gallery</string>
-
-
-
 
 
 </resources>

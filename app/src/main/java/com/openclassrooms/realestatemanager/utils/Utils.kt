@@ -7,11 +7,15 @@ import android.util.Log
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 
-fun stringToDate(str: String): Date? {
-    val formatter = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
-    return formatter.parse(str)
+fun convertDollarToEuro(dollars: Int): Int {
+    return (dollars * 0.812).roundToInt()
+}
+
+fun convertEuroToDollar(euros: Int): Int {
+    return (euros / 0.812).roundToInt()
 }
 
 fun dateToString(cal: Calendar): String? {
@@ -20,9 +24,14 @@ fun dateToString(cal: Calendar): String? {
     return formatter.format(date)
 }
 
-fun formatPrice(int: Int): String? {
+fun formatPrice(int: Int, currency: String): String? {
     val formatter = DecimalFormat("#,###")
-    return "$" + formatter.format(int)
+    return when (currency) {
+        "Dollar" -> "$" + formatter.format(int)
+        "Euro" -> formatter.format(int) + "€"
+        else -> "$" + formatter.format(int)
+    }
+
 }
 
 fun formatSurface(int: Int): String? {

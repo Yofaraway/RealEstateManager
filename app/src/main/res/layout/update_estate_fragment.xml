@@ -66,6 +66,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_large"
+                        app:currency="@{viewmodel.currency}"
                         app:enableError="@{viewmodel.showError}"
                         app:errorText="@{@string/add_estate_missing_field}"
                         app:helperText="@string/add_estate_price"
@@ -297,7 +298,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/update_estate_near_icon_end"
                             app:layout_constraintStart_toEndOf="@id/update_estate_near_icon_start"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
                         <ImageView

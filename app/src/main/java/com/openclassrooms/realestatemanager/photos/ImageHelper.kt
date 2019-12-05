@@ -19,6 +19,7 @@ import com.openclassrooms.realestatemanager.R
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.min
 
 
 @Throws(IOException::class)
@@ -106,6 +107,23 @@ fun getDeleteButton(context: Context, index: Int): ImageView? {
         tag = index
         setPadding(2, 2, 2, 2)
     }
+}
+
+
+fun getResizedBitmap(bm: Bitmap): Bitmap {
+    val maxHeight = 1024
+    val maxWidth = 1024
+    val scale: Float = min(
+        maxHeight.toFloat() / bm.width,
+        maxWidth.toFloat() / bm.height
+    )
+    val matrix = Matrix()
+    matrix.postScale(scale, scale)
+
+    // "RECREATE" THE NEW BITMAP
+    return Bitmap.createBitmap(
+        bm, 0, 0, bm.width, bm.height, matrix, false
+    )
 }
 
 

@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.details
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -98,7 +100,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         estatesViewModel.getEstateWithId(id)
             .observe(this, Observer { t ->
                 if (t != null) {
-                    detailsViewModel.init(t)
+                    detailsViewModel.init(t, getCurrency()!!)
                     details_images_slider_vp.adapter =
                         PhotosSliderAdapter(
                             context!!,
@@ -110,24 +112,25 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             })
     }
 
+    private fun getCurrency(): String? {
+        val prefs: SharedPreferences =
+            context!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        return prefs.getString("pref_currency", null)
+    }
+
 
     private fun setNearPlaces() {
+        details_near_to_layout.removeAllViews()
         if (detailsViewModel.estate.value!!.placesNear.isNullOrEmpty())
             details_near_to_icon.visibility = View.GONE
         else {
             details_near_to_icon.visibility = View.VISIBLE
-            for ((index, place) in detailsViewModel.estate.value!!.placesNear.withIndex()) {
-
-                // only show the 3 first places
-                if (index < 3) {
-                    val textView = TextView(context)
-
-                    textView.apply {
-                        text = place
-                    }
-
-                    details_near_to_layout.addView(textView)
+            for (place in detailsViewModel.estate.value!!.placesNear) {
+                val textView = TextView(context)
+                textView.apply {
+                    text = place
                 }
+                details_near_to_layout.addView(textView)
             }
         }
     }

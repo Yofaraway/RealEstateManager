@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_mortgage"
+        android:icon="@drawable/ic_show_chart_black_24dp"
+        android:title="@string/menu_mortgage"
+      />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/menu_settings"
+        />
+
+
+
+</menu>

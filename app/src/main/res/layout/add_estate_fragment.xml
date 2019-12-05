@@ -66,6 +66,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_large"
+                        app:currency="@{viewmodel.currency}"
                         app:enableError="@{viewmodel.showError}"
                         app:errorText="@{@string/add_estate_missing_field}"
                         app:helperText="@string/add_estate_price"

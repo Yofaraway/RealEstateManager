@@ -66,5 +66,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     // PageIndicatorView
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+    // PREFERENCES
+    implementation 'androidx.preference:preference:1.1.0'
 
 }
