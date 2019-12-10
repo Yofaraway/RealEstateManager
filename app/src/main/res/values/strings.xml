@@ -86,6 +86,9 @@
     <string name="settings_pick_currency">Select your currency</string>
     <string name="settings_currency_changed">Currency changed to </string>
 
+    //MORTGAGE CALCULATOR FRAGMENT
+    <string name="mortgage_title">Mortgage Calculator</string>
+
     // CURRENCIES
     <string name="currency_dollar">Dollar</string>
     <string name="currency_euro">Euro</string>

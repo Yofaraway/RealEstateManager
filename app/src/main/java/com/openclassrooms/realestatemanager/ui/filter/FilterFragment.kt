@@ -52,10 +52,9 @@ class FilterFragment : Fragment() {
         return viewDataBinding.root
     }
 
-    // TOOLBAR
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
+        //menu.clear()
         val actionBar = (activity as MainActivity).supportActionBar
         actionBar?.apply {
             // back button
@@ -74,9 +73,8 @@ class FilterFragment : Fragment() {
                 fragmentManager?.popBackStack()
                 return true
             }
-            else -> super.onOptionsItemSelected(item)
         }
-        return false
+        return super.onOptionsItemSelected(item)
     }
 
 

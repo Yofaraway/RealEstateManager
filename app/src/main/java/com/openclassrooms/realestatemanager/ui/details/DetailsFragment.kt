@@ -60,18 +60,26 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        // Custom toolbar for the collapsing toolbar effect
-        (activity as MainActivity).supportActionBar?.hide()
-        (activity as MainActivity).hideBottomNavigation(true)
 
-        val toolbar = details_toolbar
-        toolbar.apply {
-            setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
-            setNavigationOnClickListener { fragmentManager?.popBackStack() }
-            inflateMenu(R.menu.menu_edit)
-            setOnMenuItemClickListener { item: MenuItem? -> onMenuItemClick(item) }
-            title = context!!.resources.getString(R.string.app_name)
+        // If device is a tablet
+        if (resources.getBoolean(R.bool.twoPaneMode)) {
+            (activity as MainActivity).supportActionBar?.apply {
+                menu.clear()
+                inflater.inflate(R.menu.menu_tablet, menu)
+            }
+
+        } else {
+            (activity as MainActivity).supportActionBar?.hide()
+            // Custom toolbar for the collapsing toolbar effect
+            details_toolbar?.apply {
+                setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+                setNavigationOnClickListener { fragmentManager?.popBackStack() }
+                inflateMenu(R.menu.menu_edit)
+                setOnMenuItemClickListener { item: MenuItem? -> onMenuItemClick(item) }
+                title = context!!.resources.getString(R.string.app_name)
+            }
         }
+
         details_collapsing_toolbar.setExpandedTitleColor(Color.TRANSPARENT)
     }
 
@@ -175,6 +183,20 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
             }
         }
         return false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = arguments!!.getLong(KEY_ESTATE_FOR_DETAILS)
+        when (item.itemId) {
+            R.id.menu_toolbar_edit -> {
+                (activity as MainActivity).setFragment(
+                    UpdateEstateFragment.newInstance(id),
+                    true, TAG_UPDATE_ESTATE_FRAGMENT
+                )
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

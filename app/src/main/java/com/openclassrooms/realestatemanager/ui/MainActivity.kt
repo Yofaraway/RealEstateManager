@@ -4,43 +4,51 @@ package com.openclassrooms.realestatemanager.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.di.Injection.provideViewModelFactory
-import com.openclassrooms.realestatemanager.ui.filter.FilterFragment
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.ui.map.MapFragment
+import com.openclassrooms.realestatemanager.ui.mortgage.MortgageCalculatorFragment
 import com.openclassrooms.realestatemanager.ui.settings.SettingsFragment
-import com.openclassrooms.realestatemanager.utils.TAG_FILTER_FRAGMENT
 import com.openclassrooms.realestatemanager.utils.TAG_LIST_VIEW_FRAGMENT
 import com.openclassrooms.realestatemanager.utils.TAG_MAP_FRAGMENT
+import com.openclassrooms.realestatemanager.utils.TAG_MORTGAGE_CALCULATOR_FRAGMENT
 import com.openclassrooms.realestatemanager.utils.TAG_SETTINGS_FRAGMENT
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    //val currency:String?
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setToolbar()
         setNavigation()
         setBottomNavigation()
 
         configureViewModel()
         getCurrency()
-        if (savedInstanceState == null) setFirstFragment()
+         if (savedInstanceState == null) setFirstFragment()
     }
+
 
     /********** UI **********/
 
+    /**--- TOOLBAR ---**/
+    private fun setToolbar() {
+        val toolbar:Toolbar = findViewById(R.id.main_toolbar)
+        setSupportActionBar(toolbar)
+    }
+
+
+    /**--- NAVIGATION MENU ---**/
     private fun setNavigation() {
         main_navigation.bringToFront()
         main_navigation.setNavigationItemSelectedListener { item: MenuItem ->
@@ -53,11 +61,20 @@ class MainActivity : AppCompatActivity() {
                     main_layout.closeDrawer(GravityCompat.START)
                     true
                 }
+                R.id.navigation_mortgage -> {
+                    setFragment(
+                        MortgageCalculatorFragment.newInstance(), true,
+                        TAG_MORTGAGE_CALCULATOR_FRAGMENT
+                    )
+                    main_layout.closeDrawer(GravityCompat.START)
+                    true
+                }
                 else -> false
             }
         }
     }
 
+    /**--- BOTTOM NAVIGATION MENU ---**/
     private fun setBottomNavigation() {
         bottom_navigation.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
@@ -74,25 +91,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_main, menu)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_toolbar_filter -> setFragment(
-                FilterFragment.newInstance(),
-                true,
-                TAG_FILTER_FRAGMENT
-            )
-        }
-        return false
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         if (main_layout.isDrawerOpen(GravityCompat.START)) {
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         if (currentCurrency.isNullOrEmpty()) {
             editor.putString("pref_currency", resources.getString(R.string.currency_dollar))
             editor.apply()
-        } else println(currentCurrency)
+        }
 
     }
 
@@ -135,8 +133,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setFragment(fragment: Fragment, addBackStack: Boolean, tag: String) {
+        resources.getBoolean(R.bool.twoPaneMode)
         val transaction = supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frame, fragment, tag)
+        if (resources.getBoolean(R.bool.twoPaneMode)) {
+            when (tag) {
+                TAG_LIST_VIEW_FRAGMENT -> transaction.replace(R.id.main_frame_start, fragment, tag)
+                else -> transaction.replace(R.id.main_frame_end, fragment, tag)
+            }
+        } else {
+            transaction.replace(R.id.main_frame, fragment, tag)
+        }
         if (addBackStack) transaction.addToBackStack(null)
         transaction.commit()
     }

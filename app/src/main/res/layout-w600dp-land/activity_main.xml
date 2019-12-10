@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey_5"
     android:fitsSystemWindows="false"
+    android:orientation="vertical"
     tools:openDrawer="start">
 
 
@@ -28,8 +29,8 @@
         android:layout_height="match_parent">
 
         <include
-            layout="@layout/toolbar"
             android:id="@+id/main_toolbar"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,14 +39,23 @@
 
 
         <FrameLayout
-            android:id="@+id/main_frame"
-            android:layout_width="match_parent"
+            android:id="@+id/main_frame_start"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/main_frame_end"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_toolbar"
             tools:context=".ui.MainActivity" />
+
+        <FrameLayout
+            android:id="@+id/main_frame_end"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/main_frame_start"
+            app:layout_constraintTop_toBottomOf="@id/main_toolbar" />
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

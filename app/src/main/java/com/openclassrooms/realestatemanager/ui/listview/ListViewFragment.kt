@@ -1,10 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.listview
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,8 +32,7 @@ class ListViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as MainActivity).hideBottomNavigation(false)
-        setToolBar()
+        setHasOptionsMenu(true)
         val rootView = inflater.inflate(R.layout.list_view_fragment, container, false)
         recyclerView = rootView.findViewById(R.id.list_view_rv)
         recyclerView.setHasFixedSize(true)
@@ -48,19 +44,21 @@ class ListViewFragment : Fragment() {
         return rootView
     }
 
-    private fun setToolBar() {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
         (activity as MainActivity).supportActionBar?.show()
-        // change title
-        (activity as MainActivity).supportActionBar?.title =
-            context!!.resources.getString(R.string.app_name)
-
+        menu.clear()
+        inflater.inflate(R.menu.menu_main, menu)
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+        (activity as MainActivity).supportActionBar?.title = resources.getString(R.string.app_name)
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as MainActivity).supportActionBar?.show()
         configureViewModel()
         addBtnListener()
+
     }
 
     private fun addBtnListener() {
@@ -106,16 +104,15 @@ class ListViewFragment : Fragment() {
                 true, TAG_FILTER_FRAGMENT
             )
         }
-        super.onOptionsItemSelected(item)
-        return true
+        return  super.onOptionsItemSelected(item)
     }
-
-
 
 
     private fun onListReceived(estates: List<Estate>) {
         adapter = ListAdapter(context!!, estates) { id -> onEstateClick(id!!) }
         recyclerView.adapter = adapter
+        // if tablet & list not empty, display first item details
+        if (resources.getBoolean(R.bool.twoPaneMode) && estates.isNotEmpty()) onEstateClick(1)
     }
 
 
@@ -126,9 +123,6 @@ class ListViewFragment : Fragment() {
             TAG_DETAILS_FRAGMENT
         )
     }
-
-
-
 
 
     companion object {

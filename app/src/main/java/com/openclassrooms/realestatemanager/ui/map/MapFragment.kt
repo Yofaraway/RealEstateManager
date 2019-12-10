@@ -161,8 +161,10 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
         map.isMyLocationEnabled = true
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            val currentLatLng = LatLng(location.latitude, location.longitude)
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+            if (location != null) {
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+            }
         }
     }
 
