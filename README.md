@@ -46,7 +46,7 @@ Filter options :
 
 Navigation drawer :
 
-<img src="https://imgur.com/77sJOs8" width="300">
+<img src="https://i.imgur.com/77sJOs8.jpg" width="300">
 
 
 You can switch between 2 currencies :
