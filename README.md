@@ -11,7 +11,7 @@ a mortgage calculator, and the possibility to add, update and filter the estates
 
 Main screen with and without items :
 
-<img src="https://i.imgur.com/HSJ3W6r.jpg" width="300"> <img src="https://i.imgur.com/MoPvTSI.jpg" width="300"> 
+<img src="https://i.imgur.com/MoPvTSI.jpg" width="300"> <img src="https://i.imgur.com/HSJ3W6r.jpg" width="300">
 
 
 The map with markers of estates around user's location :
@@ -42,6 +42,11 @@ Collapsing toolbar :
 Filter options :
 
 ![](20191219_150221.gif)
+
+
+Navigation drawer :
+
+<img src="https://imgur.com/77sJOs8" width="300">
 
 
 You can switch between 2 currencies :
