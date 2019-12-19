@@ -9,22 +9,22 @@ a mortgage calculator, and the possibility to add, update and filter the estates
 - Data Binding
 - Follow the material guidelines for design (including Bottom navigation, Navigation drawer etc...)
 
-Main screen with and without items :
+Main screen with and without items in the recycler view :
 
 <img src="https://i.imgur.com/MoPvTSI.jpg" width="300"> <img src="https://i.imgur.com/HSJ3W6r.jpg" width="300">
 
 
-The map with markers of estates around user's location :
+The map with markers of estates around user's location (Google Maps api) :
 
 <img src="https://i.imgur.com/yuzefzv.jpg" width="300">
 
 
-Adding an estates (loading images from Gallery or Camera :
+Adding an estates (date picker, chips, loading images from Gallery or Camera...) :
 
 <img src="https://i.imgur.com/1sxXkuz.jpg" width="300"> <img src="https://i.imgur.com/V0bxrGH.jpg" width="300"> 
 
 
-Details of an estate view :
+Details of an estate view (with Google Maps Lite Mode) :
 
 <img src="https://i.imgur.com/vAZGFVm.jpg" width="300"> <img src="https://i.imgur.com/Ep7c3HV.jpg" width="300"> 
 
@@ -46,14 +46,4 @@ Filter options :
 
 Navigation drawer :
 
-<img src="https://i.imgur.com/77sJOs8.jpg" width="300">
-
-
-You can switch between 2 currencies :
-
-<img src="https://i.imgur.com/GLZrAqD.jpg" width="300">
-
-
-Mortgage calculator :
-
-<img src="https://i.imgur.com/iUjGm6z.jpg" width="300">
+<img src="https://i.imgur.com/77sJOs8.jpg" width="300"> <img src="https://i.imgur.com/GLZrAqD.jpg" width="300"> <img src="https://i.imgur.com/iUjGm6z.jpg" width="300">
