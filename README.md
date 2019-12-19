@@ -9,6 +9,11 @@ a mortgage calculator, and the possibility to add, update and filter the estates
 - Data Binding
 - Follow the material guidelines for design (including Bottom navigation, Navigation drawer etc...)
 
+If you want to run the app, this is the gradle.properties (you need to get your own Google Maps key) :
+
+<img src="https://i.imgur.com/lFg4ojd.png" width="300">
+
+
 Main screen with and without items in the recycler view :
 
 <img src="https://i.imgur.com/MoPvTSI.jpg" width="300"> <img src="https://i.imgur.com/HSJ3W6r.jpg" width="300">
