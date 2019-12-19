@@ -15,80 +15,204 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="@dimen/spacing_xlarge">
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:text="@={viewmodel.result}"
-                app:amount="@{viewmodel.amount}"
-                app:interest="@{viewmodel.interest}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:text="@{viewmodel.years}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="@dimen/spacing_xlarge"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/mortgage_cardview1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_xlarge"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/mortgage_amount"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/mortgage_interest"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:maxLength="10"
-                        android:text="@={viewmodel.amount}"
-                        android:padding="0dp" />
+                        android:layout_gravity="top"
+                        android:layout_margin="@dimen/spacing_middle">
 
-                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/mortgage_interest"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/mortgage_amount"
-                    app:layout_constraintTop_toTopOf="parent">
+                        <TextView
+                            android:id="@+id/mortgage_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mortgage_total"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                        <TextView
+                            android:id="@+id/mortgage_total_result"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:amountT="@{viewmodel.amount}"
+                            app:currencyT="@{viewmodel.currency}"
+                            app:interestT="@{viewmodel.interest}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/mortgage_total"
+                            app:yearsT="@{viewmodel.years}"
+                            tools:text="250,000$" />
+
+
+                        <TextView
+                            android:id="@+id/mortgage_monthly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:text="@string/mortgage_monthly"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/mortgage_total_result" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:amount="@{viewmodel.amount}"
+                            app:currency="@{viewmodel.currency}"
+                            app:interest="@{viewmodel.interest}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/mortgage_monthly"
+                            app:years="@{viewmodel.years}"
+                            tools:text="650$" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/mortgage_cardview2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_xlarge">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/mortgage_amount"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:text="@={viewmodel.interest}"
-                        android:maxLength="5"
-                        android:padding="0dp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:layout_constraintEnd_toStartOf="@id/mortgage_interest"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:currency="@{viewmodel.currency}"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/mortgage_amount"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:text="@={viewmodel.amount}" />
 
-            <com.google.android.material.slider.Slider
-                android:stepSize="1"
-                app:floatingLabel="false"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:valueFrom="1"
-                android:valueTo="30"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/spacing_large">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/mortgage_interest"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            app:layout_constraintEnd_toStartOf="@id/mortgage_interest_tv"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/mortgage_interest"
+                                android:inputType="numberDecimal"
+                                android:maxLength="5"
+                                android:text="@={viewmodel.interest}" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:id="@+id/mortgage_interest_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:gravity="end"
+                            android:text="@string/mortgage_interest_tv"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/mortgage_interest"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xlarge">
+
+                        <SeekBar
+                            android:id="@+id/mortgage_years_seekbar"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:max="29"
+                            android:progress="1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/spacing_middle"
+                            android:text="@{viewmodel.years.toString()}"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/mortgage_years_static"
+                            tools:text="30" />
+
+                        <TextView
+                            android:id="@+id/mortgage_years_static"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/spacing_large"
+                            android:text="year(s)"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

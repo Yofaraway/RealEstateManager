@@ -142,7 +142,7 @@ class AddEstateFragment : Fragment() {
         viewDataBinding.addEstateLoadFromGalleryBtn.setOnClickListener { displayGalleryIntent() }
     }
 
-
+    // ADD NEW ESTATE LISTENER
     private fun setObserverAddEstate() {
         viewModel.addNewEstate.observe(
             this,
@@ -152,7 +152,7 @@ class AddEstateFragment : Fragment() {
                     val addressFormatted = viewModel.newEstate.address
                     viewModel.newEstate.latLng =
                         stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
-                    estatesViewModel.createEstate(viewModel.newEstate)
+                  estatesViewModel.createEstate(viewModel.newEstate)
                     (activity as MainActivity).setFragment(
                         ListViewFragment.newInstance(),
                         false,
@@ -335,17 +335,6 @@ class AddEstateFragment : Fragment() {
 
                 // RESULT FROM GALLERY INTENT
                 REQUEST_GALLERY -> {
-                    // Give permanent permission to read the uri (needed after a reboot of the device)
-//                    val takeFlags = data?.flags?.and(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//
-//                    try {
-//                        activity!!.contentResolver.takePersistableUriPermission(
-//                            data!!.data!!,
-//                            takeFlags!!
-//                        )
-//                    } catch (e: SecurityException) {
-//                        e.printStackTrace()
-//                    }
                     lateinit var originalBitmap: Bitmap
                     if (android.os.Build.VERSION.SDK_INT >= 29) {
                         // To handle depreciation use

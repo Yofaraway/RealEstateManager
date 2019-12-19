@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         configureViewModel()
         getCurrency()
-         if (savedInstanceState == null) setFirstFragment()
+        if (savedInstanceState == null) setFirstFragment()
     }
 
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     /**--- TOOLBAR ---**/
     private fun setToolbar() {
-        val toolbar:Toolbar = findViewById(R.id.main_toolbar)
+        val toolbar: Toolbar = findViewById(R.id.main_toolbar)
         setSupportActionBar(toolbar)
     }
 

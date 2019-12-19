@@ -31,7 +31,11 @@ fun formatPrice(int: Int, currency: String): String? {
         "Euro" -> formatter.format(int) + "€"
         else -> "$" + formatter.format(int)
     }
+}
 
+fun formatPriceNoCurrency(int: Int): String? {
+    val formatter = DecimalFormat("#,###")
+    return formatter.format(int)
 }
 
 fun formatSurface(int: Int): String? {

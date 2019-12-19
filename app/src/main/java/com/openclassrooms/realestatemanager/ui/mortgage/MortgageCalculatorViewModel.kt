@@ -7,8 +7,8 @@ class MortgageCalculatorViewModel : ViewModel() {
 
     var amount = MutableLiveData<String>()
     var interest = MutableLiveData<String>()
-    var result = MutableLiveData<String>()
-    var years = MutableLiveData<String>()
+    var years = MutableLiveData(1)
+    var currency = MutableLiveData<String>("Dollar")
 
 
 }

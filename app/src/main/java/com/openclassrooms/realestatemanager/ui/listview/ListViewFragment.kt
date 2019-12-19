@@ -46,11 +46,14 @@ class ListViewFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        (activity as MainActivity).supportActionBar?.show()
         menu.clear()
         inflater.inflate(R.menu.menu_main, menu)
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
-        (activity as MainActivity).supportActionBar?.title = resources.getString(R.string.app_name)
+        (activity as MainActivity).supportActionBar?.apply {
+            show()
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+            title = resources.getString(R.string.app_name)
+        }
     }
 
 
@@ -104,7 +107,7 @@ class ListViewFragment : Fragment() {
                 true, TAG_FILTER_FRAGMENT
             )
         }
-        return  super.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 
 

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.settings
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -12,7 +13,12 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
 
-    val prefs by lazy { context!!.getSharedPreferences("preferences", Context.MODE_PRIVATE) }
+    private val prefs: SharedPreferences by lazy {
+        context!!.getSharedPreferences(
+            "preferences",
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

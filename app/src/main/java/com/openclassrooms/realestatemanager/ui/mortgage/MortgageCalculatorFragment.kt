@@ -1,12 +1,16 @@
 package com.openclassrooms.realestatemanager.ui.mortgage
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.MortgageCalculatorFragmentBinding
 import com.openclassrooms.realestatemanager.ui.MainActivity
+import kotlinx.android.synthetic.main.mortgage_calculator_fragment.*
 
 class MortgageCalculatorFragment : Fragment() {
 
@@ -48,6 +52,31 @@ class MortgageCalculatorFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getCurrency()
+        getSeekBarValue()
+    }
+
+    private fun getCurrency() {
+        val prefs: SharedPreferences =
+            (activity as MainActivity).getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        viewModel.currency.value = prefs.getString("pref_currency", null)
+    }
+
+    private fun getSeekBarValue() {
+        mortgage_years_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                viewModel.years.value = i + 1
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+            }
+        })
     }
 
 

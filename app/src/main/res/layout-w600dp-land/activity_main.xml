@@ -19,6 +19,7 @@
         android:background="@color/primaryColor"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
+        app:headerLayout="@layout/navigation_header"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_toolbar"
