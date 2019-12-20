@@ -3,10 +3,11 @@
     <string name="app_name_capitalized">REAL ESTATE MANAGER</string>
 
 
-
     // LIST VIEW FRAGMENT
-    <string name="list_no_item">No estates here</string>
-    <string name="list_add_one">Add one by clicking the round button below</string>
+    <string name="list_no_item_title">No estates here</string>
+    <string name="list_no_item">Add one by clicking the round button below</string>
+    <string name="list_no_result_title">No results found</string>
+    <string name="list_no_result">Try with different filters or go back by clicking the List tab below</string>
     <string name="list_address_word">in</string>
 
 

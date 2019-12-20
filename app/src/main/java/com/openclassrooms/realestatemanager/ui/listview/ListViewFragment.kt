@@ -91,14 +91,19 @@ class ListViewFragment : Fragment() {
                     layoutWhenEmpty.visibility = View.GONE
                     this.onListReceived(it)
                 } else layoutWhenEmpty.visibility = View.VISIBLE
+                list_no_item_title_tv.text = context!!.resources.getString(R.string.list_no_item_title)
+                list_no_item_tv.text = context!!.resources.getString(R.string.list_no_item)
             })
 
 
+        // After a search
         else estatesViewModel.estatesFiltered.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 layoutWhenEmpty.visibility = View.GONE
                 this.onListReceived(it)
             } else layoutWhenEmpty.visibility = View.VISIBLE
+            list_no_item_title_tv.text = context!!.resources.getString(R.string.list_no_result_title)
+            list_no_item_tv.text = context!!.resources.getString(R.string.list_no_result)
         })
     }
 
