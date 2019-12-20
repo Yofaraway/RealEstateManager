@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.binding
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.openclassrooms.realestatemanager.utils.formatPrice
+import com.openclassrooms.realestatemanager.utils.Utils.formatPrice
 import kotlin.math.pow
 import kotlin.math.roundToInt
 

@@ -24,7 +24,7 @@ import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.adjustments.AdjustmentsPhotoFragment
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment
 import com.openclassrooms.realestatemanager.utils.TAG_UPDATE_ESTATE_FRAGMENT
-import com.openclassrooms.realestatemanager.utils.stringAddressToLocation
+import com.openclassrooms.realestatemanager.utils.Utils.stringAddressToLocation
 import kotlinx.android.synthetic.main.update_estate_fragment.*
 import java.io.File
 import java.util.*

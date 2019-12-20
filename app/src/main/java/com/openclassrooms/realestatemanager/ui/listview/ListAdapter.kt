@@ -11,10 +11,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.utils.convertDollarToEuro
-import com.openclassrooms.realestatemanager.utils.formatPrice
-import com.openclassrooms.realestatemanager.utils.getAddress
-import com.openclassrooms.realestatemanager.utils.getCity
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.formatPrice
+import com.openclassrooms.realestatemanager.utils.Utils.getAddress
+import com.openclassrooms.realestatemanager.utils.Utils.getCity
 import kotlinx.android.synthetic.main.item_list.view.*
 
 class ListAdapter(

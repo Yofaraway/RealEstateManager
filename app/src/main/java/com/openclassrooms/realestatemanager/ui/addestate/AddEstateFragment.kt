@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddEstateFragmentBinding
 import com.openclassrooms.realestatemanager.photos.*
@@ -28,7 +29,8 @@ import com.openclassrooms.realestatemanager.ui.adjustments.AdjustmentsPhotoFragm
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.utils.TAG_ADD_ESTATE_FRAGMENT
 import com.openclassrooms.realestatemanager.utils.TAG_LIST_VIEW_FRAGMENT
-import com.openclassrooms.realestatemanager.utils.stringAddressToLocation
+import com.openclassrooms.realestatemanager.utils.Utils.stringAddressToLocation
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_estate_fragment.*
 import java.io.File
 import java.util.*
@@ -158,6 +160,10 @@ class AddEstateFragment : Fragment() {
                         false,
                         TAG_LIST_VIEW_FRAGMENT
                     )
+
+                    Snackbar.make(view!!, R.string.add_estate_added_snack, Snackbar.LENGTH_SHORT)
+                        .setAnchorView((activity as MainActivity).bottom_navigation)
+                        .show()
                 }
             })
     }

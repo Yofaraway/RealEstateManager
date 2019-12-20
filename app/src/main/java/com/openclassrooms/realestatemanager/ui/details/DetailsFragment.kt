@@ -149,7 +149,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
         map.uiSettings.apply {
             isMapToolbarEnabled = false
         }
-        getAddress()
+       getAddress()
 
     }
 

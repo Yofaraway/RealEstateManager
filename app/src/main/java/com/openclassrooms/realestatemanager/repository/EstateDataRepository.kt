@@ -7,7 +7,7 @@ import com.openclassrooms.realestatemanager.model.Estate
 class EstateDataRepository constructor(private val database: RealEstateDatabase) {
 
     fun getEstates(): LiveData<List<Estate>> {
-        return this.database.estateDao().getEstates()
+       return this.database.estateDao().getEstates()
     }
 
     fun getEstateWithId(id: Long): LiveData<Estate>{

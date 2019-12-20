@@ -41,7 +41,7 @@
 
         <FrameLayout
             android:id="@+id/main_frame_start"
-            android:layout_width="0dp"
+            android:layout_width="300dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:layout_constraintEnd_toStartOf="@id/main_frame_end"

@@ -39,6 +39,7 @@
     <string name="add_estate_no_photo">Please add at least one photo</string>
     <string name="add_estate_missing_field">Missing required field</string>
     <string name="add_estate_near_places">Near places</string>
+    <string name="add_estate_added_snack">The estate has been added</string>
 
 
     // DETAILS ESTATE FRAGMENT

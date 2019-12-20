@@ -45,6 +45,7 @@ class ListViewFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        (activity as MainActivity).hideBottomNavigation(false)
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
         inflater.inflate(R.menu.menu_main, menu)
@@ -91,6 +92,8 @@ class ListViewFragment : Fragment() {
                     this.onListReceived(it)
                 } else layoutWhenEmpty.visibility = View.VISIBLE
             })
+
+
         else estatesViewModel.estatesFiltered.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 layoutWhenEmpty.visibility = View.GONE

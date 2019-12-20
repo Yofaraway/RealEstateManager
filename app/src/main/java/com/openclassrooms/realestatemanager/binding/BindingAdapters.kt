@@ -7,9 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.utils.dateToString
-import com.openclassrooms.realestatemanager.utils.formatPrice
-import com.openclassrooms.realestatemanager.utils.formatSurface
+import com.openclassrooms.realestatemanager.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,14 +33,14 @@ object BindingAdapters {
     @BindingAdapter(value = ["formatPrice", "currency"], requireAll = true)
     @JvmStatic
     fun getFormattedPrice(tv: TextView, price: Int, currency: String) {
-       tv.text = formatPrice(price, currency)
+       tv.text = Utils.formatPrice(price, currency)
     }
 
     // FORMAT SURFACE FOR TEXTVIEW (from "1000" to "1,000 m²")
     @BindingAdapter(value = ["formatSurface"])
     @JvmStatic
     fun getFormattedSurface(tv: TextView, surface: Int) {
-        tv.text = formatSurface(surface)
+        tv.text = Utils.formatSurface(surface)
     }
 
 
@@ -53,8 +51,8 @@ object BindingAdapters {
         if (date != null) {
             val cal = Calendar.getInstance()
             cal.time = date
-            textInput.editText!!.setText(dateToString(cal))
-            dateToString(cal)
+            textInput.editText!!.setText(Utils.dateToString(cal))
+            Utils.dateToString(cal)
         } else {
             textInput.editText!!.setText("")
         }

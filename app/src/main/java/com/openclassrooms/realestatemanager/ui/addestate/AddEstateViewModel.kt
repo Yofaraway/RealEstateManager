@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager.ui.addestate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.utils.convertEuroToDollar
+import com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar
 import java.util.*
 
 

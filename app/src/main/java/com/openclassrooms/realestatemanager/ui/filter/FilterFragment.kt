@@ -20,7 +20,7 @@ import com.openclassrooms.realestatemanager.ui.MainActivity
 import com.openclassrooms.realestatemanager.ui.listview.ListViewFragment
 import com.openclassrooms.realestatemanager.utils.MAX_PHOTOS
 import com.openclassrooms.realestatemanager.utils.MIN_PHOTOS
-import com.openclassrooms.realestatemanager.utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
 import kotlinx.android.synthetic.main.filter_fragment.*
 import java.util.*
 

@@ -3,7 +3,11 @@ package com.openclassrooms.realestatemanager.ui.update
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.utils.*
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar
+import com.openclassrooms.realestatemanager.utils.Utils.getAddress
+import com.openclassrooms.realestatemanager.utils.Utils.getCity
+import com.openclassrooms.realestatemanager.utils.Utils.getZipCode
 import java.util.*
 
 class UpdateEstateViewModel : ViewModel() {

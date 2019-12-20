@@ -3,10 +3,10 @@ package com.openclassrooms.realestatemanager.ui.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.model.Estate
-import com.openclassrooms.realestatemanager.utils.convertDollarToEuro
-import com.openclassrooms.realestatemanager.utils.getAddress
-import com.openclassrooms.realestatemanager.utils.getCity
-import com.openclassrooms.realestatemanager.utils.getZipCode
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.getAddress
+import com.openclassrooms.realestatemanager.utils.Utils.getCity
+import com.openclassrooms.realestatemanager.utils.Utils.getZipCode
 import java.util.*
 
 class DetailsViewModel : ViewModel() {
