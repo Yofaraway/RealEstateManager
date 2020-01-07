@@ -4,11 +4,11 @@ Project 9 for [OpenClassrooms](https://openclassrooms.com) (training purpose)
 Android app for real estate agents to make the estates management easier with features like a list, a map, 
 a mortgage calculator, and the possibility to add, update and filter the estates
 
-**
-- 100% Kotlin
-- Include Android Architecture components : Viewmodels, Livedata, Room
-- Data Binding
-- Follow the material guidelines for design (including Bottom navigation, Navigation drawer etc...)**
+
+- **100% Kotlin**
+- **Include Android Architecture components : Viewmodels, Livedata, Room**
+- **Data Binding**
+- **Follow the material guidelines for design (including Bottom navigation, Navigation drawer etc...)**
 
 If you want to try the app, it's available for free on the [Play Store.](https://play.google.com/store/apps/details?id=yofaraway.openclassrooms.realestatemanager&hl=en)
 
