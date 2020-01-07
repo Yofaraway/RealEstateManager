@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="com.openclassrooms.realestatemanager.ui.filter.FilterViewModel" />
+            type="yofaraway.openclassrooms.realestatemanager.ui.filter.FilterViewModel" />
     </data>
 
 

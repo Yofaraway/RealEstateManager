@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.openclassrooms.realestatemanager">
+    package="yofaraway.openclassrooms.realestatemanager">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -40,7 +40,7 @@
 
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="yofaraway.openclassrooms.realestatemanager.ui.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -51,7 +51,7 @@
         </activity> <!-- FileProvider - Expose File -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.openclassrooms.realestatemanager.fileprovider"
+            android:authorities="yofaraway.openclassrooms.realestatemanager.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

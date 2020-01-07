@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="com.openclassrooms.realestatemanager.ui.update.UpdateEstateViewModel" />
+            type="yofaraway.openclassrooms.realestatemanager.ui.update.UpdateEstateViewModel" />
     </data>
 
     <LinearLayout
@@ -306,6 +306,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_marginStart="@dimen/spacing_large"
+                            android:contentDescription="@string/img_photo"
                             android:tint="@color/grey_60"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -317,6 +318,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_marginEnd="@dimen/spacing_medium"
+                            android:contentDescription="@string/img_photo"
                             android:tint="@color/grey_60"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

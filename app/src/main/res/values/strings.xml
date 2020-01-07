@@ -97,6 +97,7 @@
     <string name="mortgage_interest_tv">% per year</string>
     <string name="mortgage_monthly">Per month you repay</string>
     <string name="mortgage_total">In total, you will repay</string>
+    <string name="mortgage_year">year(s)</string>
 
     // CURRENCIES
     <string name="currency_dollar">Dollar</string>

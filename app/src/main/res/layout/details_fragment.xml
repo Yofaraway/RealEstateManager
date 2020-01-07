@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="com.openclassrooms.realestatemanager.ui.details.DetailsViewModel" />
+            type="yofaraway.openclassrooms.realestatemanager.ui.details.DetailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -114,6 +114,7 @@
                                 android:id="@+id/details_type_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="@string/img_photo"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -159,6 +160,7 @@
                                 android:id="@+id/details_date_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="@string/img_photo"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -198,6 +200,7 @@
                                 android:id="@+id/details_date_sold_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="@string/img_photo"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -260,6 +263,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/details_rooms_data_tv"
+                            android:contentDescription="@string/img_photo"
                             app:srcCompat="@drawable/ic_weekend_black_24dp" />
 
                         <TextView
@@ -289,6 +293,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/details_bathrooms_data_tv"
+                            android:contentDescription="@string/img_photo"
                             app:srcCompat="@drawable/ic_bathtub_24px" />
 
                         <TextView
@@ -320,6 +325,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/details_bedrooms_data_tv"
+                            android:contentDescription="@string/img_photo"
                             app:srcCompat="@drawable/ic_hotel_black_24dp" />
 
                         <TextView
@@ -429,6 +435,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_middle"
+                            android:contentDescription="@string/img_photo"
                             app:layout_constraintBottom_toBottomOf="@+id/details_address"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/details_address_title"
@@ -476,6 +483,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_large"
+                            android:contentDescription="@string/img_photo"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/details_address_zipcode"
                             app:srcCompat="@drawable/ic_my_location_black_24dp" />
@@ -564,6 +572,7 @@
                                 android:id="@+id/details_agent_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="@string/img_photo"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/details_agent"
                                 app:layout_constraintTop_toTopOf="parent"
