@@ -167,7 +167,7 @@ class UpdateEstateFragment : Fragment() {
                     // To convert the address to a List<Double> with latitude and longitude
                     val addressFormatted = viewModel.estate!!.address
                     viewModel.estate!!.latLng =
-                        stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
+                        stringAddressToLocation(context!!, addressFormatted.replace("|", ""))
                     estatesViewModel.updateEstate(viewModel.estate!!)
                     (activity as MainActivity).supportFragmentManager.popBackStack()
                 }

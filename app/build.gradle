@@ -52,9 +52,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
+    // TESTING
     testImplementation 'junit:junit:4.12'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'com.jraska.livedata:testing-ktx:1.1.1'
     //ARCHITECTURE COMPONENT
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"

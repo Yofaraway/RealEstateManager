@@ -63,15 +63,15 @@ object Utils {
 
 
     fun getAddress(str: String): String {
-        return str.substring(0, str.indexOf("-"))
+        return str.substring(0, str.indexOf("|"))
     }
 
     fun getCity(str: String): String {
-        return str.substring(str.indexOf("-") + 1, str.lastIndexOf("-"))
+        return str.substring(str.indexOf("|") + 1, str.lastIndexOf("|"))
     }
 
     fun getZipCode(str: String): String {
-        return str.substring(str.lastIndexOf("-") + 1)
+        return str.substring(str.lastIndexOf("|") + 1)
     }
 
 

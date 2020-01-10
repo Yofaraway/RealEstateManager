@@ -113,7 +113,7 @@ class AddEstateViewModel : ViewModel() {
 
 
     private fun createNewEstate() {
-        val addressComplete = "${address.value}-${addressCity.value}-${addressZipCode.value}"
+        val addressComplete = "${address.value}|${addressCity.value}|${addressZipCode.value}"
         if (!hasBeenSold.value!!) dateSold.value = null
 
         if (currency == "Euro") price.value = convertEuroToDollar(price.value!!.toInt()).toString()

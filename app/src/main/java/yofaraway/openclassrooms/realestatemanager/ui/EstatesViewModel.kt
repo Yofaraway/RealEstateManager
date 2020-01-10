@@ -33,7 +33,7 @@ class EstatesViewModel(
 
 
     fun createEstate(estate: Estate) {
-        executor.execute { estateDataSource.createTask(estate) }
+        executor.execute { estateDataSource.createEstate(estate) }
     }
 
     fun updateEstate(estate: Estate) {

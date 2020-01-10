@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.adjustments_photo_fragment.*
 import yofaraway.openclassrooms.realestatemanager.R
 import yofaraway.openclassrooms.realestatemanager.photos.getResizedBitmap
-import yofaraway.openclassrooms.realestatemanager.photos.replaceFileWithChangedBitmap
+import yofaraway.openclassrooms.realestatemanager.photos.replaceFileWithModifiedBitmap
 import yofaraway.openclassrooms.realestatemanager.photos.rotateImage
 import yofaraway.openclassrooms.realestatemanager.ui.MainActivity
 import yofaraway.openclassrooms.realestatemanager.ui.addestate.AddEstateFragment
@@ -56,7 +56,7 @@ class AdjustmentsPhotoFragment : Fragment() {
 
     private fun setOnConfirmButtonClickedListener() {
         adjustments_confirm_btn.setOnClickListener {
-            replaceFileWithChangedBitmap(path, bitmap!!)
+            replaceFileWithModifiedBitmap(path, bitmap!!)
             (activity as MainActivity).supportActionBar?.show()
             (activity as MainActivity).removeFragment(this)
             when (fragmentFrom) {

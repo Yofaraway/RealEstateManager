@@ -136,7 +136,7 @@ fun rotateImage(img: Bitmap, degree: Int): Bitmap {
     return rotatedImg
 }
 
-fun replaceFileWithChangedBitmap(path: String, bitmap: Bitmap) {
+fun replaceFileWithModifiedBitmap(path: String, bitmap: Bitmap) {
     val file = File(path)
     val os: OutputStream = BufferedOutputStream(FileOutputStream(file))
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)

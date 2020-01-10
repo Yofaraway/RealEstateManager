@@ -15,7 +15,7 @@ class EstateDataRepository constructor(private val database: RealEstateDatabase)
         return this.database.estateDao().getEstateWithId(id)
     }
 
-    fun createTask(estate: Estate){
+    fun createEstate(estate: Estate){
         this.database.estateDao().insertEstate(estate)
     }
 

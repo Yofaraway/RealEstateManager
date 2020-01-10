@@ -153,7 +153,7 @@ class AddEstateFragment : Fragment() {
                     // To convert the address to a List<Double> with latitude and longitude
                     val addressFormatted = viewModel.newEstate.address
                     viewModel.newEstate.latLng =
-                        stringAddressToLocation(context!!, addressFormatted.replace("-", ""))
+                        stringAddressToLocation(context!!, addressFormatted.replace("|", ""))
                   estatesViewModel.createEstate(viewModel.newEstate)
                     (activity as MainActivity).setFragment(
                         ListViewFragment.newInstance(),
@@ -362,7 +362,7 @@ class AddEstateFragment : Fragment() {
                     }
                     // resize bitmap if too big
                     val bitmap = getResizedBitmap(originalBitmap)
-                    replaceFileWithChangedBitmap(viewModel.newPhotoPath!!, bitmap)
+                    replaceFileWithModifiedBitmap(viewModel.newPhotoPath!!, bitmap)
                     addNewPhotoToModel(viewModel.newPhotoPath!!)
                 }
             }
