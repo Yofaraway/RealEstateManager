@@ -34,7 +34,7 @@
     <string name="add_estate_cancel">Cancel</string>
     <string name="add_estate_load_photo">ADD A PHOTO :</string>
     <string name="add_estate_no_title">(no title)</string>
-    <string name="add_estate_max_photos">You can\'t pick more than 10 photos</string>
+    <string name="add_estate_max_photos">You can\'t add more photos</string>
     <string name="add_estate_something_wrong">Something went wrong</string>
     <string name="add_estate_no_pick">You haven\'t picked any photo</string>
     <string name="add_estate_no_photo">At least one photo is required</string>

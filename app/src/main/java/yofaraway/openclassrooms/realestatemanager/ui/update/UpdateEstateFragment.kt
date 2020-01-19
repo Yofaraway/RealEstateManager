@@ -6,8 +6,11 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -16,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.update_estate_fragment.*
 import yofaraway.openclassrooms.realestatemanager.R
 import yofaraway.openclassrooms.realestatemanager.databinding.UpdateEstateFragmentBinding
@@ -24,6 +28,7 @@ import yofaraway.openclassrooms.realestatemanager.ui.EstatesViewModel
 import yofaraway.openclassrooms.realestatemanager.ui.MainActivity
 import yofaraway.openclassrooms.realestatemanager.ui.adjustments.AdjustmentsPhotoFragment
 import yofaraway.openclassrooms.realestatemanager.ui.details.DetailsFragment
+import yofaraway.openclassrooms.realestatemanager.utils.MAX_PHOTOS
 import yofaraway.openclassrooms.realestatemanager.utils.TAG_UPDATE_ESTATE_FRAGMENT
 import yofaraway.openclassrooms.realestatemanager.utils.Utils.stringAddressToLocation
 import java.io.File
@@ -253,14 +258,22 @@ class UpdateEstateFragment : Fragment() {
 
     /********** PHOTO **********/
     private fun displayCameraIntent() {
-        val newPhoto: File = createFile(context!!)
-        viewModel.newPhotoPath = newPhoto.absolutePath
-        val camera: Intent? = getCameraIntent(context!!, newPhoto)
-        startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
+        if (viewModel.photoPathList.value!!.size < MAX_PHOTOS) {
+            val newPhoto: File = createFile(context!!)
+            viewModel.newPhotoPath = newPhoto.absolutePath
+            val camera: Intent? = getCameraIntent(context!!, newPhoto)
+            startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
+        } else Snackbar.make(view!!, R.string.add_estate_max_photos, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun displayGalleryIntent() {
-        startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
+        if (viewModel.photoPathList.value!!.size < MAX_PHOTOS) {
+            val newPhoto: File = createFile(context!!)
+            viewModel.newPhotoPath = newPhoto.absolutePath
+            startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
+        } else Snackbar.make(view!!, R.string.add_estate_max_photos, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun addNewPhotoToModel(path: String) {
@@ -345,19 +358,28 @@ class UpdateEstateFragment : Fragment() {
 
                 // RESULT FROM GALLERY INTENT
                 REQUEST_GALLERY -> {
-                    // Give permanent permission to read the uri (needed after a reboot of the device)
-                    val takeFlags = data?.flags?.and(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-                    try {
-                        activity!!.contentResolver.takePersistableUriPermission(
-                            data!!.data!!,
-                            takeFlags!!
+                    lateinit var originalBitmap: Bitmap
+                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+                        // To handle depreciation use
+                        originalBitmap = ImageDecoder.decodeBitmap(
+                            ImageDecoder.createSource(
+                                context!!.contentResolver,
+                                data!!.data!!
+                            )
                         )
-                    } catch (e: SecurityException) {
-                        e.printStackTrace()
+                    } else {
+                        // Use older version
+                        @Suppress("DEPRECATION")
+                        originalBitmap =
+                            MediaStore.Images.Media.getBitmap(
+                                context!!.contentResolver,
+                                data!!.data
+                            )
                     }
-
-                    addNewPhotoToModel(data?.dataString!!)
+                    // resize bitmap if too big
+                    val bitmap = getResizedBitmap(originalBitmap)
+                    replaceFileWithModifiedBitmap(viewModel.newPhotoPath!!, bitmap)
+                    addNewPhotoToModel(viewModel.newPhotoPath!!)
                 }
             }
         }

@@ -29,6 +29,7 @@ import yofaraway.openclassrooms.realestatemanager.ui.EstatesViewModel
 import yofaraway.openclassrooms.realestatemanager.ui.MainActivity
 import yofaraway.openclassrooms.realestatemanager.ui.adjustments.AdjustmentsPhotoFragment
 import yofaraway.openclassrooms.realestatemanager.ui.listview.ListViewFragment
+import yofaraway.openclassrooms.realestatemanager.utils.MAX_PHOTOS
 import yofaraway.openclassrooms.realestatemanager.utils.TAG_ADD_ESTATE_FRAGMENT
 import yofaraway.openclassrooms.realestatemanager.utils.TAG_LIST_VIEW_FRAGMENT
 import yofaraway.openclassrooms.realestatemanager.utils.Utils.stringAddressToLocation
@@ -154,7 +155,7 @@ class AddEstateFragment : Fragment() {
                     val addressFormatted = viewModel.newEstate.address
                     viewModel.newEstate.latLng =
                         stringAddressToLocation(context!!, addressFormatted.replace("|", ""))
-                  estatesViewModel.createEstate(viewModel.newEstate)
+                    estatesViewModel.createEstate(viewModel.newEstate)
                     (activity as MainActivity).setFragment(
                         ListViewFragment.newInstance(),
                         false,
@@ -247,17 +248,23 @@ class AddEstateFragment : Fragment() {
 
     /********** PHOTO **********/
     private fun displayCameraIntent() {
-        val newPhoto: File = createFile(context!!)
-        viewModel.newPhotoPath = newPhoto.absolutePath
+        if (viewModel.photoPathList.value!!.size < MAX_PHOTOS) {
+            val newPhoto: File = createFile(context!!)
+            viewModel.newPhotoPath = newPhoto.absolutePath
 
-        val camera: Intent? = getCameraIntent(context!!, newPhoto)
-        startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
+            val camera: Intent? = getCameraIntent(context!!, newPhoto)
+            startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
+        } else Snackbar.make(view!!, R.string.add_estate_max_photos, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun displayGalleryIntent() {
-        val newPhoto: File = createFile(context!!)
-        viewModel.newPhotoPath = newPhoto.absolutePath
-        startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
+        if (viewModel.photoPathList.value!!.size < MAX_PHOTOS) {
+            val newPhoto: File = createFile(context!!)
+            viewModel.newPhotoPath = newPhoto.absolutePath
+            startActivityForResult(getGalleryIntent(), REQUEST_GALLERY)
+        } else Snackbar.make(view!!, R.string.add_estate_max_photos, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun addNewPhotoToModel(path: String) {
