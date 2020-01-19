@@ -154,6 +154,7 @@ class DetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getAddress() {
+        if (view != null)
         detailsViewModel.estate.observe(viewLifecycleOwner, Observer { t ->
             if (t != null) {
                 if (!t.latLng.isNullOrEmpty()) {

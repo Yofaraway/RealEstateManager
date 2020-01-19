@@ -42,6 +42,7 @@
         <activity
             android:name="yofaraway.openclassrooms.realestatemanager.ui.MainActivity"
             android:configChanges="orientation|screenSize">
+           <!-- android:configChanges="orientation|screenSize"-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />

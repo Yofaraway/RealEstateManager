@@ -1,5 +1,6 @@
 package yofaraway.openclassrooms.realestatemanager.ui.listview
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import android.widget.RelativeLayout
@@ -9,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_view_fragment.*
 import yofaraway.openclassrooms.realestatemanager.R
 import yofaraway.openclassrooms.realestatemanager.model.Estate
@@ -91,7 +94,8 @@ class ListViewFragment : Fragment() {
                     layoutWhenEmpty.visibility = View.GONE
                     this.onListReceived(it)
                 } else layoutWhenEmpty.visibility = View.VISIBLE
-                list_no_item_title_tv.text = context!!.resources.getString(R.string.list_no_item_title)
+                list_no_item_title_tv.text =
+                    context!!.resources.getString(R.string.list_no_item_title)
                 list_no_item_tv.text = context!!.resources.getString(R.string.list_no_item)
             })
 
@@ -102,7 +106,8 @@ class ListViewFragment : Fragment() {
                 layoutWhenEmpty.visibility = View.GONE
                 this.onListReceived(it)
             } else layoutWhenEmpty.visibility = View.VISIBLE
-            list_no_item_title_tv.text = context!!.resources.getString(R.string.list_no_result_title)
+            list_no_item_title_tv.text =
+                context!!.resources.getString(R.string.list_no_result_title)
             list_no_item_tv.text = context!!.resources.getString(R.string.list_no_result)
         })
     }
@@ -123,7 +128,8 @@ class ListViewFragment : Fragment() {
         adapter = ListAdapter(context!!, estates) { id -> onEstateClick(id!!) }
         recyclerView.adapter = adapter
         // if tablet & list not empty, display first item details
-        if (resources.getBoolean(R.bool.twoPaneMode) && estates.isNotEmpty()) onEstateClick(1)
+        if (resources.getBoolean(R.bool.twoPaneMode) && estates.isNotEmpty()
+        ) onEstateClick(1)
     }
 
 
@@ -133,6 +139,22 @@ class ListViewFragment : Fragment() {
             true,
             TAG_DETAILS_FRAGMENT
         )
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val textSnack =
+            if (resources.getBoolean(R.bool.twoPaneMode)) resources.getString(R.string.switch_to_twopane)
+            else resources.getString(R.string.switch_to_normal)
+
+        Snackbar.make(
+            view!!,
+            textSnack,
+            Snackbar.LENGTH_LONG
+        )
+            .setAnchorView((activity as MainActivity).bottom_navigation)
+            .setAction("Switch") { (activity as MainActivity).recreate() }
+            .show()
     }
 
 

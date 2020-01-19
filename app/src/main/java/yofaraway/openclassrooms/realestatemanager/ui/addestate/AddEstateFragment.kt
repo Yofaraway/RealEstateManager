@@ -63,7 +63,6 @@ class AddEstateFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.add_estate_fragment, container, false)
         (activity as MainActivity).hideBottomNavigation(true)
-
         // DATA BINDING
         viewDataBinding = AddEstateFragmentBinding.bind(rootView).apply {
             this.viewmodel = viewModel
@@ -251,7 +250,6 @@ class AddEstateFragment : Fragment() {
         if (viewModel.photoPathList.value!!.size < MAX_PHOTOS) {
             val newPhoto: File = createFile(context!!)
             viewModel.newPhotoPath = newPhoto.absolutePath
-
             val camera: Intent? = getCameraIntent(context!!, newPhoto)
             startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
         } else Snackbar.make(view!!, R.string.add_estate_max_photos, Snackbar.LENGTH_SHORT)

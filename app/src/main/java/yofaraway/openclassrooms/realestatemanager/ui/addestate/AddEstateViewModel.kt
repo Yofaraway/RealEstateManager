@@ -9,7 +9,6 @@ import java.util.*
 
 class AddEstateViewModel : ViewModel() {
 
-
     // INPUTS (2 ways data-binding)
 
     // EDIT TEXT

@@ -2,6 +2,7 @@ package yofaraway.openclassrooms.realestatemanager.ui.map
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -110,21 +111,22 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
     private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(
-                    activity!!,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+            if (activity != null)
+                if (ContextCompat.checkSelfPermission(
+                        activity!!,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                    == PackageManager.PERMISSION_GRANTED
                 )
-                == PackageManager.PERMISSION_GRANTED
-            )
-            // If permission already granted
-                locationEnabled()
-            else {
-                // Asking for location permission
-                requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_REQUEST_CODE
-                )
-            }
+                // If permission already granted
+                    locationEnabled()
+                else {
+                    // Asking for location permission
+                    requestPermissions(
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        LOCATION_PERMISSION_REQUEST_CODE
+                    )
+                }
         } else locationEnabled()
     }
 
@@ -166,6 +168,22 @@ class MapFragment : Fragment(), OnMapReadyCallback,
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val textSnack =
+            if (resources.getBoolean(R.bool.twoPaneMode)) resources.getString(R.string.switch_to_twopane)
+            else resources.getString(R.string.switch_to_normal)
+
+        Snackbar.make(
+            view!!,
+            textSnack,
+            Snackbar.LENGTH_LONG
+        )
+            .setAnchorView((activity as MainActivity).bottom_navigation)
+            .setAction("Switch") { (activity as MainActivity).recreate() }
+            .show()
     }
 
 

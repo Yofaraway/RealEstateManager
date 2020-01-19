@@ -26,7 +26,7 @@ import yofaraway.openclassrooms.realestatemanager.utils.TAG_SETTINGS_FRAGMENT
 
 class MainActivity : AppCompatActivity() {
 
-
+    var twoPaneMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         configureViewModel()
         getCurrency()
-        if (savedInstanceState == null) setFirstFragment()
+
+        twoPaneMode = resources.getBoolean(R.bool.twoPaneMode)
+        setFirstFragment()
     }
 
 
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavigation() {
         bottom_navigation.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
+
                 R.id.bottom_tab_list -> {
                     setFirstFragment()
                     true
@@ -113,6 +116,8 @@ class MainActivity : AppCompatActivity() {
             EstatesViewModel::class.java
         )
         estatesViewModel.init()
+        estatesViewModel.twoPaneMode = twoPaneMode
+
     }
 
     private fun getCurrency() {
@@ -137,9 +142,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setFragment(fragment: Fragment, addBackStack: Boolean, tag: String) {
-        resources.getBoolean(R.bool.twoPaneMode)
         val transaction = supportFragmentManager.beginTransaction()
-        if (resources.getBoolean(R.bool.twoPaneMode)) {
+        if (twoPaneMode) {
             when (tag) {
                 TAG_LIST_VIEW_FRAGMENT -> transaction.replace(R.id.main_frame_start, fragment, tag)
                 else -> transaction.replace(R.id.main_frame_end, fragment, tag)
@@ -168,6 +172,7 @@ class MainActivity : AppCompatActivity() {
         if (boolean) bottom_navigation.visibility = View.GONE
         else bottom_navigation.visibility = View.VISIBLE
     }
+
 
 
 }

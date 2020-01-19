@@ -11,8 +11,11 @@ class EstatesViewModel(
     private val estateDataSource: EstateDataRepository,
     private val executor: Executor
 ) : ViewModel() {
+
     private var estates: LiveData<List<Estate>>? = null
     var estatesFiltered = MutableLiveData<List<Estate>?>()
+
+    var twoPaneMode = false
 
     fun init() {
         if (this.estates != null) {

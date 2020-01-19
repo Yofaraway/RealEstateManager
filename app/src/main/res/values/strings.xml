@@ -9,6 +9,8 @@
     <string name="list_no_result_title">No results found</string>
     <string name="list_no_result">Try with different filters or go back by clicking the List tab below</string>
     <string name="list_address_word">in</string>
+    <string name="switch_to_twopane">Do you want to switch to the tablet view?</string>
+    <string name="switch_to_normal">Do you want to switch to the normal view?</string>
 
 
     // ADD ESTATE FRAGMENT
