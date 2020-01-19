@@ -514,6 +514,14 @@
                 </HorizontalScrollView>
             </com.google.android.material.card.MaterialCardView>
 
+            <TextView
+                android:visibility="@{!viewmodel.atLeastOnePhoto &amp;&amp; viewmodel.showError   ?  View.VISIBLE : View.GONE }"
+                android:textColor="@color/red"
+                android:text="@string/add_estate_no_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_the_estate_confirm_btn"
                 android:layout_width="match_parent"

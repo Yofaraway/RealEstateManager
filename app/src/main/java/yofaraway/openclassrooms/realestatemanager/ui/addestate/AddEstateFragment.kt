@@ -137,7 +137,7 @@ class AddEstateFragment : Fragment() {
         // -- STATUS -- //
         viewDataBinding.addEstateStatus.editText?.setOnClickListener { showStatusChoicesDialog() }
 
-        // -- PHONE BUTTONS -- //
+        // -- PHOTO BUTTONS -- //
         // camera
         viewDataBinding.addEstateLoadFromCameraBtn.setOnClickListener { displayCameraIntent() }
         // gallery

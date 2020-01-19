@@ -37,7 +37,7 @@
     <string name="add_estate_max_photos">You can\'t pick more than 10 photos</string>
     <string name="add_estate_something_wrong">Something went wrong</string>
     <string name="add_estate_no_pick">You haven\'t picked any photo</string>
-    <string name="add_estate_no_photo">Please add at least one photo</string>
+    <string name="add_estate_no_photo">At least one photo is required</string>
     <string name="add_estate_missing_field">Missing required field</string>
     <string name="add_estate_near_places">Near places</string>
     <string name="add_estate_added_snack">The estate has been added</string>

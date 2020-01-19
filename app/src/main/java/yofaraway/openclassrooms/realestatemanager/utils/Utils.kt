@@ -16,6 +16,12 @@ import kotlin.math.roundToInt
 
 object Utils {
 
+    /**
+     * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
+     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     * @param dollars
+     * @return
+     */
     fun convertDollarToEuro(dollars: Int): Int {
         return (dollars * 0.812).roundToInt()
     }
