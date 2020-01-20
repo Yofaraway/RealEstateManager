@@ -38,7 +38,7 @@ class EstateContentProvider : ContentProvider() {
 
     @Nullable
     override fun insert(uri: Uri, @Nullable contentValues: ContentValues?): Uri? {
-        if (context != null && contentValues != null) {
+        if (context != null) {
             val id = RealEstateDatabase.getInstance(context!!).estateDao()
                 .insertEstate(Estate().fromContentValues(contentValues))
             if (id != 0L) {

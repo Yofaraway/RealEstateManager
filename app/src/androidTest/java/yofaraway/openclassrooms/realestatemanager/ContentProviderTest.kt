@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import yofaraway.openclassrooms.realestatemanager.database.RealEstateDatabase
+import yofaraway.openclassrooms.realestatemanager.database.converter.ContentProviderConverters
 import yofaraway.openclassrooms.realestatemanager.provider.EstateContentProvider
 import java.io.IOException
 
@@ -76,15 +77,22 @@ class ContentProviderTest {
         values.put("bedrooms", "5")
         values.put("bathrooms", "2")
         values.put("description", "")
-        values.put("photosPathList", "")
-        values.put("photosTitlesList", "")
+        values.put("photosPathList", fakeJson())
+        values.put("photosTitlesList", fakeJson())
         values.put("address", "")
-        values.put("latLng", "")
-        values.put("placesNear", "")
-        values.put("dateAvailable", 1.toLong())
+        values.put("latLng", fakeJson())
+        values.put("placesNear", fakeJson())
+        values.put("dateAvailable", 0.toLong())
         values.put("hasBeenSold", false)
+        values.put("dateSold", 0.toLong())
         values.put("agent", "John")
         return values
+    }
+
+    companion object{
+        fun fakeJson(): String{
+           return ContentProviderConverters.listToJson(mutableListOf("test"))
+        }
     }
 
 }
