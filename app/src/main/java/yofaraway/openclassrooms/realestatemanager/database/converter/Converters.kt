@@ -31,4 +31,11 @@ object Converters {
         return objects.toList()
     }
 
+
+    @JvmStatic
+    fun jsonToListNN(value: String): List<String>? {
+        val objects = Gson().fromJson(value, Array<String>::class.java)
+        return objects?.toList()
+    }
+
 }
