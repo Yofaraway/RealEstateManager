@@ -5,6 +5,11 @@ import java.util.*
 
 class ContentProviderConverters {
     companion object {
+        fun dateToLong(date: Date): Long {
+            return date.time
+        }
+
+
         fun longToDate(dateLong: Long): Date {
             return Date(dateLong)
         }

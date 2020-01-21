@@ -56,13 +56,19 @@ object Utils {
 
         val geo =
             Geocoder(context, Locale.getDefault())
-        val addresses: List<Address> =
-            geo.getFromLocationName(address, 1)
-        if (addresses.isEmpty()) {
-            Log.d("AddEstate", "No address location found = no marker will be add to the map")
-        } else {
-            list =
-                mutableListOf(addresses[0].latitude.toString(), addresses[0].longitude.toString())
+
+        if (isNetworkAvailable(context)) {
+            val addresses: List<Address> =
+                geo.getFromLocationName(address, 1)
+            if (addresses.isEmpty()) {
+                Log.d("AddEstate", "No address location found = no marker will be add to the map")
+            } else {
+                list =
+                    mutableListOf(
+                        addresses[0].latitude.toString(),
+                        addresses[0].longitude.toString()
+                    )
+            }
         }
         return list
     }
@@ -97,22 +103,24 @@ object Utils {
      * @param context
      * @return
      */
-    fun isNetworkAvailable(context: Context): Boolean? {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val nw      = connectivityManager.activeNetwork ?: return false
+            val nw = connectivityManager.activeNetwork ?: return false
             val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
             return when {
                 actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
                 else -> false
             }
-        } else @Suppress("DEPRECATION")  {
+        } else @Suppress("DEPRECATION") {
             val nwInfo = connectivityManager.activeNetworkInfo ?: return false
             return nwInfo.isConnected
         }
     }
 
 
-
 }
+
+
